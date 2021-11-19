@@ -1,0 +1,79 @@
+export const addToDeck= {
+  initial:{
+    y:`-200%`,
+    opacity:0,
+  },
+  final:{
+    y:'100%',
+    opacity:1,
+    transition:{
+      opacity:{
+        duration:0.2,
+        ease:"easeInOut"
+      },
+      y:{
+        duration:0.8,
+        ease:"easeInOut"
+      }
+    }
+  },
+}
+
+export const removeFromDeck= {
+  initial:{
+    y:0,
+  },
+
+  final:{
+    y:'-200%',
+    opacity:0,
+    transition:{
+      y:{
+        duration:0.5,
+        ease:"easeInOut"
+      },
+      opacity:{
+        delay:0.35,
+        duration:0.3,
+        ease:"easeOut"
+      }
+    }
+  },
+}
+
+export const error= {
+  initial:{
+    y:0,
+    scaleY:0,
+  },
+  final:{
+    y:`-100%`,
+    scaleY:1,
+    transition:{
+      y:{
+        duration:0.4,
+        ease:"easeInOut"
+      },
+      scaleY:{
+        duration:0.2,
+        ease:"easeInOut"
+      },
+    }
+  },
+  exit:{
+    y:0,
+    scaleY:0,
+    transition:{
+      y:{
+        duration:0.4,
+        ease:"easeInOut"
+      },
+      scaleY:{
+        delay:0.2,
+        duration:0.2,
+        ease:"easeInOut"
+      },
+    }
+  }
+}
+

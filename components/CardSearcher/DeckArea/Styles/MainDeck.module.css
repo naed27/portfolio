@@ -1,0 +1,15 @@
+.container{
+  width:100%;
+  height:auto;
+  display:flex;
+  flex-direction: column;
+  position: relative;
+  outline:1px solid gray;
+  overflow-y: auto;
+  margin-top: 10px;
+}
+
+.row{
+  display:flex;
+  flex-direction: row;
+}

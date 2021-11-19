@@ -1,0 +1,23 @@
+export const imageMotion= {
+  initial:{
+    y:`100%`,
+  },
+  final:{
+    y:0,
+    transition:{
+      y:{
+        duration:0.4,
+        ease:"easeInOut"
+      }
+    }
+  },
+  exit:{
+    y:`100%`,
+    transition:{
+      y:{
+        duration:0.4,
+        ease:"easeInOut"
+      }
+    }
+  },
+}

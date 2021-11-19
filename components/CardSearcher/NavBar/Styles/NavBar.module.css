@@ -1,0 +1,31 @@
+.wrapper{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  max-width:720px;
+  height:auto;
+  padding:0px 5px 0px 5px;
+}
+
+.container{
+  width:100%;
+  height:auto;
+  display:flex;
+  color:white;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.item{
+  height:30px;
+  flex-basis: 100px;
+  padding:0px 15px 0px 15px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  outline:1px solid gray;
+  cursor: pointer;
+}

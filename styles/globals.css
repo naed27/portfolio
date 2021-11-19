@@ -1,9 +1,22 @@
+:root{
+  --clr-primary-300: #f7f7f7;
+  --clr-primary-400: #835c5c;
+
+  --clr-neutral-100: #fff;
+  --clr-neutral-900: #1a1a1a;
+
+  --ff-primary: 'Roboto', sans-serif;
+  --ff-accent: 'Playfair Display', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 html,
-body {
+body,h1,h2,h3,p{
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
@@ -11,6 +24,12 @@ a {
   text-decoration: none;
 }
 
-* {
-  box-sizing: border-box;
+header,
+section{
+  padding: 3rem 0;
 }
+
+input[type="file"]{
+  display:none;
+}
+
