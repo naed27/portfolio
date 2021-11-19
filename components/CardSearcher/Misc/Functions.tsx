@@ -1,8 +1,6 @@
 import {YGOCard} from './Types';
 import styles from './Styles/CardLimit.module.css'
 import Image from 'next/image'
-import limited from '../../../public/Limited.svg'
-import forbidden from '../../../public/Forbidden.svg'
 
 export const isEmpty = (str: string) => {
     return !str || 0 === str.length;
@@ -55,21 +53,21 @@ export const renderCardLimit = (card:YGOCard|null)=>{
   switch(card.banlist_info.ban_tcg){
     case 'Banned':return (
       <div className={styles.container}>
-        <Image 
-          src={forbidden} 
+        {/* <Image 
+          src={'./Forbidden.svg'} 
           alt='card image'
           layout='fill'
           objectFit='contain'
-        />
+        /> */}
       </div>);
     case 'Limited':return (
       <div className={styles.container}>
-        <Image 
-          src={limited} 
+        {/* <Image 
+          src={'./Limited.svg'} 
           alt='card image'
           layout='fill'
           objectFit='contain'
-        />
+        /> */}
       </div>)
     default:return null;
   }

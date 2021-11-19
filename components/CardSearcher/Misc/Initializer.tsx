@@ -14,8 +14,17 @@ const Initializer = () =>{
     attribute:'',
   })
 
+  const initializeHolders = (size:number)=>{
+    const holder = [];
+    for(let i=0;i<size;i++){
+      holder.push(null);
+    }
+    return holder;
+  }
+
   return {
-    initialQuery
+    initialQuery,
+    initializeHolders
   }
 }
 
