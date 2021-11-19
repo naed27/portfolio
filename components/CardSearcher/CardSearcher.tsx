@@ -15,8 +15,7 @@ import { fetchUniqueProps } from './SearchArea/SearchFields/Functions/Functions'
 function CardSearcher() {
 
   const {
-    initialQuery,
-    initialHolders
+    initialQuery
   } = Initializer();
 
   const [mainCards,setMainCards] = useState<YGOCard[]>([]);
@@ -28,9 +27,9 @@ function CardSearcher() {
   const [selectedCard,setSelectedCard] = useState<YGOCard|null>(null);
   const [searchIndex,setSearchIndex] = useState<number|null>(null);
 
-  const [mainDeck,setMainDeck] = useState<(YGOCard|null)[]>(initialHolders(60));
-  const [sideDeck,setSideDeck] = useState<(YGOCard|null)[]>(initialHolders(15));
-  const [extraDeck,setExtraDeck] = useState<(YGOCard|null)[]>(initialHolders(15));
+  const [mainDeck,setMainDeck] = useState<(YGOCard|null)[]>([]);
+  const [sideDeck,setSideDeck] = useState<(YGOCard|null)[]>([]);
+  const [extraDeck,setExtraDeck] = useState<(YGOCard|null)[]>([]);
 
   const [showSearcher,toggleSearcher] = useState(true);
   const [showDeck,toggleDeck] = useState(false);
