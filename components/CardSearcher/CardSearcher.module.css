@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;700&display=swap');
+
 .container{
   position:relative;
   width:100%;
@@ -9,6 +11,9 @@
   justify-content: center;
   padding:10px 5px 10px 5px;
   user-select: none;
+  font-size: 14px;
+  line-height: 20px;
+  font-family: 'Nunito Sans', sans-serif;
 }
 
 .loaderContainer{
