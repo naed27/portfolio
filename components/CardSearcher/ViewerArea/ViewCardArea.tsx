@@ -7,6 +7,7 @@ import useOnClickOutside from '../../../hooks/useOnClickOutside';
 import { useContext, useRef } from 'react';
 import { YGOCard } from '../Misc/Types';
 import { GlobalContext } from '../Misc/Context';
+import { useState } from 'react';
 
 function ViewCardArea({card}:{card:YGOCard}) {
 
@@ -17,7 +18,10 @@ function ViewCardArea({card}:{card:YGOCard}) {
     searchedCards,
   } = useContext(GlobalContext);
 
-  const props = {setSelectedCard,searchIndex,setSearchIndex,searchedCards,card};
+  const [showControllers, setShowControllers] = useState(false);
+
+  const imageProps = {setSelectedCard,searchIndex,setSearchIndex,searchedCards,card};
+  const controlProps = {setSelectedCard,setShowControllers};
 
   const modalRef = useRef<HTMLDivElement>(null);
   
@@ -27,9 +31,11 @@ function ViewCardArea({card}:{card:YGOCard}) {
     <div className={styles.backdrop}>
       <div className={styles.container} ref={modalRef}>
         <Name card={card}/>
-        <CardImage props={props}/>
-        <Details card={card}/>
-        <Controls props={props}/>
+        <CardImage props={imageProps}/>
+        {!showControllers?
+        <Details card={card}/>:null
+        }
+        <Controls props={controlProps}/>
       </div>
     </div>
   )
