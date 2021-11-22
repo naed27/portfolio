@@ -17,7 +17,12 @@ export default function Details({card}:{card:YGOCard}){
   const showLevel = useCallback((card:YGOCard)=>{
     const {level} = card
     if(level===undefined)return null
-    return(<div>{`LV: ${level} [${Array(level).fill(`★`).join('')}]`}</div>)
+    const levelStr = `LV: ${level}`;
+    const starsStr = (()=>{
+      if(level<=0)return '';
+      return `[${Array(level).fill(`★`).join('')}]`
+    })()
+    return(<div>{`${levelStr} ${starsStr}`}</div>)
   },[])
 
   const showAtkDef = useCallback((card:YGOCard)=>{
