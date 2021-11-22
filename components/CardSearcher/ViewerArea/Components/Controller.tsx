@@ -1,5 +1,5 @@
 import styles from '../Styles/Controller.module.scss';
-import {useEffect, useRef, useState, useCallback, useContext, useMemo} from 'react';
+import { useRef, useState, useMemo} from 'react';
 import { NotifType,YGOCard } from '../../Misc/Types';
 import { AnimatePresence, motion } from 'framer-motion'
 import Notif from './Notif';
@@ -7,7 +7,6 @@ import DeckStore from '../../Hooks/DeckStore';
 import useOnClickOutside from '../../../../hooks/useOnClickOutside';
 import { controllerMotion } from '../Animations/Controller';
 import { capitalizeFirstLetter,getCardLimit,getCardCategory } from '../../Misc/Functions';
-import { LocalViewContext } from '../Context/Context';
 
 export default function Controller({card,deck}:{card:YGOCard,deck:string}){
 
@@ -63,12 +62,14 @@ export default function Controller({card,deck}:{card:YGOCard,deck:string}){
           animate='final'
           exit='exit'>
             <div className={styles.controller}onClick={()=>notify('add')}>+
-            {(overAllCardCount===cardLimit)&&<div className={styles.coverWrapper}>
+            {(overAllCardCount===cardLimit)&&
+              <div className={styles.coverWrapper}>
                 <div className={styles.cover}></div>
               </div>}
             </div>
             <div className={styles.controller}onClick={()=>notify('remove')}>-
-            {(cardcount===0)&&<div className={styles.coverWrapper}>
+            {(cardcount===0)&&
+              <div className={styles.coverWrapper}>
                 <div className={styles.cover}></div>
               </div>}
             </div>
