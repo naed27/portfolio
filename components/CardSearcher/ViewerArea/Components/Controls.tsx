@@ -9,10 +9,11 @@ interface Props{
 
 export default function Controls({props:{setSelectedCard,setShowControllers}}:{props:Props}) {
 
-  const showControllers = useCallback(()=>{
-    setShowControllers(current=>!current);
-  },[setShowControllers]);
-
+  const closeViewer = useCallback(()=>setSelectedCard(null),
+  [setSelectedCard]);
+  
+  const showControllers = useCallback(()=>setShowControllers(current=>!current),
+  [setShowControllers]);
 
   return (
     <div className={styles.container}>
@@ -20,7 +21,7 @@ export default function Controls({props:{setSelectedCard,setShowControllers}}:{p
         Add to Deck
       </div>
 
-      <div className={styles.button} onClick={()=>{setSelectedCard(null)}}>
+      <div className={styles.button} onClick={closeViewer}>
         Back
       </div>
     </div>
