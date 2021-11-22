@@ -7,7 +7,7 @@ interface Props{
   setShowControllers:Dispatch<SetStateAction<boolean>>
 }
 
-export default function Controls({props:{setSelectedCard,setShowControllers}}:{props:Props}) {
+export default function Switches({props:{setSelectedCard,setShowControllers}}:{props:Props}) {
 
   const closeViewer = useCallback(()=>setSelectedCard(null),
   [setSelectedCard]);

@@ -1,6 +1,6 @@
 import styles from './ViewCardArea.module.css'
 import CardImage from './Components/CardImage'
-import Controls from './Components/Controls'
+import Switches from './Components/Switches'
 import Details from './Components/Details';
 import Name from './Components/Name'
 import useOnClickOutside from '../../../hooks/useOnClickOutside';
@@ -35,7 +35,7 @@ function ViewCardArea({card}:{card:YGOCard}) {
         {!showControllers?
         <Details card={card}/>:null
         }
-        <Controls props={controlProps}/>
+        <Switches props={controlProps}/>
       </div>
     </div>
   )
