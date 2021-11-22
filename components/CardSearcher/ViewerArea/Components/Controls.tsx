@@ -1,22 +1,24 @@
 import { YGOCard } from '../../Misc/Types';
 import styles from '../Styles/Controls.module.scss';
-import Controller from './Controller';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useCallback } from 'react';
 
 interface Props{
   setSelectedCard:Dispatch<SetStateAction<YGOCard | null>>,
-  searchIndex:number | null,
-  setSearchIndex:Dispatch<SetStateAction<number | null>>,
-  searchedCards:YGOCard[],
-  card:YGOCard,
+  setShowControllers:Dispatch<SetStateAction<boolean>>
 }
 
-export default function Controls({props:{setSelectedCard,card}}:{props:Props}){
+export default function Controls({props:{setSelectedCard,setShowControllers}}:{props:Props}) {
+
+  const showControllers = useCallback(()=>{
+    setShowControllers(current=>!current);
+  },[setShowControllers]);
+
 
   return (
     <div className={styles.container}>
-      <Controller card={card} deck={'main'}/>
-      <Controller card={card} deck={'side'}/>
+      <div className={styles.button} onClick={showControllers}>
+        Add to Deck
+      </div>
 
       <div className={styles.button} onClick={()=>{setSelectedCard(null)}}>
         Back
