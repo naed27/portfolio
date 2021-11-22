@@ -81,11 +81,11 @@ function CardSearcher() {
         <GlobalContext.Provider value={globalValues}>
          
           <NavBar/>
-          <AnimatePresence>
+          <AnimatePresence exitBeforeEnter>
             {showSearcher&&<SearchArea key={`search_area`}/>}
             {showDeck&&<DeckArea key={`deck_area`}/>}
-            {selectedCard&&<ViewCardArea card={selectedCard} key={`view_area`}/> }
           </AnimatePresence>
+          {selectedCard&&<ViewCardArea card={selectedCard} key={`view_area`}/> }
 
         </GlobalContext.Provider>
       ):(
