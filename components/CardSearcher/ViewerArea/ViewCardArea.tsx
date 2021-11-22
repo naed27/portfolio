@@ -8,6 +8,7 @@ import { useContext, useRef } from 'react';
 import { YGOCard } from '../Misc/Types';
 import { GlobalContext } from '../Misc/Context';
 import { useState } from 'react';
+import ControlPanel from './Components/ControlPanel';
 
 function ViewCardArea({card}:{card:YGOCard}) {
 
@@ -33,7 +34,8 @@ function ViewCardArea({card}:{card:YGOCard}) {
         <Name card={card}/>
         <CardImage props={imageProps}/>
         {!showControllers?
-        <Details card={card}/>:null
+        <Details card={card}/>:
+        <ControlPanel card={card}/>
         }
         <Switches props={controlProps}/>
       </div>
