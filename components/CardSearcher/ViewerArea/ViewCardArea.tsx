@@ -22,7 +22,7 @@ function ViewCardArea({card}:{card:YGOCard}) {
   const [showControllers, setShowControllers] = useState(false);
 
   const imageProps = {setSelectedCard,searchIndex,setSearchIndex,searchedCards,card};
-  const controlProps = {setSelectedCard,setShowControllers};
+  const switchProps = {setSelectedCard,setShowControllers};
 
   const modalRef = useRef<HTMLDivElement>(null);
   
@@ -37,7 +37,7 @@ function ViewCardArea({card}:{card:YGOCard}) {
         <Details card={card}/>:
         <ControlPanel card={card}/>
         }
-        <Switches props={controlProps}/>
+        <Switches props={switchProps}/>
       </div>
     </div>
   )
