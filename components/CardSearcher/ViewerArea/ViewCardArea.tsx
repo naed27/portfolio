@@ -4,11 +4,12 @@ import Switches from './Components/Switches'
 import Details from './Components/Details';
 import Name from './Components/Name'
 import useOnClickOutside from '../../../hooks/useOnClickOutside';
-import { useContext, useRef } from 'react';
+import { useContext, useRef, useMemo } from 'react';
 import { YGOCard } from '../Misc/Types';
 import { GlobalContext } from '../Misc/Context';
 import { useState } from 'react';
 import ControlPanel from './Components/ControlPanel';
+import DeckStore from '../Hooks/DeckStore';
 
 function ViewCardArea({card}:{card:YGOCard}) {
 
@@ -20,9 +21,13 @@ function ViewCardArea({card}:{card:YGOCard}) {
   } = useContext(GlobalContext);
 
   const [showControllers, setShowControllers] = useState(false);
+  
+  const {addToDeck,removeFromDeck,getDeckCardCount,getExistingCardCount,getDeckStatus} = DeckStore();
 
-  const imageProps = {setSelectedCard,searchIndex,setSearchIndex,searchedCards,card};
+
   const switchProps = {setSelectedCard,setShowControllers};
+  const imageProps = {setSelectedCard,searchIndex,setSearchIndex,searchedCards,card};
+  const controlProps = {addToDeck,removeFromDeck,getDeckCardCount,getExistingCardCount,card,getDeckStatus};
 
   const modalRef = useRef<HTMLDivElement>(null);
   
@@ -35,7 +40,7 @@ function ViewCardArea({card}:{card:YGOCard}) {
         <CardImage props={imageProps}/>
         {!showControllers?
         <Details card={card}/>:
-        <ControlPanel card={card}/>
+        <ControlPanel props={controlProps}/>
         }
         <Switches props={switchProps}/>
       </div>
