@@ -26,7 +26,7 @@ const DeckStore = () =>{
       case 'main':return setMainDeck;
       case 'extra':return setExtraDeck;
       case 'side':return setSideDeck;
-      default:return null;
+      default:return setMainDeck;
     }
   }
 
@@ -35,7 +35,7 @@ const DeckStore = () =>{
       case 'main':return mainDeck;
       case 'extra':return extraDeck;
       case 'side':return sideDeck;
-      default:return null
+      default:return mainDeck
     }
   }
 
@@ -51,45 +51,46 @@ const DeckStore = () =>{
     return deck.filter(c=>c?c.id===card.id:false).length;
   }
 
+  const getFreeSlotsInDeck = (deck:(YGOCard | null)[])=>{
+    return deck.filter((slot)=>slot===null).length;
+  }
+
+  const getDeckStatus = (deckType:string)=>{
+    const deck = getDeck(deckType);
+    const numOfCards = deck.filter((slot)=>slot!==null).length;
+    const deckSize = deck.length;
+    return `${numOfCards}/${deckSize}`;
+  }
+
   const addToDeck = (deckType:string,card:YGOCard)=>{
-    const category = deckType==='main'?getCardCategory(card):'side';
-    const deck = getDeck(category);
-    const setter= getSetter(category);
+    const deck = getDeck(deckType);
+    const setter= getSetter(deckType);
     const cardLimit = getCardLimit(card);
-    const cardCount = getExistingCardCount(card)
+    const cardCount = getExistingCardCount(card);
+    const freeSlotsInDeck = getFreeSlotsInDeck(deck);
+    const targetIndex = (deck.length-freeSlotsInDeck);
 
-    if(deck===null||setter===null)return null
-    
-    const deckSlots = deck.filter((slot)=>slot===null).length;
-    const targetIndex = (deck.length-deckSlots);
-
-    if(deckSlots===0)return {status:-1,message:'deck full',cardCount,deckSlots}
-    if(cardCount===cardLimit)return {status:-1,message:'card limit reached',cardCount,deckSlots}
+    if(freeSlotsInDeck===0)return
+    if(cardCount===cardLimit)return
 
     setter((current)=>([
       ...current.slice(0,targetIndex),
       card,
       ...current.slice(targetIndex+1,current.length)
     ]));
-
-    return {status:1,message:'card added',cardCount:cardCount+1,deckSlots:deckSlots-1}
   }
 
   const removeFromDeck = (deckType:string,card:YGOCard)=>{
-    const category = deckType==='main'?getCardCategory(card):'side';
-    const deck = getDeck(category);
-    const setter= getSetter(category);
-    const cardCount = getExistingCardCount(card);
-    if(deck===null||setter===null)return null
+    const deck = getDeck(deckType);
+    const setter= getSetter(deckType);
     
     const toBeRemovedIndex = deck.findIndex((slot)=>slot?slot.id===card.id:false);
-    if(toBeRemovedIndex<0)return {status:-1,message:'card not found in deck',cardCount}
+    if(toBeRemovedIndex<0)return
     setter((current)=>([
       ...current.slice(0,toBeRemovedIndex),
       ...current.slice(toBeRemovedIndex+1,current.length),
       null
     ]));
-    return {status:1,message:'card removed',cardCount:cardCount-1}
   }
 
   return {
@@ -101,7 +102,7 @@ const DeckStore = () =>{
     getSetter,
     getDeck,
     getExistingCardCount,getDeckCardCount,
-    addToDeck,removeFromDeck,
+    addToDeck,removeFromDeck,getDeckStatus
   }
 }
 
