@@ -1,5 +1,5 @@
 import styles from '../Styles/Controller.module.scss';
-import { useRef, useMemo, useCallback, useState } from 'react';
+import { Dispatch, SetStateAction, useRef, useMemo, useCallback, useState } from 'react';
 import { DeckFunctions, YGOCard } from '../../Misc/Types';
 import { capitalizeFirstLetter,getCardCategory } from '../../Misc/Functions';
 import MiniDeck from './MiniDeck';
@@ -9,14 +9,16 @@ interface Props{
   removeFromDeck:(deckType: string, card: YGOCard) => void,
   getDeckCardCount:(card: YGOCard, deckType: string) => number,
   getExistingCardCount:(card: YGOCard) => number,
-  getDeck: (category: string) => (YGOCard | null)[]
+  getDeck: (category: string) => (YGOCard | null)[],
+  setShowControllers: Dispatch<SetStateAction<boolean>>,
   card:YGOCard
 }
 
 export default function Controller({props,deck:deckCategory,functions}:{props:Props,deck:string,functions:DeckFunctions}){
 
-  const {addToDeck,removeFromDeck,getDeckCardCount,getDeck,card} = props;
+  const {addToDeck,removeFromDeck,getDeckCardCount,setShowControllers,getDeck,card} = props;
   const [showMiniDeck,setShowMiniDeck] = useState(false);
+  const resetters = {setShowControllers,setShowMiniDeck};
 
   const deckType = useMemo(()=>{
     if(deckCategory==='main')return getCardCategory(card)
@@ -50,7 +52,7 @@ export default function Controller({props,deck:deckCategory,functions}:{props:Pr
         </div>
 
         {showMiniDeck?
-        <MiniDeck functions={functions} deckLength={deck.length} deckType={deckType}/>
+        <MiniDeck functions={functions} deckLength={deck.length} deckType={deckType} resetters={resetters}/>
         :
         <>
           <div className={styles.stats}>

@@ -1,4 +1,4 @@
-import { useCallback,useMemo } from "react";
+import { Dispatch, SetStateAction, useCallback,useMemo } from "react";
 import { DeckFunctions, YGOCard } from "../../Misc/Types";
 import styles from "../Styles/ControlPanel.module.scss";
 import Controller from './Controller';
@@ -9,13 +9,14 @@ interface Props{
   removeFromDeck:(deckType: string, card: YGOCard) => void,
   getDeckCardCount:(card: YGOCard, deckType: string) => number,
   getExistingCardCount:(card: YGOCard) => number,
-  getDeck: (category: string) => (YGOCard | null)[]
+  getDeck: (category: string) => (YGOCard | null)[],
+  setShowControllers: Dispatch<SetStateAction<boolean>>,
   card:YGOCard
 }
 
 export default function ControlPanel({props,functions}:{props:Props,functions:DeckFunctions}){
 
-  const {getExistingCardCount,card} = props
+  const {getExistingCardCount,setShowControllers,card} = props
   const getCardCount = useCallback(getExistingCardCount,[getExistingCardCount]);
   const getCardMax = useCallback(getCardLimit,[getCardLimit]);
   const cardCount = useMemo(()=>getCardCount(card),[getCardCount,card]);
@@ -29,10 +30,10 @@ export default function ControlPanel({props,functions}:{props:Props,functions:De
         </div>
         <div className={styles.body}>
           <div className={styles.deck}>
-            <Controller props={props} deck={'main'} functions={functions}/>
+            <Controller props={{...props,setShowControllers}} deck={'main'} functions={functions}/>
           </div>
           <div className={styles.deck}>
-            <Controller props={props} deck={'side'} functions={functions}/>
+            <Controller props={{...props,setShowControllers}} deck={'side'} functions={functions}/>
           </div>
         </div>
       </div>

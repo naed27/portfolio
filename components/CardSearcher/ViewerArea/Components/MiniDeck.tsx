@@ -3,7 +3,19 @@ import { useCallback,memo } from 'react';
 import CardHolder from '../../DeckArea/Components/CardHolder';
 import { DeckFunctions } from '../../Misc/Types';
 
-function MiniDeck({functions,deckType,deckLength}:{functions:DeckFunctions,deckType:string,deckLength:number}) {
+interface Resetters{
+  setShowControllers:React.Dispatch<React.SetStateAction<boolean>>,
+  setShowMiniDeck:React.Dispatch<React.SetStateAction<boolean>>
+}
+
+function MiniDeck({functions,deckType,deckLength,resetters}:{functions:DeckFunctions,deckType:string,deckLength:number,resetters:Resetters}) {
+
+  const {setShowControllers,setShowMiniDeck} = resetters;
+
+  const reset = useCallback(()=>{
+    setShowControllers(false);
+    setShowMiniDeck(false);
+  },[ setShowControllers,setShowMiniDeck ]);
 
   const generateDeck = useCallback(()=>{
 
@@ -29,7 +41,7 @@ function MiniDeck({functions,deckType,deckLength}:{functions:DeckFunctions,deckT
   },[ deckLength, deckType, functions ]);
 
   return (
-    <div className={styles.container} >
+    <div className={styles.container} onClick={reset} >
       {generateDeck()}
     </div>
   )
