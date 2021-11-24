@@ -19,8 +19,7 @@ export default function Controller({props,deck}:{props:Props,deck:string}){
 
   const addCard = useCallback(addToDeck,[addToDeck]);
   const removeCard = useCallback(removeFromDeck,[removeFromDeck]);
-  const fetchDeckStatus = useCallback(getDeckStatus,[getDeckStatus]);
-  const deckStatus = useMemo(()=>fetchDeckStatus(deckType),[fetchDeckStatus,deckType]);
+  const deckStatus = useMemo(()=>getDeckStatus(deckType),[getDeckStatus,deckType]);
   const cardcount = useMemo(()=>getDeckCardCount(card,deck),[card,deck,getDeckCardCount]);
   
   const buttonRef = useRef(null);
