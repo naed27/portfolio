@@ -22,12 +22,20 @@ function ViewCardArea({card}:{card:YGOCard}) {
 
   const [showControllers, setShowControllers] = useState(false);
   
-  const {addToDeck,removeFromDeck,getDeckCardCount,getExistingCardCount,getDeckStatus} = DeckStore();
+  const {
+    addToDeck,
+    removeFromDeck,
+    getDeckCardCount,
+    getExistingCardCount,
+    getDeck,
+    getCard,
+    getSetter
+  } = DeckStore();
 
-
+  const deckFunctions = {getCard,getSetter,getDeck,getExistingCardCount};
   const switchProps = {setSelectedCard,setShowControllers,showControllers};
   const imageProps = {setSelectedCard,searchIndex,setSearchIndex,searchedCards,card};
-  const controlProps = {addToDeck,removeFromDeck,getDeckCardCount,getExistingCardCount,card,getDeckStatus};
+  const controlProps = {addToDeck,removeFromDeck,getDeckCardCount,getExistingCardCount,card,getDeck};
 
   const modalRef = useRef<HTMLDivElement>(null);
   
@@ -40,7 +48,7 @@ function ViewCardArea({card}:{card:YGOCard}) {
         <CardImage props={imageProps}/>
         {!showControllers?
         <Details card={card}/>:
-        <ControlPanel props={controlProps}/>
+        <ControlPanel props={controlProps} functions={deckFunctions}/>
         }
         <Switches props={switchProps}/>
       </div>

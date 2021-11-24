@@ -1,5 +1,5 @@
 import { useCallback,useMemo } from "react";
-import { YGOCard } from "../../Misc/Types";
+import { DeckFunctions, YGOCard } from "../../Misc/Types";
 import styles from "../Styles/ControlPanel.module.scss";
 import Controller from './Controller';
 import { getCardLimit } from '../../Misc/Functions';
@@ -9,11 +9,11 @@ interface Props{
   removeFromDeck:(deckType: string, card: YGOCard) => void,
   getDeckCardCount:(card: YGOCard, deckType: string) => number,
   getExistingCardCount:(card: YGOCard) => number,
-  getDeckStatus: (deckType: string) => string
+  getDeck: (category: string) => (YGOCard | null)[]
   card:YGOCard
 }
 
-export default function ControlPanel({props}:{props:Props}){
+export default function ControlPanel({props,functions}:{props:Props,functions:DeckFunctions}){
 
   const {getExistingCardCount,card} = props
   const getCardCount = useCallback(getExistingCardCount,[getExistingCardCount]);
@@ -29,10 +29,10 @@ export default function ControlPanel({props}:{props:Props}){
         </div>
         <div className={styles.body}>
           <div className={styles.deck}>
-            <Controller props={props} deck={'main'}/>
+            <Controller props={props} deck={'main'} functions={functions}/>
           </div>
           <div className={styles.deck}>
-            <Controller props={props} deck={'side'}/>
+            <Controller props={props} deck={'side'} functions={functions}/>
           </div>
         </div>
       </div>
