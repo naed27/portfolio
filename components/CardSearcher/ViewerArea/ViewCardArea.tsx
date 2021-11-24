@@ -25,7 +25,7 @@ function ViewCardArea({card}:{card:YGOCard}) {
   const {addToDeck,removeFromDeck,getDeckCardCount,getExistingCardCount,getDeckStatus} = DeckStore();
 
 
-  const switchProps = {setSelectedCard,setShowControllers};
+  const switchProps = {setSelectedCard,setShowControllers,showControllers};
   const imageProps = {setSelectedCard,searchIndex,setSearchIndex,searchedCards,card};
   const controlProps = {addToDeck,removeFromDeck,getDeckCardCount,getExistingCardCount,card,getDeckStatus};
 

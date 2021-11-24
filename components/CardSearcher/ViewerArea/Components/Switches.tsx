@@ -28,4 +28,3 @@ export default function Switches({props:{setSelectedCard,setShowControllers,show
     </div>
   )
 }
-
