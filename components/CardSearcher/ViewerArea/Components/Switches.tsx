@@ -4,21 +4,22 @@ import { Dispatch, SetStateAction, useCallback } from 'react';
 
 interface Props{
   setSelectedCard:Dispatch<SetStateAction<YGOCard | null>>,
-  setShowControllers:Dispatch<SetStateAction<boolean>>
+  setShowControllers:Dispatch<SetStateAction<boolean>>,
+  showControllers:boolean
 }
 
-export default function Switches({props:{setSelectedCard,setShowControllers}}:{props:Props}) {
+export default function Switches({props:{setSelectedCard,setShowControllers,showControllers}}:{props:Props}) {
 
   const closeViewer = useCallback(()=>setSelectedCard(null),
   [setSelectedCard]);
   
-  const showControllers = useCallback(()=>setShowControllers(current=>!current),
+  const toggleControllers = useCallback(()=>setShowControllers(current=>!current),
   [setShowControllers]);
 
   return (
     <div className={styles.container}>
-      <div className={styles.button} onClick={showControllers}>
-        Add to Deck
+      <div className={styles.button} onClick={toggleControllers}>
+        {showControllers?(`Add to Deck`):(`See Description`)}
       </div>
 
       <div className={styles.button} onClick={closeViewer}>
