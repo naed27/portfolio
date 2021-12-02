@@ -1,4 +1,4 @@
-import styles from './BurgerMenu.module.css';
+import styles from './BurgerMenu.module.scss';
 import Link from 'next/link'
 import { motion,AnimatePresence } from 'framer-motion';
 import { useContext } from 'react'
@@ -19,11 +19,11 @@ export default function BurgerMenu () {
           animate='final'
           exit='exit'
           >
-            <Link href="/"><a className={styles.burgerItem}>Home</a></Link>
-            <Link href="/moving-box"><a className={styles.burgerItem}>Moving Box</a></Link>
-            <Link href="/card-searcher"><a className={styles.burgerItem}>Card Searcher</a></Link>
-            <Link href="/audio-visualizer"><a className={styles.burgerItem}>Audio Visualizer</a></Link>
-            <Link href="/weather-simulator"><a className={styles.burgerItem}>Weather Simulator</a></Link>
+            <Link href="/"><a>Home</a></Link>
+            <Link href="/moving-box"><a>Moving Box</a></Link>
+            <Link href="/card-searcher"><a>Card Searcher</a></Link>
+            <Link href="/audio-visualizer"><a>Audio Visualizer</a></Link>
+            <Link href="/weather-simulator"><a>Weather Simulator</a></Link>
           </motion.div>
         }
       </AnimatePresence>

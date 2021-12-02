@@ -41,8 +41,8 @@ function MiniDeck({functions,deckType,deckLength,resetters}:{functions:DeckFunct
   },[ deckLength, deckType, functions ]);
 
   return (
-    <div className={styles.container} onClick={reset} >
-      {generateDeck()}
+    <div className={styles.container+" "+styles.scrollhost} onClick={reset} >
+        {generateDeck()}
     </div>
   )
 }

@@ -3,6 +3,7 @@ import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import Card from './Card';
 import { GlobalContext } from '../../../Misc/Context';
 import { YGOCard } from '../../../Misc/Types';
+import ScrollableDiv from '../../../../../utility/CustomScrollDiv/ScrollableDiv';
 
 const Table = () => {
   
@@ -24,13 +25,12 @@ const Table = () => {
   },[ pageNumber,pool,setPageCardCount,render]);
 
   return (
-    <div className={styles.container}>
+    <ScrollableDiv className={styles.container} dependencies={[searchedCards]}>
       <div className={styles.wrapper}>
         {table}
       </div>
-    </div>   
+    </ScrollableDiv>   
   )
-
 }
 
 export default Table

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { burgerContext } from '../../contexts/burgerContext'
 import Body from './Body/Body'
 import Header from './Header/Header'
@@ -8,20 +8,12 @@ export default function Layout ({children}:any){
 
   // store variables
   const [burgerDisplay,setBurgerDisplay] = useState(false);
-
-  const resetBurger: React.MouseEventHandler<HTMLDivElement> = (e)=>{
-    // if(burgerDisplay)setBurgerDisplay(false)
-    null
-  }
-
+  
   // store values
-  const value = {
-    burgerDisplay,
-    setBurgerDisplay,
-  }
+  const value = {burgerDisplay,setBurgerDisplay}
 
   return (
-    <div className={styles.container} onClick={resetBurger}>
+    <div className={styles.container}>
       <burgerContext.Provider value={value}>
         <Header/>
         <Body>

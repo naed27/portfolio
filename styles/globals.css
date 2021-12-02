@@ -1,3 +1,5 @@
+
+
 :root{
   --clr-primary-300: #f7f7f7;
   --clr-primary-400: #835c5c;
@@ -17,6 +19,7 @@ html,
 body,h1,h2,h3,p{
   padding: 0;
   margin: 0;
+  font-family: 'Nunito Sans', sans-serif;
 }
 
 a {
