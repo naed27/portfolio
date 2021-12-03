@@ -2,10 +2,10 @@ import styles from '../Styles/MainDeck.module.css'
 import { useEffect, useRef, useState, useCallback } from 'react';
 import CardHolder from './CardHolder';
 import { DeckFunctions } from '../../Misc/Types';
+import ScrollableDiv from '../../../../utility/CustomScrollDiv/ScrollableDiv';
 
 function MainDeck({functions}:{functions:DeckFunctions}) {
 
-  const mainDeckRef = useRef<HTMLDivElement>(null);
   const [mainDeck, setMainDeck] = useState<JSX.Element[][]>([]);
 
   const generateMainDeck = useCallback(()=>{
@@ -39,7 +39,6 @@ function MainDeck({functions}:{functions:DeckFunctions}) {
   },[functions]);
 
   useEffect(()=>{
-    if(mainDeckRef.current===null)return
     
     const idk = ()=>setMainDeck(generateMainDeck());    
     idk();
@@ -51,15 +50,18 @@ function MainDeck({functions}:{functions:DeckFunctions}) {
   },[generateMainDeck]);
 
   return (
-    <div className={styles.container} ref={mainDeckRef}>
-      {mainDeck.map((array,i)=>{
-        return (
-          <div key={`main_row_${i}`} className={styles.row}>
-            {array}
-          </div>
-        )
-      })}
-    </div>
+    <ScrollableDiv className={styles.container}>
+      <div>
+        {mainDeck.map((array,i)=>{
+          return (
+            <div key={`main_row_${i}`} className={styles.row}>
+              {array}
+            </div>
+          )
+        })}
+      </div>
+    </ScrollableDiv>
+    
   )
 }
 

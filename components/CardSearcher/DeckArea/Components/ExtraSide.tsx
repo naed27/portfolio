@@ -2,6 +2,7 @@ import styles from '../Styles/ExtraDeck.module.css'
 import { useCallback} from 'react';
 import CardHolder from './CardHolder';
 import { DeckFunctions } from '../../Misc/Types';
+import ScrollableDiv from '../../../../utility/CustomScrollDiv/ScrollableDiv';
 
 function ExtraDeck({functions}:{functions:DeckFunctions}) {
 
@@ -21,9 +22,9 @@ function ExtraDeck({functions}:{functions:DeckFunctions}) {
   },[functions])
 
   return (
-    <div className={styles.container}>
+    <ScrollableDiv className={styles.container}>
       {generateExtraDeck()}
-    </div>
+    </ScrollableDiv>
   )
 
 }

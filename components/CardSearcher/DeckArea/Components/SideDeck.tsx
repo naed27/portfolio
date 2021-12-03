@@ -2,6 +2,7 @@ import styles from '../Styles/SideDeck.module.css'
 import { useCallback } from 'react';
 import CardHolder from './CardHolder';
 import { DeckFunctions } from '../../Misc/Types';
+import ScrollableDiv from '../../../../utility/CustomScrollDiv/ScrollableDiv';
 
 function SideDeck({functions}:{functions:DeckFunctions}) {
 
@@ -17,9 +18,9 @@ function SideDeck({functions}:{functions:DeckFunctions}) {
   },[functions])
 
   return (
-    <div className={styles.container}>
-        {generateSideDeck()}
-    </div>
+    <ScrollableDiv className={styles.container}>
+      {generateSideDeck()}
+    </ScrollableDiv>
   )
 
 }
