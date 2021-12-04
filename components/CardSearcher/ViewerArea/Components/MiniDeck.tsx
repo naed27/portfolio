@@ -1,7 +1,8 @@
-import styles from '../Styles/MiniDeck.module.css'
+import styles from '../Styles/MiniDeck.module.scss'
 import { useCallback,memo } from 'react';
 import CardHolder from '../../DeckArea/Components/CardHolder';
 import { DeckFunctions } from '../../Misc/Types';
+import ScrollableDiv from '../../../../utility/CustomScrollDiv/ScrollableDiv';
 
 interface Resetters{
   setShowControllers:React.Dispatch<React.SetStateAction<boolean>>,
@@ -41,9 +42,17 @@ function MiniDeck({functions,deckType,deckLength,resetters}:{functions:DeckFunct
   },[ deckLength, deckType, functions ]);
 
   return (
-    <div className={styles.container+" "+styles.scrollhost} onClick={reset} >
-        {generateDeck()}
-    </div>
+    <ScrollableDiv 
+      className={styles.container+" "+styles.scrollhost} 
+      onClick={reset} 
+      scrollX={{
+        thumbThickness:7,
+        thumbColor:'darkred',
+        thumbOpacity:1,
+        trackBorder:'0px'}}
+    >
+      {generateDeck()}
+    </ScrollableDiv>
   )
 }
 
