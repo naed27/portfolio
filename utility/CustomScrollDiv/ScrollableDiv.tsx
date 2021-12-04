@@ -12,7 +12,10 @@ interface Props{
   scrollX?:{
     thumbThickness:number,
     thumbColor:string,
+    thumbOpacity:number
+    trackBorder:string
   }
+  onClick:() => any
 }
 
 export default function ScrollableDiv ({
@@ -26,7 +29,10 @@ export default function ScrollableDiv ({
   scrollX={
     thumbThickness:8,
     thumbColor:'gray',
-  }
+    thumbOpacity:1,
+    trackBorder:`1px solid gray`
+  },
+  onClick: onClickHandler
 }:Props) {
   
   const scrollableDivRef = useRef<HTMLDivElement>(null);
@@ -56,8 +62,8 @@ export default function ScrollableDiv ({
       const {scrollHeight,clientHeight} = scrollableDivRef.current;
       const scrollThumbPercentage = clientHeight / scrollHeight;
       const twoScrollBarsSeparator = ((showHorizontalScrollBar)?scrollX.thumbThickness:0)
-      const scrollBarThumbHeight = (scrollThumbPercentage * clientHeight)-twoScrollBarsSeparator;
-      setVerticalScrollThumbLength(scrollBarThumbHeight);
+      const scrollBarThumbLength = (scrollThumbPercentage * clientHeight)-twoScrollBarsSeparator;
+      setVerticalScrollThumbLength(scrollBarThumbLength);
       setShowVerticalScrollBar(c=>(scrollThumbPercentage<1)?true:false);
     },100)
   },[ showHorizontalScrollBar, scrollX.thumbThickness ]);
@@ -68,8 +74,8 @@ export default function ScrollableDiv ({
       const {scrollWidth,clientWidth} = scrollableDivRef.current;
       const scrollThumbPercentage = clientWidth / scrollWidth;
       const twoScrollBarsSeparator = ((showVerticalScrollBar)?scrollY.thumbThickness:0)
-      const scrollBarThumbHeight = (scrollThumbPercentage * clientWidth)-twoScrollBarsSeparator;
-      setHorizontalScrollThumbLength(scrollBarThumbHeight);
+      const scrollBarThumbLength = (scrollThumbPercentage * clientWidth)-twoScrollBarsSeparator;
+      setHorizontalScrollThumbLength(scrollBarThumbLength);
       setShowHorizontalScrollBar(c=>(scrollThumbPercentage<1)?true:false);
     },100)
   },[ showVerticalScrollBar, scrollY.thumbThickness ])
@@ -98,52 +104,22 @@ export default function ScrollableDiv ({
     // setting scroll thumb position
     const mouseY = clientY - rectTopHolder;
     const thumbHalf = verticalScrollThumbLength/2
-    const rawScrollThumbTop = mouseY-thumbHalf;
+    const rawScrollThumbStart = mouseY-thumbHalf;
 
-    const scrollThumbTop = Math.min(
+    const scrollThumbStart = Math.min(
       scrollTopLimit,
       Math.max(
-        rawScrollThumbTop,
+        rawScrollThumbStart,
         scrollBottomLimit
       )
     );
 
-    const percentage = scrollThumbTop * (scrollHeight / offsetHeight);
+    const percentage = scrollThumbStart * (scrollHeight / offsetHeight);
     scrollableDiv.scrollTop = percentage;
 
-    return scrollThumbTop;
+    return scrollThumbStart;
 
   },[ verticalScrollThumbLength, verticalScrollBasePoint ]);
-
-  const horizontalSync = useCallback((clientX,boxBaseLeft=0) => {
-    if(scrollableDivRef.current===null)return 0;
-    const scrollableDiv = scrollableDivRef.current;
-    const rectTopHolder= (horizontalScrollBasePoint===-1) ? boxBaseLeft : horizontalScrollBasePoint;
-
-    // scroll limits
-    const { offsetWidth,scrollWidth } = scrollableDiv;
-    const scrollLeftLimit = offsetWidth - horizontalScrollThumbLength;
-    const scrollRightLimit = 0;
-    
-    // setting scroll thumb position
-    const mouseY = (rectTopHolder - clientX)*-1;
-    const thumbHalf = horizontalScrollThumbLength/2
-    const rawScrollThumbTop = mouseY-thumbHalf;
-
-    const scrollThumbTop = Math.min(
-      scrollLeftLimit,
-      Math.max(
-        rawScrollThumbTop,
-        scrollRightLimit
-      )
-    );
-
-    const percentage = scrollThumbTop * (scrollWidth / offsetWidth);
-    scrollableDiv.scrollLeft = percentage;
-
-    return scrollThumbTop
-
-  },[ horizontalScrollThumbLength, horizontalScrollBasePoint ]);
 
   
   const verticalScrollMouseDown = useCallback(event => {
@@ -179,31 +155,63 @@ export default function ScrollableDiv ({
     
   }, [ verticalSync, verticalScrollBasePoint, verticalScrollThumbStart, verticalScrollThumbLength ]);
 
+
+  const horizontalSync = useCallback((clientX,boxBaseLeft=0) => {
+    if(scrollableDivRef.current===null)return 0;
+    const scrollableDiv = scrollableDivRef.current;
+    const rectTopHolder= (horizontalScrollBasePoint===-1) ? boxBaseLeft : horizontalScrollBasePoint;
+
+    // scroll limits
+    const { offsetWidth,scrollWidth } = scrollableDiv;
+    const scrollLeftLimit = offsetWidth - horizontalScrollThumbLength;
+    const scrollRightLimit = 0;
+    
+    // setting scroll thumb position
+    const mouseY = (rectTopHolder - clientX)*-1;
+    const thumbHalf = horizontalScrollThumbLength/2
+    const rawScrollThumbStart = mouseY-thumbHalf;
+
+    const scrollThumbStart = Math.min(
+      scrollLeftLimit,
+      Math.max(
+        rawScrollThumbStart,
+        scrollRightLimit
+      )
+    );
+
+    const percentage = scrollThumbStart * (scrollWidth / offsetWidth);
+    scrollableDiv.scrollLeft = percentage;
+
+    return scrollThumbStart
+
+  },[ horizontalScrollThumbLength, horizontalScrollBasePoint ]);
+
+  
   const horizontalScrollMouseDown = useCallback(event => {
     event.preventDefault();
     event.stopPropagation();
     setHorizontalDragging(true);
-    const { left } = event.target.getBoundingClientRect();
+    const { left: leftOffset } = event.target.getBoundingClientRect();
     const { clientX } = event;
 
-    if(horizontalScrollBasePoint===-1)setHorizontalScrollBasePoint(left);
+    if(horizontalScrollBasePoint===-1)setHorizontalScrollBasePoint(leftOffset);
 
-    const thumbLeft = horizontalScrollThumbStart;
-    const thumbRight = horizontalScrollThumbStart + horizontalScrollThumbLength;
-    const mousePosition = clientX - left;
-    const thumbCenter = thumbLeft + (horizontalScrollThumbLength/2);
-    const thumbX = thumbCenter+left
+    const thumbStart = horizontalScrollThumbStart;
+    const thumbEnd = horizontalScrollThumbStart + horizontalScrollThumbLength;
+    const mousePosition = clientX - leftOffset;
+    const thumbCenter = thumbStart + (horizontalScrollThumbLength/2);
+    const thumbX = thumbCenter+leftOffset;
 
-    if(mousePosition>=thumbLeft && mousePosition<=thumbRight){
+    if(mousePosition>=thumbStart && mousePosition<=thumbEnd){
       const offset = thumbX-clientX;
       setHorizontalScrollOffset(offset);
       return horizontalSync( (thumbX), top );
     }
 
-    const newScrollStart = horizontalSync( clientX, left );
+    const newScrollStart = horizontalSync( clientX, leftOffset );
     const newScrollEnd = newScrollStart + horizontalScrollThumbLength;
     const newThumbCenter = newScrollStart + (horizontalScrollThumbLength/2);
-    const newThumbY = newThumbCenter+left
+    const newThumbY = newThumbCenter+leftOffset
 
     if(mousePosition>=newScrollStart && mousePosition<=newScrollEnd){
       const offset = newThumbY-clientX;
@@ -264,6 +272,7 @@ export default function ScrollableDiv ({
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
       style={{padding:0,border:0,overflow: `hidden`}} 
+      onClick={onClickHandler}
     >
 
       <div 
@@ -311,17 +320,21 @@ export default function ScrollableDiv ({
           <div 
             className={styles.horizontalScrollTrack} 
             onMouseDown={horizontalScrollMouseDown}
-            style={{width:`calc(100% - ${(showVerticalScrollBar)?scrollY.thumbThickness:0}px)`}} 
+            style={{
+              width:`calc(100% - ${(showVerticalScrollBar)?scrollX.thumbThickness:0}px)`,
+              border:scrollX.trackBorder
+            }} 
           >
             <div 
               className={styles.horizontalScrollThumb} 
               style={{
                 width: horizontalScrollThumbLength,
                 left: horizontalScrollThumbStart,
-                backgroundColor: `${scrollY.thumbColor}`, 
+                backgroundColor: `${scrollX.thumbColor}`, 
+                opacity:scrollX.thumbOpacity
               }}
             ></div>
-            <div className={styles.horizontalGlassCover}></div>
+            <div className={styles.horizontalScrollGlassCover}></div>
           </div>
         </div>
       )}
