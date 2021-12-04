@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import ScrollableDiv from "../../../../utility/CustomScrollDiv/ScrollableDiv";
 import { YGOCard } from "../../Misc/Types";
 import styles from "../Styles/Details.module.scss";
 
@@ -38,13 +39,13 @@ export default function Details({card}:{card:YGOCard}){
 
   return (
     <div className={styles.container}>
-      <div className={styles.desc}>
-      {showTypeRaceAttr(card)}
-      {showLevel(card)}
-      {showAtkDef(card)}
-      <br/>
-      {showDesc(card)}
-      </div>
+      <ScrollableDiv className={styles.desc}>
+        {showTypeRaceAttr(card)}
+        {showLevel(card)}
+        {showAtkDef(card)}
+        <br/>
+        {showDesc(card)}
+      </ScrollableDiv>
     </div>
   )
 }
