@@ -4,19 +4,7 @@ import CardHolder from '../../DeckArea/Components/CardHolder';
 import { DeckFunctions } from '../../Misc/Types';
 import ScrollableDiv from '../../../../utility/CustomScrollDiv/ScrollableDiv';
 
-interface Resetters{
-  setShowControllers:React.Dispatch<React.SetStateAction<boolean>>,
-  setShowMiniDeck:React.Dispatch<React.SetStateAction<boolean>>
-}
-
-function MiniDeck({functions,deckType,deckLength,resetters}:{functions:DeckFunctions,deckType:string,deckLength:number,resetters:Resetters}) {
-
-  const {setShowControllers,setShowMiniDeck} = resetters;
-
-  const reset = useCallback(()=>{
-    setShowControllers(false);
-    setShowMiniDeck(false);
-  },[ setShowControllers,setShowMiniDeck ]);
+function MiniDeck({functions,deckType,deckLength}:{functions:DeckFunctions,deckType:string,deckLength:number}) {
 
   const generateDeck = useCallback(()=>{
 
