@@ -18,7 +18,6 @@ export default function Controller({props,deck:deckCategory,functions}:{props:Pr
 
   const {addToDeck,removeFromDeck,getDeckCardCount,setShowControllers,getDeck,card} = props;
   const [showMiniDeck,setShowMiniDeck] = useState(false);
-  const resetters = {setShowControllers,setShowMiniDeck};
 
   const deckType = useMemo(()=>{
     if(deckCategory==='main')return getCardCategory(card)
@@ -52,7 +51,7 @@ export default function Controller({props,deck:deckCategory,functions}:{props:Pr
         </div>
 
         {showMiniDeck?
-        <MiniDeck functions={functions} deckLength={deck.length} deckType={deckType} resetters={resetters}/>
+        <MiniDeck functions={functions} deckLength={deck.length} deckType={deckType}/>
         :
         <>
           <div className={styles.stats}>
