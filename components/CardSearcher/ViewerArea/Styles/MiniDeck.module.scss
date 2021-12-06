@@ -8,12 +8,3 @@
   overflow: hidden;
   overflow-x: auto;
 }
-
-.scrollhost {
-  scrollbar-width: none;
- -ms-overflow-style: none;
-}
-
-.scrollhost::-webkit-scrollbar {
- display: none;
-}

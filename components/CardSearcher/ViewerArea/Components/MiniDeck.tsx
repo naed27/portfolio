@@ -31,12 +31,14 @@ function MiniDeck({functions,deckType,deckLength}:{functions:DeckFunctions,deckT
 
   return (
     <ScrollableDiv 
-      className={styles.container+" "+styles.scrollhost}
+      className={styles.container}
       scrollX={{
         thumbThickness:6,
-        thumbColor:'crimson',
-        thumbOpacity:1,
+        thumbColor:'white',
+        thumbOpacity:0.7,
+        trackPadding:1,
         trackBorder:'0px',
+        trackColor:'black',
         scrollBorderRadius:'0px',}}
     >
       {generateDeck()}
