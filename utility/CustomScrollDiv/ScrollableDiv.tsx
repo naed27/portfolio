@@ -2,91 +2,50 @@ import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import styles from "./ScrollableDiv.module.scss";
 
 const DEFAULT_SCROLL_VALUES = {
-  Y:{
+  XY:{
     thumbThickness:6,
     thumbColor:'white',
     thumbOpacity:0.5,
+    trackPadding:0,
     trackColor:'transparent',
     trackBorder:`0px`,
     scrollBorderRadius:`0px`,
   },
-  X:{
-    thumbThickness:6,
-    thumbColor:'white',
-    thumbOpacity:0.5,
-    trackColor:'transparent',
-    trackBorder:`0px`,
-    scrollBorderRadius:`0px`,
-  }
+}
+
+interface ScrollProps {
+  thumbThickness?:number,
+  thumbColor?:string,
+  thumbOpacity?:number,
+  trackPadding?:number,
+  trackColor?:string,
+  trackBorder?:string,
+  scrollBorderRadius?:string,
 }
 
 interface Props{
   children: React.ReactNode;
   className?: string;
-  dependencies?:any[],
-  scrollY?:{
-    thumbThickness?:number,
-    thumbColor?:string,
-    thumbOpacity?:number,
-    trackColor?:string,
-    trackBorder?:string,
-    scrollBorderRadius?:string,
-  },
-  scrollX?:{
-    thumbThickness?:number,
-    thumbColor?:string,
-    thumbOpacity?:number,
-    trackColor?:string,
-    trackBorder?:string,
-    scrollBorderRadius?:string,
-  }
+  dependencies?:any[]|null,
+  scrollY?:ScrollProps,
+  scrollX?:ScrollProps,
   onClick?:() => any
 }
 
 export default function ScrollableDiv ({
   children,
   className='',
-  dependencies=[],
-  scrollY={
-    thumbThickness:DEFAULT_SCROLL_VALUES.Y.thumbThickness,
-    thumbColor:DEFAULT_SCROLL_VALUES.Y.thumbColor,
-    thumbOpacity:DEFAULT_SCROLL_VALUES.Y.thumbOpacity,
-    trackColor:DEFAULT_SCROLL_VALUES.Y.trackColor,
-    trackBorder:DEFAULT_SCROLL_VALUES.Y.trackBorder,
-    scrollBorderRadius:DEFAULT_SCROLL_VALUES.Y.scrollBorderRadius,
-  },
-  scrollX={
-    thumbThickness:DEFAULT_SCROLL_VALUES.X.thumbThickness,
-    thumbColor:DEFAULT_SCROLL_VALUES.X.thumbColor,
-    thumbOpacity:DEFAULT_SCROLL_VALUES.X.thumbOpacity,
-    trackColor:DEFAULT_SCROLL_VALUES.X.trackColor,
-    trackBorder:DEFAULT_SCROLL_VALUES.X.trackBorder,
-    scrollBorderRadius:DEFAULT_SCROLL_VALUES.X.scrollBorderRadius,
-  },
+  dependencies=null,
+  scrollY,
+  scrollX,
   onClick: onClickHandler=()=>{}
 }:Props) {
 
-  
   const scroll = useMemo(() => {
-    return {
-      Y:{
-        thumbThickness : (scrollY.thumbThickness!==undefined)? scrollY.thumbThickness : DEFAULT_SCROLL_VALUES.Y.thumbThickness,
-        thumbColor :  (scrollY.thumbColor!==undefined)? scrollY.thumbColor : DEFAULT_SCROLL_VALUES.Y.thumbColor,
-        thumbOpacity : (scrollY.thumbOpacity!==undefined)? scrollY.thumbOpacity : DEFAULT_SCROLL_VALUES.Y.thumbOpacity,
-        trackColor : (scrollY.trackColor!==undefined)? scrollY.trackColor : DEFAULT_SCROLL_VALUES.Y.trackColor,
-        trackBorder : (scrollY.trackBorder!==undefined)? scrollY.trackBorder : DEFAULT_SCROLL_VALUES.Y.trackBorder,
-        scrollBorderRadius : (scrollY.scrollBorderRadius!==undefined)? scrollY.scrollBorderRadius : DEFAULT_SCROLL_VALUES.Y.scrollBorderRadius,
-      },
-      X:{
-        thumbThickness : (scrollX.thumbThickness!==undefined)? scrollX.thumbThickness : DEFAULT_SCROLL_VALUES.X.thumbThickness,
-        thumbColor :  (scrollX.thumbColor!==undefined)? scrollX.thumbColor : DEFAULT_SCROLL_VALUES.X.thumbColor,
-        thumbOpacity : (scrollX.thumbOpacity!==undefined)? scrollX.thumbOpacity : DEFAULT_SCROLL_VALUES.X.thumbOpacity,
-        trackColor : (scrollX.trackColor!==undefined)? scrollX.trackColor : DEFAULT_SCROLL_VALUES.X.trackColor,
-        trackBorder : (scrollX.trackBorder!==undefined)? scrollX.trackBorder : DEFAULT_SCROLL_VALUES.X.trackBorder,
-        scrollBorderRadius : (scrollX.scrollBorderRadius!==undefined)? scrollX.scrollBorderRadius : DEFAULT_SCROLL_VALUES.X.scrollBorderRadius,
-      }
-    }
-  },[scrollY,scrollX])
+    const y = (scrollY===undefined)?DEFAULT_SCROLL_VALUES.XY:{...DEFAULT_SCROLL_VALUES.XY, ...scrollY};
+    const x = (scrollX===undefined)?DEFAULT_SCROLL_VALUES.XY:{...DEFAULT_SCROLL_VALUES.XY, ...scrollX};
+    return {Y:y, X:x};
+  },[scrollY,scrollX]);
   
   const scrollableDivRef = useRef<HTMLDivElement>(null);
 
@@ -113,21 +72,22 @@ export default function ScrollableDiv ({
     if(scrollableDivRef.current===null)return;
     const {scrollHeight,clientHeight} = scrollableDivRef.current;
     const scrollThumbPercentage = clientHeight / scrollHeight;
-    const twoScrollBarsSeparator = ((showHorizontalScrollBar)?scroll.X.thumbThickness:0)
-    const scrollBarThumbLength = (scrollThumbPercentage * clientHeight)-twoScrollBarsSeparator;
+    const twoScrollBarsSeparator = ((showHorizontalScrollBar)?(scroll.X.thumbThickness):0)
+    const scrollBarThumbLength = ((scrollThumbPercentage * clientHeight))-twoScrollBarsSeparator;
     setVerticalScrollThumbLength(scrollBarThumbLength);
-    setShowVerticalScrollBar(c=>(scrollThumbPercentage<1)?true:false);
-  },[ showHorizontalScrollBar, scroll.X.thumbThickness ]);
+    setShowVerticalScrollBar((scrollThumbPercentage<1)?true:false);
+  },[ showHorizontalScrollBar, scroll ]);
 
   const calcHorizontalThumbSize = useCallback(()=>{
     if(scrollableDivRef.current===null)return;
     const {scrollWidth,clientWidth} = scrollableDivRef.current;
     const scrollThumbPercentage = clientWidth / scrollWidth;
-    const twoScrollBarsSeparator = ((showVerticalScrollBar)?(scroll.Y.thumbThickness+2):0)
-    const scrollBarThumbLength = (scrollThumbPercentage * clientWidth)-twoScrollBarsSeparator;
+    const twoScrollBarsSeparator = ((showVerticalScrollBar)?(scroll.Y.thumbThickness):0)
+    const scrollBarThumbLength = ((scrollThumbPercentage * clientWidth))-twoScrollBarsSeparator;
     setHorizontalScrollThumbLength(scrollBarThumbLength);
-    setShowHorizontalScrollBar(c=>(scrollThumbPercentage<1)?true:false);
-  },[ showVerticalScrollBar, scroll.Y.thumbThickness ])
+    setShowHorizontalScrollBar((scrollThumbPercentage<1)?true:false);
+  },[ showVerticalScrollBar, scroll ])
+  
 
   const handleScroll = useCallback(() => {
     if (!scrollableDivRef.current) return;
@@ -143,7 +103,7 @@ export default function ScrollableDiv ({
   const verticalSync = useCallback((clientY,boxBaseTop=0) => {
     if(scrollableDivRef.current===null)return 0;
     const scrollableDiv = scrollableDivRef.current;
-    const rectTopHolder= verticalScrollBasePoint || boxBaseTop;
+    const rectTopHolder= (verticalScrollBasePoint!==undefined)?verticalScrollBasePoint:boxBaseTop;
 
     // scroll limits
     const { offsetHeight,scrollHeight } = scrollableDiv;
@@ -178,7 +138,7 @@ export default function ScrollableDiv ({
     const { top } = event.target.getBoundingClientRect();
     const { clientY } = event;
 
-    if(!verticalScrollBasePoint){setVerticalScrollBasePoint(top);}
+    if(verticalScrollBasePoint===undefined)setVerticalScrollBasePoint(top);
 
     const thumbTop = verticalScrollThumbStart;
     const thumbBottom = verticalScrollThumbStart + verticalScrollThumbLength;
@@ -208,12 +168,12 @@ export default function ScrollableDiv ({
   const horizontalSync = useCallback((clientX,boxBaseLeft=0) => {
     if(scrollableDivRef.current===null)return 0;
     const scrollableDiv = scrollableDivRef.current;
-    const rectTopHolder= horizontalScrollBasePoint || boxBaseLeft;
+    const rectTopHolder= (horizontalScrollBasePoint!==undefined)?horizontalScrollBasePoint:boxBaseLeft;
 
     // scroll limits
     const { offsetWidth,scrollWidth } = scrollableDiv;
-    const scrollLeftLimit = offsetWidth - horizontalScrollThumbLength;
-    const scrollRightLimit = 0;
+    const scrollStartLimit = offsetWidth - horizontalScrollThumbLength
+    const scrollEndLimit = 0;
     
     // setting scroll thumb position
     const mouseY = (rectTopHolder - clientX)*-1;
@@ -221,10 +181,10 @@ export default function ScrollableDiv ({
     const rawScrollThumbStart = mouseY-thumbHalf;
 
     const scrollThumbStart = Math.min(
-      scrollLeftLimit,
+      scrollStartLimit,
       Math.max(
         rawScrollThumbStart,
-        scrollRightLimit
+        scrollEndLimit
       )
     );
 
@@ -243,7 +203,7 @@ export default function ScrollableDiv ({
     const { left: leftOffset } = event.target.getBoundingClientRect();
     const { clientX } = event;
 
-    if(!horizontalScrollBasePoint)setHorizontalScrollBasePoint(leftOffset);
+    if(horizontalScrollBasePoint===undefined)setHorizontalScrollBasePoint(leftOffset);
 
     const thumbStart = horizontalScrollThumbStart;
     const thumbEnd = horizontalScrollThumbStart + horizontalScrollThumbLength;
@@ -274,7 +234,6 @@ export default function ScrollableDiv ({
     if (!isVerticalDragging && !isHorizontalDragging) return
     event.preventDefault();
     event.stopPropagation();
-
     if (isVerticalDragging)return verticalSync( event.clientY+verticalScrollOffset );
     if (isHorizontalDragging)return horizontalSync( event.clientX+horizontalScrollOffset );
 
@@ -294,15 +253,24 @@ export default function ScrollableDiv ({
   useEffect(() => {
     if (!scrollableDivRef.current) return;
     const scrollableDiv = scrollableDivRef.current;
-    calcVerticalThumbSize()
-    calcHorizontalThumbSize()
-    window.addEventListener('resize', calcVerticalThumbSize);
+
+    const calculateScrolls = ()=>{
+      calcVerticalThumbSize();
+      calcHorizontalThumbSize();
+      setVerticalScrollBasePoint(undefined);
+      setHorizontalScrollBasePoint(undefined);
+    }
+
+    calculateScrolls();
+    
+    window.addEventListener('resize', calculateScrolls);
     scrollableDiv.addEventListener("scroll", handleScroll, true);
     return function cleanup(){
-      window.removeEventListener('resize', calcVerticalThumbSize)
+      window.removeEventListener('resize', calculateScrolls)
       scrollableDiv.removeEventListener("scroll", handleScroll, true);
     }
-  },[handleScroll,dependencies,children,scrollableDivRef,calcVerticalThumbSize,calcHorizontalThumbSize]);
+
+  },[handleScroll,dependencies,children,calcVerticalThumbSize,calcHorizontalThumbSize]);
 
   useEffect(() => {
     document.addEventListener("mousemove", handleDocumentMouseMove);
@@ -345,7 +313,8 @@ export default function ScrollableDiv ({
             className={styles.verticalScrollTrack} 
             onMouseDown={verticalScrollMouseDown}
             style={{
-              height:`calc(100% - ${(showHorizontalScrollBar)?scroll.X.thumbThickness:0}px)`,
+              padding: `${scroll.Y.trackPadding}px`,
+              height:`calc(100% - ${(showHorizontalScrollBar)?scroll.Y.thumbThickness:0}px)`,
               border:scroll.Y.trackBorder,
               backgroundColor:scroll.Y.trackColor,
               borderRadius:scroll.Y.scrollBorderRadius,
@@ -377,6 +346,7 @@ export default function ScrollableDiv ({
             className={styles.horizontalScrollTrack} 
             onMouseDown={horizontalScrollMouseDown}
             style={{
+              padding: `${scroll.X.trackPadding}px`,
               width:`calc(100% - ${(showVerticalScrollBar)?scroll.X.thumbThickness:0}px)`,
               border:scroll.X.trackBorder,
               backgroundColor:scroll.X.trackColor,
