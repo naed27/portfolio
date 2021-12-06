@@ -5,7 +5,7 @@
   flex-direction: column;
   position: relative;
   outline:1px solid gray;
-  overflow-y: auto;
+  overflow-x: auto;
   margin-top: 10px;
 }
 

@@ -1,5 +1,5 @@
 import styles from '../Styles/MainDeck.module.css'
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import CardHolder from './CardHolder';
 import { DeckFunctions } from '../../Misc/Types';
 import ScrollableDiv from '../../../../utility/CustomScrollDiv/ScrollableDiv';
@@ -39,10 +39,9 @@ function MainDeck({functions}:{functions:DeckFunctions}) {
   },[functions]);
 
   useEffect(()=>{
-    
-    const idk = ()=>setMainDeck(generateMainDeck());    
-    idk();
+    const idk = ()=>setMainDeck(generateMainDeck());
 
+    idk();
     window.addEventListener('resize', idk);
     return ()=>{
       window.removeEventListener('resize', idk)
@@ -61,7 +60,6 @@ function MainDeck({functions}:{functions:DeckFunctions}) {
         })}
       </div>
     </ScrollableDiv>
-    
   )
 }
 
