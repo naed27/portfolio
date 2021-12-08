@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {ContextProps, ScrollContext} from './Context';
+import {ContextProps, HorizontalScrollProps, ScrollContext, VerticalScrollProps} from './Context';
 import HorizontalScroll from './HorizontalScroll';
 import HorizontalScrollLogic from './HorizontalScrollLogic';
 import VerticalScrollLogic from './VerticalScrollLogic';
@@ -71,37 +71,78 @@ export default function ScrollableDiv ({
   
   const [isHoveringOnContainer,setHoveringOnContainer] = useState(false);
 
-  const contextValues:ContextProps = {
+  const verticalScrollProps:VerticalScrollProps = useMemo(()=>({
     scroll,scrollableDivRef,
-    isHoveringOnContainer,setHoveringOnContainer,
+    showHorizontalScrollBar,
+    verticalScrollThumbLength,
+    setVerticalDragging,
+    setVerticalScrollOffset,
+    setShowVerticalScrollBar,
+    setVerticalScrollBasePoint,
+    setVerticalScrollThumbLength,
+  }),[
+    scroll,scrollableDivRef,
+    showHorizontalScrollBar,
+    verticalScrollThumbLength,
+    setVerticalDragging,
+    setVerticalScrollOffset,
+    setShowVerticalScrollBar,
+    setVerticalScrollBasePoint,
+    setVerticalScrollThumbLength,
+  ]);
 
-    isVerticalDragging, setVerticalDragging,
-    showVerticalScrollBar,setShowVerticalScrollBar,
+  const horizontalScrollProps:HorizontalScrollProps = useMemo(()=>({
+    scroll,scrollableDivRef,
+    showVerticalScrollBar,
+    horizontalScrollThumbLength,
+    setHorizontalDragging,
+    setHorizontalScrollOffset,
+    setShowHorizontalScrollBar,
+    setHorizontalScrollBasePoint,
+    setHorizontalScrollThumbLength,
+  }),[
+    scroll,scrollableDivRef,
+    showVerticalScrollBar,
+    horizontalScrollThumbLength,
+    setHorizontalDragging,
+    setHorizontalScrollOffset,
+    setShowHorizontalScrollBar,
+    setHorizontalScrollBasePoint,
+    setHorizontalScrollThumbLength,
+  ]);
+
+  const contextValues:ContextProps = {
+    isHoveringOnContainer,setHoveringOnContainer,
     verticalScrollThumbStart,setVerticalScrollThumbStart,
-    verticalScrollThumbLength,setVerticalScrollThumbLength,
-    verticalScrollOffset,setVerticalScrollOffset,
-    verticalScrollBasePoint,setVerticalScrollBasePoint,
-    
-    isHorizontalDragging, setHorizontalDragging,
-    showHorizontalScrollBar,setShowHorizontalScrollBar,
+    isVerticalDragging,verticalScrollOffset,
+    isHorizontalDragging,horizontalScrollOffset,
     horizontalScrollThumbStart,setHorizontalScrollThumbStart,
-    horizontalScrollThumbLength,setHorizontalScrollThumbLength,
-    horizontalScrollOffset,setHorizontalScrollOffset,
-    horizontalScrollBasePoint,setHorizontalScrollBasePoint,
+    verticalScrollBasePoint,horizontalScrollBasePoint,
+    ...verticalScrollProps,
+    ...horizontalScrollProps,
   };
 
   const  {
-    horizontalSync,
-    calcHorizontalThumbSize,
-    horizontalScrollMouseDown
-  } = HorizontalScrollLogic(contextValues);
+    syncScroll:syncScrollHorizontal,
+    calculateThumbSize:calculateThumbSizeHorizontal,
+    mouseDownOnScroll:mouseDownOnScrollHorizontal,
+  } = HorizontalScrollLogic(horizontalScrollProps);
+
+  const horizontalSync = useCallback(syncScrollHorizontal,[syncScrollHorizontal]);
+  const calcHorizontalThumbSize = useCallback(calculateThumbSizeHorizontal,[calculateThumbSizeHorizontal]);
+  const horizontalScrollMouseDown = useCallback(mouseDownOnScrollHorizontal,[mouseDownOnScrollHorizontal]);
 
   const  {
-    verticalSync,
-    calcVerticalThumbSize,
-    verticalScrollMouseDown
-  } = VerticalScrollLogic(contextValues);
+    syncScroll:syncScrollVertical,
+    calculateThumbSize:calculateThumbSizeVertical,
+    mouseDownOnScroll:mouseDownOnScrollVertical,
+  } = VerticalScrollLogic(verticalScrollProps);
+  
+  const verticalSync = useCallback(syncScrollVertical,[syncScrollVertical]);
+  const calcVerticalThumbSize = useCallback(calculateThumbSizeVertical,[calculateThumbSizeVertical]);
+  const verticalScrollMouseDown = useCallback(mouseDownOnScrollVertical,[mouseDownOnScrollVertical]);
 
+ 
   const mouseEnterHandler = useCallback(() => !isHoveringOnContainer && setHoveringOnContainer(true), [isHoveringOnContainer]);
   const mouseLeaveHandler = useCallback(() => isHoveringOnContainer && setHoveringOnContainer(false), [isHoveringOnContainer]);
 
@@ -120,12 +161,17 @@ export default function ScrollableDiv ({
     if (!isVerticalDragging && !isHorizontalDragging) return
     event.preventDefault();
     event.stopPropagation();
-    if (isVerticalDragging)return verticalSync( event.clientY+verticalScrollOffset );
-    if (isHorizontalDragging)return horizontalSync( event.clientX+horizontalScrollOffset );
+    if (isVerticalDragging)return verticalSync( event.clientY+verticalScrollOffset,verticalScrollBasePoint );
+    if (isHorizontalDragging)return horizontalSync( event.clientX+horizontalScrollOffset,horizontalScrollBasePoint );
 
-  },[ isVerticalDragging, isHorizontalDragging,
-      verticalSync, horizontalSync, 
-      verticalScrollOffset, horizontalScrollOffset ]);
+  },[ isVerticalDragging, 
+    isHorizontalDragging,
+      verticalSync, 
+      horizontalSync, 
+      verticalScrollOffset, 
+      horizontalScrollOffset,
+      verticalScrollBasePoint,
+      horizontalScrollBasePoint ]);
 
   const handleDocumentMouseUp = useCallback(event => {
     if (!isVerticalDragging && !isHorizontalDragging)return
@@ -135,6 +181,7 @@ export default function ScrollableDiv ({
     if (isHorizontalDragging)return setHorizontalDragging(false);
 
   },[isVerticalDragging, isHorizontalDragging]);
+
 
   useEffect(() => {
     if (!scrollableDivRef.current) return;
@@ -155,7 +202,13 @@ export default function ScrollableDiv ({
       scrollableDiv.removeEventListener("scroll", handleScroll, true);
     }
 
-  },[handleScroll,dependencies,children,calcVerticalThumbSize,calcHorizontalThumbSize]);
+  },[
+    children,
+    dependencies,
+    handleScroll,
+    calcVerticalThumbSize,
+    calcHorizontalThumbSize,
+  ]);
 
   useEffect(() => {
     document.addEventListener("mousemove", handleDocumentMouseMove);
@@ -166,7 +219,10 @@ export default function ScrollableDiv ({
       document.removeEventListener("mouseup", handleDocumentMouseUp);
       document.removeEventListener("mouseleave", handleDocumentMouseUp);
     };
-  }, [handleDocumentMouseMove, handleDocumentMouseUp]);
+  },[
+    handleDocumentMouseMove, 
+    handleDocumentMouseUp
+  ]);
 
   return (
     <div 
@@ -182,8 +238,8 @@ export default function ScrollableDiv ({
       </div>
       
       <ScrollContext.Provider value={contextValues}>
-        <VerticalScroll onMouseDown={verticalScrollMouseDown}/>
-        <HorizontalScroll onMouseDown={horizontalScrollMouseDown}/>
+        <VerticalScroll onMouseDown={(e)=>verticalScrollMouseDown(e,verticalScrollThumbStart,verticalScrollBasePoint)}/>
+        <HorizontalScroll onMouseDown={(e)=>horizontalScrollMouseDown(e,horizontalScrollThumbStart,horizontalScrollBasePoint)}/>
       </ScrollContext.Provider>
     </div>
   )

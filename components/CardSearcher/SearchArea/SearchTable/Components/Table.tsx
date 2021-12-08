@@ -25,7 +25,7 @@ const Table = () => {
   },[ pageNumber,pool,setPageCardCount,render]);
 
   return (
-    <ScrollableDiv className={styles.container} dependencies={[searchedCards]} scrollY={{onHoverOnly:true}}>
+    <ScrollableDiv className={styles.container} dependencies={[searchedCards]}>
       <div className={styles.wrapper}>
         {table}
       </div>

@@ -11,6 +11,30 @@ export interface ScrollProps {
   onHoverOnly:boolean,
 }
 
+export interface VerticalScrollProps{
+  scroll:{Y:ScrollProps,X:ScrollProps},
+  scrollableDivRef:React.RefObject<HTMLDivElement>,
+  setVerticalDragging: Dispatch<SetStateAction<boolean>>,
+  showHorizontalScrollBar:boolean,
+  setShowVerticalScrollBar: Dispatch<SetStateAction<boolean>>,
+  verticalScrollThumbLength:number,
+  setVerticalScrollThumbLength: Dispatch<SetStateAction<number>>,
+  setVerticalScrollOffset: Dispatch<SetStateAction<number>>,
+  setVerticalScrollBasePoint: Dispatch<SetStateAction<number | undefined>>,
+}
+
+export interface HorizontalScrollProps{
+  scroll:{Y:ScrollProps,X:ScrollProps},
+  scrollableDivRef:React.RefObject<HTMLDivElement>,
+  setHorizontalDragging: Dispatch<SetStateAction<boolean>>,
+  showVerticalScrollBar:boolean,
+  setShowHorizontalScrollBar: Dispatch<SetStateAction<boolean>>,
+  horizontalScrollThumbLength:number,
+  setHorizontalScrollThumbLength: Dispatch<SetStateAction<number>>,
+  setHorizontalScrollOffset: Dispatch<SetStateAction<number>>,
+  setHorizontalScrollBasePoint: Dispatch<SetStateAction<number | undefined>>,
+}
+
 export interface ContextProps {
   scroll:{
     Y:ScrollProps,

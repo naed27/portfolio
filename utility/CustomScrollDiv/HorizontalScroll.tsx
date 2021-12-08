@@ -1,5 +1,5 @@
 import styles from './ScrollStyles.module.scss';
-import { useContext } from 'react';
+import { useContext, useCallback } from 'react';
 import { ScrollContext } from './Context'
 
 interface Props{
@@ -7,6 +7,8 @@ interface Props{
 }
 
 export default function HorizontalScroll ({onMouseDown=()=>null}:Props) {
+
+  const mouseDownHandler = useCallback(onMouseDown,[onMouseDown])
 
   const {
     scroll,
@@ -28,7 +30,7 @@ export default function HorizontalScroll ({onMouseDown=()=>null}:Props) {
           >
             <div 
               className={styles.horizontalScrollTrack} 
-              onMouseDown={onMouseDown}
+              onMouseDown={mouseDownHandler}
               style={{
                 padding: `${scroll.X.trackPadding}px`,
                 width:`calc(100% - ${(showVerticalScrollBar)?scroll.X.thumbThickness:0}px)`,

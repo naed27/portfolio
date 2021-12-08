@@ -1,23 +1,19 @@
-import { useCallback } from 'react';
-import { ContextProps } from './Context';
+import { useCallback, useEffect } from 'react';
+import { VerticalScrollProps } from './Context';
 
-export default function VerticalScrollLogic(Props:ContextProps) {
-
+export default function VerticalScrollLogic(Props:VerticalScrollProps) {
+  
   const {
-    scroll,
-    scrollableDivRef,
+    scroll,scrollableDivRef,
     showHorizontalScrollBar,
-    verticalScrollBasePoint,
-    verticalScrollThumbStart,
     verticalScrollThumbLength,
-    setVerticalDragging,
-    setVerticalScrollOffset,
     setShowVerticalScrollBar,
     setVerticalScrollBasePoint,
     setVerticalScrollThumbLength,
+    setVerticalDragging,setVerticalScrollOffset,
   } = Props;
 
-  const calcVerticalThumbSize = useCallback(()=>{
+  const calculateThumbSize = useCallback(()=>{
     if(scrollableDivRef.current===null)return;
     const {scrollHeight,clientHeight} = scrollableDivRef.current;
     const scrollThumbPercentage = clientHeight / scrollHeight;
@@ -28,7 +24,11 @@ export default function VerticalScrollLogic(Props:ContextProps) {
   },[ showHorizontalScrollBar, scroll, scrollableDivRef, setVerticalScrollThumbLength, setShowVerticalScrollBar ]);
 
 
-  const verticalSync = useCallback((clientY,boxBaseTop=0) => {
+  const syncScroll = useCallback((
+    clientY,
+    verticalScrollBasePoint:number|undefined,
+    boxBaseTop=0
+    ) => {
     if(scrollableDivRef.current===null)return 0;
     const scrollableDiv = scrollableDivRef.current;
     const rectTopHolder= (verticalScrollBasePoint!==undefined)?verticalScrollBasePoint:boxBaseTop;
@@ -54,9 +54,13 @@ export default function VerticalScrollLogic(Props:ContextProps) {
 
     return scrollThumbStart;
 
-  },[ verticalScrollThumbLength, verticalScrollBasePoint, scrollableDivRef ]);
+  },[ verticalScrollThumbLength, scrollableDivRef ]);
 
-  const verticalScrollMouseDown = useCallback(event => {
+  const mouseDownOnScroll = useCallback((
+    event:any,
+    verticalScrollThumbStart:number,
+    verticalScrollBasePoint:number|undefined
+    ) => {
     event.preventDefault();
     event.stopPropagation();
     setVerticalDragging(true);
@@ -74,9 +78,9 @@ export default function VerticalScrollLogic(Props:ContextProps) {
     if(mousePosition>=thumbTop && mousePosition<=thumbBottom){
       const offset = thumbY-clientY;
       setVerticalScrollOffset(offset);
-      return verticalSync( (thumbY), top );
+      return syncScroll( (thumbY), top );
     }
-    const newScrollStart = verticalSync( clientY, top );
+    const newScrollStart = syncScroll( clientY, top );
     const newScrollEnd = newScrollStart + verticalScrollThumbLength;
     const newThumbCenter = newScrollStart + (verticalScrollThumbLength/2);
     const newThumbY = newThumbCenter+top
@@ -87,7 +91,7 @@ export default function VerticalScrollLogic(Props:ContextProps) {
     }
     setVerticalScrollOffset(0);
     
-  }, [ verticalSync, verticalScrollBasePoint, verticalScrollThumbStart, verticalScrollThumbLength, setVerticalScrollOffset, setVerticalDragging, setVerticalScrollBasePoint ]);
+  }, [ syncScroll, verticalScrollThumbLength, setVerticalScrollOffset, setVerticalDragging, setVerticalScrollBasePoint ]);
 
-  return {calcVerticalThumbSize,verticalSync,verticalScrollMouseDown}
+  return {calculateThumbSize,syncScroll,mouseDownOnScroll}
 }

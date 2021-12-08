@@ -1,14 +1,12 @@
-import { useCallback } from 'react';
-import { ContextProps } from './Context';
+import { useCallback, useEffect } from 'react';
+import { HorizontalScrollProps } from './Context';
 
-export default function HorizontalScrollLogic(Props:ContextProps) {
+export default function HorizontalScrollLogic(Props:HorizontalScrollProps) {
 
   const {
     scroll,
     scrollableDivRef,
     showVerticalScrollBar,
-    horizontalScrollBasePoint,
-    horizontalScrollThumbStart,
     horizontalScrollThumbLength,
     setHorizontalDragging,
     setHorizontalScrollOffset,
@@ -17,7 +15,7 @@ export default function HorizontalScrollLogic(Props:ContextProps) {
     setHorizontalScrollThumbLength,
   } = Props;
 
-  const calcHorizontalThumbSize = useCallback(()=>{
+  const calculateThumbSize = useCallback(()=>{
     if(scrollableDivRef.current===null)return;
     const {scrollWidth,clientWidth} = scrollableDivRef.current;
     const scrollThumbPercentage = clientWidth / scrollWidth;
@@ -27,7 +25,10 @@ export default function HorizontalScrollLogic(Props:ContextProps) {
     setShowHorizontalScrollBar((scrollThumbPercentage<1)?true:false);
   },[ showVerticalScrollBar, scroll, setHorizontalScrollThumbLength, setShowHorizontalScrollBar, scrollableDivRef ]);
 
-  const horizontalSync = useCallback((clientX,boxBaseLeft=0) => {
+  const syncScroll = useCallback((
+    clientX, 
+    horizontalScrollBasePoint:number|undefined,
+    boxBaseLeft=0) => {
     if(scrollableDivRef.current===null)return 0;
     const scrollableDiv = scrollableDivRef.current;
     const rectTopHolder= (horizontalScrollBasePoint!==undefined)?horizontalScrollBasePoint:boxBaseLeft;
@@ -53,9 +54,12 @@ export default function HorizontalScrollLogic(Props:ContextProps) {
 
     return scrollThumbStart
 
-  },[ horizontalScrollThumbLength, horizontalScrollBasePoint, scrollableDivRef ]);
+  },[ horizontalScrollThumbLength, scrollableDivRef ]);
 
-  const horizontalScrollMouseDown = useCallback(event => {
+  const mouseDownOnScroll = useCallback((
+    event:any,
+    horizontalScrollThumbStart:number,
+    horizontalScrollBasePoint:number|undefined) => {
     event.preventDefault();
     event.stopPropagation();
     setHorizontalDragging(true);
@@ -73,10 +77,10 @@ export default function HorizontalScrollLogic(Props:ContextProps) {
     if(mousePosition>=thumbStart && mousePosition<=thumbEnd){
       const offset = thumbX-clientX;
       setHorizontalScrollOffset(offset);
-      return horizontalSync( (thumbX), top );
+      return syncScroll( (thumbX), leftOffset );
     }
 
-    const newScrollStart = horizontalSync( clientX, leftOffset );
+    const newScrollStart = syncScroll( clientX, leftOffset );
     const newScrollEnd = newScrollStart + horizontalScrollThumbLength;
     const newThumbCenter = newScrollStart + (horizontalScrollThumbLength/2);
     const newThumbY = newThumbCenter+leftOffset
@@ -87,7 +91,9 @@ export default function HorizontalScrollLogic(Props:ContextProps) {
     }
 
     setHorizontalScrollOffset(0);
-  }, [ horizontalSync, horizontalScrollBasePoint, horizontalScrollThumbStart, horizontalScrollThumbLength, setHorizontalDragging, setHorizontalScrollBasePoint, setHorizontalScrollOffset ]);
+  }, [ syncScroll, horizontalScrollThumbLength, setHorizontalDragging, setHorizontalScrollBasePoint, setHorizontalScrollOffset ]);
 
-  return {calcHorizontalThumbSize,horizontalSync,horizontalScrollMouseDown}
+
+
+  return {calculateThumbSize,syncScroll,mouseDownOnScroll}
 }
