@@ -1,4 +1,4 @@
-import {YGOCard} from './Types';
+import {YGOCard} from './globalTypes';
 import styles from './Styles/CardLimit.module.css'
 import Image from 'next/image'
 
@@ -28,7 +28,7 @@ export const isGreaterAndEqual = (input:number|undefined,limit:number)=>{
   return input!==undefined && input>=limit;
 }
 
-export const isLessAndEqual = (input:number|undefined,limit:number)=>{
+export const isLesserAndEqual = (input:number|undefined,limit:number)=>{
   return input!==undefined && input<=limit;
 }
 

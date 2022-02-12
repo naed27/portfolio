@@ -1,10 +1,45 @@
 import styles from '../Styles/Field.module.css'
 import { Searcher } from '../../../Hooks/SearchTools';
 import { ChangeEvent, useCallback, useContext, useEffect, useState } from 'react';
-import { GlobalContext } from '../../../Misc/Context';
+import { GlobalContext } from '../../../Misc/globalContext';
 
-function Def ({searcher}: {searcher:Searcher}){
+export default function Def (searcher: {searcher:Searcher}){
   
+  const {
+    minDefHandler, 
+    maxDefHandler, 
+    minPlaceHolder, 
+    maxPlaceHolder,} = Logic(searcher);
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.label}>Def</div>
+      <div className={styles.wrapper}>
+
+        <input 
+          className={`${styles.input}`} 
+          type="text" 
+          onChange={minDefHandler} 
+          spellCheck="false"
+          value={minPlaceHolder}
+        />
+
+        <div className={styles.separator}>{`<`}</div>
+
+        <input 
+          className={`${styles.input}`} 
+          type="text" 
+          onChange={maxDefHandler} 
+          spellCheck="false"
+          value={maxPlaceHolder}
+        />
+      </div>
+    </div>  
+  )
+}
+
+function Logic ({searcher}: {searcher:Searcher}){
+
   const search = useCallback(searcher,[searcher]);
   const [minPlaceHolder,setMinPlaceHolder] = useState('');
   const [maxPlaceHolder,setMaxPlaceHolder] = useState('');
@@ -33,34 +68,10 @@ function Def ({searcher}: {searcher:Searcher}){
     setMaxPlaceHolder('');
   },[query.type])
 
+  return {
+    minDefHandler, 
+    maxDefHandler, 
+    minPlaceHolder, 
+    maxPlaceHolder,}
 
-
-  return (
-    <div className={styles.container}>
-      <div className={styles.label}>Def</div>
-      <div className={styles.wrapper}>
-
-        <input 
-          className={`${styles.input}`} 
-          type="text" 
-          onChange={minDefHandler} 
-          spellCheck="false"
-          value={minPlaceHolder}
-        />
-
-        <div className={styles.separator}>{`<`}</div>
-
-        <input 
-          className={`${styles.input}`} 
-          type="text" 
-          onChange={maxDefHandler} 
-          spellCheck="false"
-          value={maxPlaceHolder}
-        />
-
-      </div>
-    </div>  
-  )
 }
-
-export default Def

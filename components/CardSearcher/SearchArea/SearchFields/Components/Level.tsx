@@ -2,7 +2,7 @@ import styles from '../Styles/Field.module.css'
 import { Searcher } from '../../../Hooks/SearchTools';
 import { useContext, useCallback, useState } from 'react';
 import Menu from './Menu';
-import { GlobalContext } from '../../../Misc/Context';
+import { GlobalContext } from '../../../Misc/globalContext';
 
 function Level ({searcher}: {searcher:Searcher}){
   

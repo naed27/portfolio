@@ -35,9 +35,8 @@ export const sortAlphabetically=( words:string[])=>{
 }
 
 
-export function randomIntBetween(min:number, max:number) { // min and max included 
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}
+export const randomIntBetween = (min:number, max:number) => 
+  Math.floor(Math.random() * (max - min + 1) + min)
 
 export const toBase64 = (file: any) => new Promise((resolve, reject) => {
   const reader = new FileReader();
@@ -72,9 +71,7 @@ export const getNeighbors = (dataArray:Uint8Array|number[],i:number,numOfNeighbo
   return res 
 }
 
-export const getDifference = (n1:number,n2:number)=>{
-  return Math.abs(n1-n2) 
-}
+export const getDifference = (n1:number,n2:number) => Math.abs(n1-n2) 
 
 export const flatten = (numbers:number[],loopCount:number):number[]=>{
   let result:number[]=[];
@@ -97,5 +94,8 @@ export const flatten = (numbers:number[],loopCount:number):number[]=>{
   return result
 }
 
+
+export const pushIfUnique = (array: any[], element: any) => 
+  !array.includes(element) && array.push(element)
 
 

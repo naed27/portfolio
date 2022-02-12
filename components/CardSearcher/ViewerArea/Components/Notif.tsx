@@ -1,5 +1,5 @@
 import styles from '../Styles/Notif.module.scss';
-import { NotifType } from '../../Misc/Types';
+import { NotifType } from '../../Misc/globalTypes';
 import { motion } from 'framer-motion'
 import { addToDeck,error, removeFromDeck } from '../Animations/Notif';
 import Image from 'next/image'

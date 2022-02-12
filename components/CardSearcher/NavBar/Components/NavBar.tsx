@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { GlobalContext } from '../../Misc/Context';
+import { GlobalContext } from '../../Misc/globalContext';
 import styles from '../Styles/NavBar.module.css';
 
 export default function NavBar() {

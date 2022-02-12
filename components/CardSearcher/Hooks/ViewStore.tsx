@@ -1,16 +1,16 @@
 import { useContext } from 'react'
-import { GlobalContext } from '../Misc/Context';
+import { GlobalContext } from '../Misc/globalContext';
 const ViewStore = () =>{
 
   const {
+    searchIndex,setSearchIndex,
     selectedCard,setSelectedCard,
-    searchIndex,setSearchIndex
   } = useContext(GlobalContext);
 
 
   return {
-    selectedCard,setSelectedCard,
     searchIndex,setSearchIndex,
+    selectedCard,setSelectedCard,
   }
 }
 

@@ -1,7 +1,7 @@
 import { useContext } from 'react'
-import { GlobalContext } from '../Misc/Context';
-import { getCardCategory, getCardLimit } from '../Misc/Functions';
-import { YGOCard } from '../Misc/Types';
+import { GlobalContext } from '../Misc/globalContext';
+import { getCardCategory, getCardLimit } from '../Misc/globalFunctions';
+import { YGOCard } from '../Misc/globalTypes';
 
 const DeckStore = () =>{
 
@@ -10,7 +10,6 @@ const DeckStore = () =>{
     extraDeck,setExtraDeck,
     sideDeck, setSideDeck,
   } = useContext(GlobalContext);
-
 
   const getCard = (category:string,index:number)=>{
     switch(category){
@@ -73,7 +72,7 @@ const DeckStore = () =>{
     if(freeSlotsInDeck===0)return
     if(cardCount===cardLimit)return
 
-    setter((current)=>([
+    setter( current => ([
       ...current.slice(0,targetIndex),
       card,
       ...current.slice(targetIndex+1,current.length)

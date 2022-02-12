@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction, useCallback,useMemo } from "react";
-import { DeckFunctions, YGOCard } from "../../Misc/Types";
+import { DeckFunctions, YGOCard } from "../../Misc/globalTypes";
 import styles from "../Styles/ControlPanel.module.scss";
 import Controller from './Controller';
-import { getCardLimit } from '../../Misc/Functions';
+import { getCardLimit } from '../../Misc/globalFunctions';
 
 interface Props{
   addToDeck:(deckType: string, card: YGOCard) => void,

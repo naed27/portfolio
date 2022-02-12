@@ -1,6 +1,5 @@
-
 import styles from './DeckArea.module.css'
-import ControlPanel from './Components/ControlPanel';
+import DeckControls from './Components/DeckControls';
 import { motion } from 'framer-motion';
 import animation from './Animation'
 import MainDeck from './Components/MainDeck';
@@ -24,16 +23,16 @@ function DeckArea() {
   };
 
   return (
-    <motion.div className={styles.container}
-      variants={animation}
-      initial='initial'
-      animate='final'
-      exit='exit'
+    <motion.div className = { styles.container }
+      variants = { animation }
+      initial = 'initial'
+      animate = 'final'
+      exit = 'exit'
     >
-      <ControlPanel/>
-      <MainDeck functions={functions}/>
-      <ExtraDeck functions={functions}/>
-      <SideDeck functions={functions}/>
+      <DeckControls/>
+      <MainDeck functions = { functions }/>
+      <ExtraDeck functions = { functions }/>
+      <SideDeck functions = { functions} />
     </motion.div>
   )
 

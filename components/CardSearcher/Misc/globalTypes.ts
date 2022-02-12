@@ -68,35 +68,37 @@ export interface DeckFunctions{
 
 
 export interface GlobalContextType{
-  readonly showSearcher:boolean,
-  readonly toggleSearcher: Dispatch<SetStateAction<boolean>>,
-  readonly showDeck:boolean,
-  readonly toggleDeck:  Dispatch<SetStateAction<boolean>>
-
-  readonly mainDeck:(YGOCard|null)[],
-  readonly setMainDeck:Dispatch<SetStateAction<(YGOCard|null)[]>>,
-  readonly extraDeck:(YGOCard|null)[],
-  readonly setExtraDeck:Dispatch<SetStateAction<(YGOCard|null)[]>>,
-  readonly sideDeck:(YGOCard|null)[], 
-  readonly setSideDeck:Dispatch<SetStateAction<(YGOCard|null)[]>>,
-
-  readonly mainCards:YGOCard[],
-  readonly setMainCards:Dispatch<SetStateAction<YGOCard[]>>,
-  readonly searchedCards:YGOCard[],
-  readonly setSearchedCards:Dispatch<SetStateAction<YGOCard[]>>,
-  readonly pageNumber:number,
-  readonly setPageNumber:Dispatch<SetStateAction<number>>,
-  readonly pageCardCount:number,
-  readonly setPageCardCount:Dispatch<SetStateAction<number>>,
   readonly query:Query
-  readonly setQuery:Dispatch<SetStateAction<Query>>,
-
-  readonly selectedCard:YGOCard|null,
-  readonly setSelectedCard:Dispatch<SetStateAction<YGOCard|null>>,
+  readonly showDeck:boolean,
+  readonly pageNumber:number,
+  readonly cardTypes:CardTypes,
+  readonly mainCards:YGOCard[],
+  readonly showSearcher:boolean,
+  readonly maxPageOfTable:number,
+  readonly tablePageRange:number,
+  readonly searchedCards:YGOCard[],
   readonly searchIndex:number|null,
-  readonly setSearchIndex:Dispatch<SetStateAction<number|null>>,
+  readonly mainDeck:(YGOCard|null)[],
+  readonly sideDeck:(YGOCard|null)[], 
+  readonly selectedCard:YGOCard|null,
+  readonly extraDeck:(YGOCard|null)[],
+  readonly numberOfCardsShownOnPage:number,
 
-  readonly cardTypes:CardTypes
+  readonly setQuery:Dispatch<SetStateAction<Query>>,
+  readonly toggleDeck:  Dispatch<SetStateAction<boolean>>,
+  readonly setPageNumber:Dispatch<SetStateAction<number>>,
+  readonly setMainCards:Dispatch<SetStateAction<YGOCard[]>>,
+  readonly toggleSearcher: Dispatch<SetStateAction<boolean>>,
+  readonly setMaxPageOfTable:Dispatch<SetStateAction<number>>,
+  readonly setTablePageRange:Dispatch<SetStateAction<number>>,
+  readonly setSearchIndex:Dispatch<SetStateAction<number|null>>,
+  readonly setSearchedCards:Dispatch<SetStateAction<YGOCard[]>>,
+  readonly setMainDeck:Dispatch<SetStateAction<(YGOCard|null)[]>>,
+  readonly setSideDeck:Dispatch<SetStateAction<(YGOCard|null)[]>>,
+  readonly setSelectedCard:Dispatch<SetStateAction<YGOCard|null>>,
+  readonly setExtraDeck:Dispatch<SetStateAction<(YGOCard|null)[]>>,
+  readonly setNumberOfCardsShownOnPage:Dispatch<SetStateAction<number>>,
+
 }
 
 

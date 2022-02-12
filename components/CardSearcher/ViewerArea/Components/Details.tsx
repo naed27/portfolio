@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import ScrollableDiv from "../../../../utility/CustomScrollDiv/ScrollableDiv";
-import { YGOCard } from "../../Misc/Types";
+import { YGOCard } from "../../Misc/globalTypes";
 import styles from "../Styles/Details.module.scss";
 
 export default function Details({card}:{card:YGOCard}){

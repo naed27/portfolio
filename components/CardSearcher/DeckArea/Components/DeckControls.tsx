@@ -1,6 +1,6 @@
 import styles from '../Styles/ControlPanel.module.css'
 import DeckStore from '../../Hooks/DeckStore';
-import { YGOCard } from '../../Misc/Types';
+import { YGOCard } from '../../Misc/globalTypes';
 
 const ControlPanel = ()=>{
 

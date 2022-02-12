@@ -1,4 +1,4 @@
-const animation= {
+const animation = {
   initial:{
     opacity:0,
   },
@@ -17,4 +17,5 @@ const animation= {
     }
   }
 }
+
 export default animation

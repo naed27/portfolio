@@ -5,8 +5,8 @@ import Details from './Components/Details';
 import Name from './Components/Name'
 import useOnClickOutside from '../../../hooks/useOnClickOutside';
 import { useContext, useRef, useMemo } from 'react';
-import { YGOCard } from '../Misc/Types';
-import { GlobalContext } from '../Misc/Context';
+import { YGOCard } from '../Misc/globalTypes';
+import { GlobalContext } from '../Misc/globalContext';
 import { useState } from 'react';
 import ControlPanel from './Components/ControlPanel';
 import DeckStore from '../Hooks/DeckStore';

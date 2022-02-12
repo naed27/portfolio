@@ -1,4 +1,4 @@
-import { YGOCard } from "../../Misc/Types"
+import { YGOCard } from "../../Misc/globalTypes"
 import Image from 'next/image'
 import styles from '../Styles/CardImage.module.scss'
 import { Dispatch, SetStateAction, useCallback } from "react";

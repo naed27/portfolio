@@ -1,7 +1,7 @@
 import styles from '../Styles/MainDeck.module.css'
 import { useEffect, useState, useCallback } from 'react';
 import CardHolder from './CardHolder';
-import { DeckFunctions } from '../../Misc/Types';
+import { DeckFunctions } from '../../Misc/globalTypes';
 import ScrollableDiv from '../../../../utility/CustomScrollDiv/ScrollableDiv';
 
 function MainDeck({functions}:{functions:DeckFunctions}) {
@@ -35,6 +35,7 @@ function MainDeck({functions}:{functions:DeckFunctions}) {
         )
       }
     }
+    
     return cardHolders;
   },[functions]);
 

@@ -1,5 +1,5 @@
-import { createContext, Dispatch, SetStateAction } from "react";
-import { NotifType } from "../../Misc/Types";
+import { createContext, Dispatch, SetStateAction } from 'react';
+import { NotifType } from '../../Misc/globalTypes';
 
 interface LocalViewContext{
   headerNotifs:NotifType[],

@@ -1,4 +1,4 @@
-import { YGOCard } from '../../Misc/Types';
+import { YGOCard } from '../../Misc/globalTypes';
 import styles from '../Styles/Name.module.scss';
 
 export default function Name({card}:{card:YGOCard}){

@@ -1,4 +1,4 @@
-const animation= {
+const animation = {
   initial:{
     opacity:0,
   },
@@ -6,14 +6,14 @@ const animation= {
     opacity:1,
     transition:{
       duration:0.2,
-      ease:"easeInOut"
+      ease:'easeInOut'
     }
   },
   exit:{
     opacity:0,
       transition:{
       duration:0.2,
-      ease:"easeInOut"
+      ease:'easeInOut'
     }
   }
 }

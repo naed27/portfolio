@@ -5,13 +5,13 @@ import SearchFields from './SearchFields/SearchFields';
 import { motion } from 'framer-motion';
 import animation from './Animation';
 
-function SearchArea() {
+const SearchArea = () => {
   return (
-    <motion.div className={styles.container}
-      variants={animation}
-      initial='initial'
-      animate='final'
-      exit='exit'>
+    < motion.div className={ styles.container }
+      variants = { animation }
+      initial = 'initial'
+      animate = 'final'
+      exit = 'exit' >
       <SearchFields/>
       <Table/>
       <PageButtons/>

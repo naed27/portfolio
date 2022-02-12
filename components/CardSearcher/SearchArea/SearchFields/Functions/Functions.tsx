@@ -1,13 +1,9 @@
-import { sortStrings, containsKeyword, sortNumbers } from "../../../Misc/Functions";
-import { YGOCard } from "../../../Misc/Types";
-
-const pushUniquely = (array: any[], element: any) => {
-  if (!array.includes(element)) {
-    array.push(element);
-  }
-}
+import { pushIfUnique } from "../../../../../utility/functions";
+import { sortStrings, containsKeyword, sortNumbers } from "../../../Misc/globalFunctions";
+import { YGOCard } from "../../../Misc/globalTypes";
 
 export const fetchUniqueProps = (mainCards:YGOCard[])=>{
+  
   const primaryTypes = ['Monster','Spell','Trap'];
   const races:string[] = [];
   const monsterTypes:string[] = [];
@@ -19,15 +15,15 @@ export const fetchUniqueProps = (mainCards:YGOCard[])=>{
   mainCards.map((card)=>{
     const {type,race,attribute,level} = card;
     if(race===undefined)return
-    if(containsKeyword(type,'Spell')) return pushUniquely(spellTypes,race)
-    if(containsKeyword(type,'Trap')) return pushUniquely(trapTypes,race)
+    if(containsKeyword(type,'Spell')) return pushIfUnique(spellTypes,race)
+    if(containsKeyword(type,'Trap')) return pushIfUnique(trapTypes,race)
     if(containsKeyword(type,'Monster')) {
       if(attribute===undefined)return
       if(level===undefined)return
-      pushUniquely(monsterTypes,type.split(' ')[0])
-      pushUniquely(attributes,attribute)
-      pushUniquely(races,race)
-      pushUniquely(levels,level)
+      pushIfUnique(monsterTypes,type.split(' ')[0])
+      pushIfUnique(attributes,attribute)
+      pushIfUnique(races,race)
+      pushIfUnique(levels,level)
       return
     }
     return

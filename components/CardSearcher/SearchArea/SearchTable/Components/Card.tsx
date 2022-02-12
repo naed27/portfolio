@@ -1,9 +1,9 @@
-import styles from '../Styles/Card.module.css'
-import { YGOCard } from '../../../Misc/Types';
-import Image from 'next/image'
+import Image from 'next/image';
+import { YGOCard } from '../../../Misc/globalTypes';
+import styles from '../Styles/Card.module.css';
+import { GlobalContext } from '../../../Misc/globalContext';
 import React, { useCallback, useContext } from 'react';
-import { renderCardLimit } from '../../../Misc/Functions';
-import { GlobalContext } from '../../../Misc/Context';
+import { renderCardLimit } from '../../../Misc/globalFunctions';
 
 const Card = ({card}:{card:YGOCard}) => {
 

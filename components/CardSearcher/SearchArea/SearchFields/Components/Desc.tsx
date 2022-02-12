@@ -1,7 +1,7 @@
 import styles from '../Styles/Field.module.css'
 import { ChangeEvent, useCallback, useContext, useState } from 'react'
 import { Searcher } from '../../../Hooks/SearchTools';
-import { GlobalContext } from '../../../Misc/Context';
+import { GlobalContext } from '../../../Misc/globalContext';
 
 function Desc ({searcher}: {searcher:Searcher}){
   
@@ -26,9 +26,9 @@ function Desc ({searcher}: {searcher:Searcher}){
       <div className={styles.wrapper}>
         <input 
           className={styles.input} 
-          type="text" 
+          type='text'
           onChange={queryDesc} 
-          spellCheck="false"
+          spellCheck='false'
           value={placeHolder}
         />
       </div>

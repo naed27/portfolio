@@ -1,6 +1,6 @@
 import styles from '../Styles/Field.module.css'
 import { ChangeEvent, useCallback, useContext, useEffect, useState } from 'react';
-import { GlobalContext } from '../../../Misc/Context';
+import { GlobalContext } from '../../../Misc/globalContext';
 import { Searcher } from '../../../Hooks/SearchTools';
 
 function Atk ({searcher}: {searcher:Searcher}){

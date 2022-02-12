@@ -1,4 +1,4 @@
-import { YGOCard } from '../../Misc/Types';
+import { YGOCard } from '../../Misc/globalTypes';
 import styles from '../Styles/Controls.module.scss';
 import { Dispatch, SetStateAction, useCallback } from 'react';
 

@@ -1,10 +1,10 @@
 import styles from '../Styles/CardHolder.module.css'
-import { YGOCard, DeckFunctions } from '../../Misc/Types';
+import { YGOCard, DeckFunctions } from '../../Misc/globalTypes';
 import Image from 'next/image'
 import React, { useContext } from 'react';
-import { containsKeyword, getCardCategory } from '../../Misc/Functions';
-import {getCardLimit,renderCardLimit} from '../../Misc/Functions';
-import { GlobalContext } from '../../Misc/Context';
+import { containsKeyword, getCardCategory } from '../../Misc/globalFunctions';
+import {getCardLimit,renderCardLimit} from '../../Misc/globalFunctions';
+import { GlobalContext } from '../../Misc/globalContext';
 
 const CardHolder = ({category,index,size,functions}:{
   category:string,
@@ -29,15 +29,15 @@ const CardHolder = ({category,index,size,functions}:{
 
   const drop = (e:React.DragEvent<HTMLDivElement>)=>{
     e.preventDefault();
-    const card:YGOCard = JSON.parse(e.dataTransfer.getData("card"));
+    const card:YGOCard = JSON.parse(e.dataTransfer.getData('card'));
 
     if(category==='extra'){
-      if(!containsKeyword(card.type,'monster'))return
-      if(getCardCategory(card)==='main')return
+      if(!containsKeyword(card.type, 'monster'))return
+      if(getCardCategory(card) === 'main')return
     }
 
     if(category==='main'){
-      if(getCardCategory(card)==='extra')return
+      if(getCardCategory(card) === 'extra')return
     }
 
     const deck = getDeck(category);

@@ -1,7 +1,13 @@
 import { Dispatch, SetStateAction, useContext } from 'react'
-import { GlobalContext } from '../Misc/Context';
-import { containsKeywords, areExactlySame, isWithinRange, containsKeyword, isEmpty, isNegative, isGreaterAndEqual, isLessAndEqual } from '../Misc/Functions';
-import { YGOCard, Query } from '../Misc/Types';
+import { YGOCard, Query } from '../Misc/globalTypes';
+import { GlobalContext } from '../Misc/globalContext';
+import { 
+  isEmpty, 
+  isNegative, 
+  areExactlySame, 
+  containsKeyword, 
+  isGreaterAndEqual,
+  isLesserAndEqual, } from '../Misc/globalFunctions';
 
 export interface SearchStoreType {
   query: Query,
@@ -31,17 +37,19 @@ const SearchTools = () =>{
     setQuery,
     mainCards,
     setPageNumber,
+    tablePageRange,
     setSearchedCards,
+    setMaxPageOfTable,
   } = useContext(GlobalContext);
 
   const search = (new_input:InputQuery)=>{
 
     const old_input = query
-    const input = {...old_input,...new_input};    // overwrite old with new
-    const {type:previousType} = old_input;        // get previous type
-    const {type:updatedType} = input;             // get updated type 
+    const input: Query = {...old_input,...new_input};    // overwrite old input with new input
+    const {type:previousType} = old_input;               // get previous type
+    const {type:updatedType} = input;                    // get updated type 
 
-    if(updatedType!==previousType){               // reset sub-types if main type changes
+    if(updatedType!==previousType){                      // reset sub-types if main type changes
       
       const defaultRange = { min:-1,max:-1 };
       const defaultString = '';
@@ -56,38 +64,30 @@ const SearchTools = () =>{
 
     }
 
-    let result:YGOCard[] = [...mainCards]; // begin searching and filtering
-
-    const {name,desc,type} = input;
+    let result:YGOCard[] = [...mainCards];
     
-    !isEmpty( name ) && (result = result.filter(( card )=>containsKeyword( card.name, input.name )));
-    !isEmpty( desc ) && (result = result.filter(( card )=>containsKeywords( card.desc, input.desc )));
-    !isEmpty( type ) && (result = result.filter(( card )=>containsKeyword( card.type, input.type )));
+    !isEmpty( input.name ) && (result = filterByName ( input.name, result ))
+    !isEmpty( input.desc ) && (result = filterByDesc ( input.desc, result ))
+    !isEmpty( input.type ) && (result = filterByType ( input.type, result ))
 
     if(input.type==='Monster'){
 
-      const {level,atk,def} = input;
+      !isNegative( input.level.min ) && (result = filterByMinLv ( input.level.min, result ));
+      !isNegative( input.level.max ) && (result = filterByMaxLv ( input.level.max, result ));
 
-      !isNegative( level.min ) && (result = result.filter(( card )=>isGreaterAndEqual( card.level, level.min )));
-      !isNegative( level.max ) && (result = result.filter(( card )=>isLessAndEqual( card.level, level.max )));
+      !isNegative( input.atk.min ) && (result = filterByMinAtk ( input.atk.min, result ));
+      !isNegative( input.atk.max ) && (result = filterByMaxAtk ( input.atk.max, result ));
 
-      !isNegative( atk.min ) && (result = result.filter(( card )=>isGreaterAndEqual( card.atk, atk.min ) ));
-      !isNegative( atk.max ) && (result = result.filter(( card )=>isLessAndEqual( card.atk, atk.max )));
+      !isNegative( input.def.min ) && (result = filterByMinDef ( input.def.min, result ));
+      !isNegative( input.def.max ) && (result = filterByMaxDef ( input.def.max, result ));
 
-      !isNegative( def.min ) && (result = result.filter(( card )=>isGreaterAndEqual( card.def, def.min ) ));
-      !isNegative( def.max ) && (result = result.filter(( card )=>isLessAndEqual( card.def, def.max )));
-
-      const {race:race,subtype:stype,attribute:attr} = input
-
-      !isEmpty( race ) && (result = result.filter(( card )=>areExactlySame( card.race, input.race )))
-      !isEmpty( stype ) && (result = result.filter(( card )=>containsKeyword( card.type, input.subtype )))
-      !isEmpty( attr ) && (result = result.filter(( card )=>areExactlySame( card.attribute, input.attribute )))
+      !isEmpty( input.race ) && (result = filterByRace ( input.race, result ))
+      !isEmpty( input.subtype ) && (result = filterByMonsterSubType ( input.subtype, result ))
+      !isEmpty( input.attribute ) && (result = filterByAttr ( input.attribute, result ))
 
     }else if(input.type==='Spell'||input.type==='Trap'){
 
-      const {subtype:stype} = input
-
-      !isEmpty( stype ) && (result = result.filter(( card )=>containsKeyword( card.race, input.subtype )));
+      !isEmpty( input.subtype ) && (result = filterByNonMonsterSubType ( input.subtype, result ))
 
     }
     
@@ -98,9 +98,32 @@ const SearchTools = () =>{
 
     setQuery( input );
     setSearchedCards( result );
+
+    setMaxPageOfTable(current => {
+      if(result.length === 0) return 1;
+      if(result.length < tablePageRange) return 1
+
+      if(result.length % tablePageRange === 0) 
+        return result.length/tablePageRange
+      return Math.floor(result.length/tablePageRange)+1;
+    })
   }
 
   return {search}
 }
 
 export default SearchTools;
+
+const filterByName = (name: string, result:YGOCard[]) => result.filter( c => containsKeyword( c.name, name ))
+const filterByDesc = (desc: string, result:YGOCard[]) => result.filter( c => containsKeyword( c.desc, desc ))
+const filterByType = (type: string, result:YGOCard[]) => result.filter( c => containsKeyword( c.type, type ))
+const filterByMinLv = (min: number, result:YGOCard[]) => result.filter( c => isGreaterAndEqual(c.level, min))
+const filterByMaxLv = (max: number, result:YGOCard[]) => result.filter( c => isLesserAndEqual(c.level, max))
+const filterByMinAtk = (min: number, result:YGOCard[]) => result.filter( c => isGreaterAndEqual(c.atk, min))
+const filterByMaxAtk = (max: number, result:YGOCard[]) => result.filter( c => isLesserAndEqual(c.atk, max))
+const filterByMinDef = (min: number, result:YGOCard[]) => result.filter( c => isGreaterAndEqual(c.def, min))
+const filterByMaxDef = (max: number, result:YGOCard[]) => result.filter( c => isLesserAndEqual(c.def, max))
+const filterByRace = (race: string, result:YGOCard[]) => result.filter( c => areExactlySame( c.race, race ))
+const filterByAttr = (attr: string, result:YGOCard[]) => result.filter( c => areExactlySame( c.attribute, attr ))
+const filterByMonsterSubType = (subType: string, result:YGOCard[]) => result.filter( c => containsKeyword( c.type, subType))
+const filterByNonMonsterSubType = (subType: string, result:YGOCard[]) => result.filter( c => containsKeyword( c.race, subType))

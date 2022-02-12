@@ -1,7 +1,7 @@
 import styles from '../Styles/Controller.module.scss';
 import { Dispatch, SetStateAction, useRef, useMemo, useCallback, useState } from 'react';
-import { DeckFunctions, YGOCard } from '../../Misc/Types';
-import { capitalizeFirstLetter,getCardCategory } from '../../Misc/Functions';
+import { DeckFunctions, YGOCard } from '../../Misc/globalTypes';
+import { capitalizeFirstLetter,getCardCategory } from '../../Misc/globalFunctions';
 import MiniDeck from './MiniDeck';
 
 interface Props{

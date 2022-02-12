@@ -1,7 +1,7 @@
 import styles from '../Styles/MiniDeck.module.scss'
 import { useCallback,memo } from 'react';
 import CardHolder from '../../DeckArea/Components/CardHolder';
-import { DeckFunctions } from '../../Misc/Types';
+import { DeckFunctions } from '../../Misc/globalTypes';
 import ScrollableDiv from '../../../../utility/CustomScrollDiv/ScrollableDiv';
 
 function MiniDeck({functions,deckType,deckLength}:{functions:DeckFunctions,deckType:string,deckLength:number}) {
