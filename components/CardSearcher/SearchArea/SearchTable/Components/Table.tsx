@@ -8,7 +8,7 @@ import ScrollableDiv from '../../../../../utility/CustomScrollDiv/ScrollableDiv'
 export default function Table () {
   
   const {searchedCards,pageNumber,setMaxPageOfTable,tablePageRange} = useContext(GlobalContext);
-  const [table,setTable] = useState<JSX.Element[]>([]);
+  const [JSXTable,setJSXTable] = useState<JSX.Element[]>([]);
   const pool = useMemo(()=>searchedCards,[searchedCards]);
 
   const render = useCallback((pool:YGOCard[],currentPageNumber:number)=>{
@@ -29,7 +29,7 @@ export default function Table () {
 
   useEffect(()=>{
     const table = render(pool,pageNumber);
-    setTable(table);
+    setJSXTable(table);
   },[  pageNumber, pool, render,]);
 
   useEffect(()=>{
@@ -37,9 +37,9 @@ export default function Table () {
   },[ tablePageRange, setMaxPageOfTable, searchedCards, calcMaxPage ])
 
   return (
-    <ScrollableDiv className={styles.container} dependencies={[searchedCards]}>
+    <ScrollableDiv className={styles.container} dependencies={JSXTable}>
       <div className={styles.wrapper}>
-        {table}
+        {JSXTable}
       </div>
     </ScrollableDiv>   
   )

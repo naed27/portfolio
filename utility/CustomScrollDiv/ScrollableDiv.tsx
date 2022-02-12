@@ -146,9 +146,11 @@ export default function ScrollableDiv ({
   const mouseEnterHandler = useCallback(() => !isHoveringOnContainer && setHoveringOnContainer(true), [isHoveringOnContainer]);
   const mouseLeaveHandler = useCallback(() => isHoveringOnContainer && setHoveringOnContainer(false), [isHoveringOnContainer]);
 
-  const handleScroll = useCallback(() => {
+  const handleScroll = useCallback((position:string|undefined = 'normal') => {
     if (!scrollableDivRef.current) return;
     const scrollableDiv = scrollableDivRef.current;
+    if(position === 'reset')scrollableDiv.scrollTo(0,0)
+
     const { scrollTop, scrollHeight, offsetHeight } = scrollableDiv;
     const { scrollLeft, scrollWidth, offsetWidth } = scrollableDiv;
     const newTop = (scrollTop / scrollHeight) * offsetHeight;
@@ -184,6 +186,7 @@ export default function ScrollableDiv ({
 
 
   useEffect(() => {
+    console.log('resetting scrollbar')
     if (!scrollableDivRef.current) return;
     const scrollableDiv = scrollableDivRef.current;
     const calculateScrolls = ()=>{
@@ -192,14 +195,14 @@ export default function ScrollableDiv ({
       setVerticalScrollBasePoint(undefined);
       setHorizontalScrollBasePoint(undefined);
     }
-
+    handleScroll('reset');
     calculateScrolls();
     
     window.addEventListener('resize', calculateScrolls);
-    scrollableDiv.addEventListener('scroll', handleScroll, true);
+    scrollableDiv.addEventListener('scroll', ()=>{handleScroll()}, true);
     return function cleanup(){
       window.removeEventListener('resize', calculateScrolls)
-      scrollableDiv.removeEventListener('scroll', handleScroll, true);
+      scrollableDiv.removeEventListener('scroll', ()=>{handleScroll()}, true);
     }
 
   },[
