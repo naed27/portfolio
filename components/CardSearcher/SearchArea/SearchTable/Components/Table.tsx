@@ -7,7 +7,7 @@ import ScrollableDiv from '../../../../../utility/CustomScrollDiv/ScrollableDiv'
 
 export default function Table () {
   
-  const {searchedCards,pageNumber} = useContext(GlobalContext);
+  const {searchedCards,pageNumber,setMaxPageOfTable,tablePageRange} = useContext(GlobalContext);
   const [table,setTable] = useState<JSX.Element[]>([]);
   const pool = useMemo(()=>searchedCards,[searchedCards]);
 
@@ -18,10 +18,23 @@ export default function Table () {
     return pool.slice(start,end).map((card)=>(<Card card={card} key={`table_item_${card.id}`} />));
   },[])
 
+  const calcMaxPage = useCallback((tablePageRange, searchedCards) => {
+    if(searchedCards.length === 0) return 1;
+    if(searchedCards.length < tablePageRange) return 1
+
+    if(searchedCards.length % tablePageRange === 0) 
+      return searchedCards.length/tablePageRange
+    return Math.floor(searchedCards.length/tablePageRange)+1;
+  },[])
+
   useEffect(()=>{
     const table = render(pool,pageNumber);
     setTable(table);
-  },[  pageNumber, pool, render ]);
+  },[  pageNumber, pool, render,]);
+
+  useEffect(()=>{
+    setMaxPageOfTable(calcMaxPage(tablePageRange,searchedCards))
+  },[ tablePageRange, setMaxPageOfTable, searchedCards, calcMaxPage ])
 
   return (
     <ScrollableDiv className={styles.container} dependencies={[searchedCards]}>

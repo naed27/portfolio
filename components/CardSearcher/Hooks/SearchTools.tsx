@@ -99,14 +99,7 @@ const SearchTools = () =>{
     setQuery( input );
     setSearchedCards( result );
 
-    setMaxPageOfTable(current => {
-      if(result.length === 0) return 1;
-      if(result.length < tablePageRange) return 1
-
-      if(result.length % tablePageRange === 0) 
-        return result.length/tablePageRange
-      return Math.floor(result.length/tablePageRange)+1;
-    })
+    
   }
 
   return {search}

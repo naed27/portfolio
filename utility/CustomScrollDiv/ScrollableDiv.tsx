@@ -196,10 +196,10 @@ export default function ScrollableDiv ({
     calculateScrolls();
     
     window.addEventListener('resize', calculateScrolls);
-    scrollableDiv.addEventListener("scroll", handleScroll, true);
+    scrollableDiv.addEventListener('scroll', handleScroll, true);
     return function cleanup(){
       window.removeEventListener('resize', calculateScrolls)
-      scrollableDiv.removeEventListener("scroll", handleScroll, true);
+      scrollableDiv.removeEventListener('scroll', handleScroll, true);
     }
 
   },[
@@ -211,13 +211,13 @@ export default function ScrollableDiv ({
   ]);
 
   useEffect(() => {
-    document.addEventListener("mousemove", handleDocumentMouseMove);
-    document.addEventListener("mouseup", handleDocumentMouseUp);
-    document.addEventListener("mouseleave", handleDocumentMouseUp);
+    document.addEventListener('mousemove', handleDocumentMouseMove);
+    document.addEventListener('mouseup', handleDocumentMouseUp);
+    document.addEventListener('mouseleave', handleDocumentMouseUp);
     return function cleanup() {
-      document.removeEventListener("mousemove", handleDocumentMouseMove);
-      document.removeEventListener("mouseup", handleDocumentMouseUp);
-      document.removeEventListener("mouseleave", handleDocumentMouseUp);
+      document.removeEventListener('mousemove', handleDocumentMouseMove);
+      document.removeEventListener('mouseup', handleDocumentMouseUp);
+      document.removeEventListener('mouseleave', handleDocumentMouseUp);
     };
   },[
     handleDocumentMouseMove, 

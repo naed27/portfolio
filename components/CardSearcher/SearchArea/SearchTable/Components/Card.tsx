@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { YGOCard } from '../../../Misc/globalTypes';
 import styles from '../Styles/Card.module.css';
 import { GlobalContext } from '../../../Misc/globalContext';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, memo} from 'react';
 import { renderCardLimit } from '../../../Misc/globalFunctions';
 
 const Card = ({card}:{card:YGOCard}) => {
@@ -40,7 +40,7 @@ const Card = ({card}:{card:YGOCard}) => {
 
 }
 
-export default Card
+export default memo(Card)
 
 
 
