@@ -1,4 +1,4 @@
-import styles from '../Styles/Field.module.css'
+import styles from '../Styles/Field.module.scss'
 import { Searcher } from '../../../Hooks/SearchTools';
 import { useContext, useCallback, useState } from 'react';
 import Menu from './Menu';

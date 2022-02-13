@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import useOnClickOutside from '../../../../../hooks/useOnClickOutside';
 import { capitalizeFirstLetter, isString } from '../../../Misc/globalFunctions';
-import styles from '../Styles/Field.module.css'
+import styles from '../Styles/Field.module.scss'
 
 interface MenuProps {
   title:string,

@@ -1,4 +1,4 @@
-import styles from '../Styles/Field.module.css'
+import styles from '../Styles/Field.module.scss'
 import { ChangeEvent, useCallback, useContext, useState } from 'react'
 import { Searcher } from '../../../Hooks/SearchTools';
 import { GlobalContext } from '../../../Misc/globalContext';
