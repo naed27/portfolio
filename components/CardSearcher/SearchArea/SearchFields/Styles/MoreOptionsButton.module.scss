@@ -19,4 +19,9 @@
   border-bottom:1.5px solid gray ;
   border-left: 1.5px solid gray ;
   border-right: 1.5px solid gray ;
+
+  &:hover{
+    cursor: pointer;
+    background-color: rgb(32, 32, 32);
+  }
 }
