@@ -94,8 +94,11 @@ export const flatten = (numbers:number[],loopCount:number):number[]=>{
   return result
 }
 
-
 export const pushIfUnique = (array: any[], element: any) => 
   !array.includes(element) && array.push(element)
+
+export const delay = async (milliseconds:number) =>{ 
+  return new Promise(res=>setTimeout(res, milliseconds));
+}
 
 

@@ -1,9 +1,9 @@
 import styles from './SearchArea.module.css'
 import PageButtons from './PageButtons/Components/PageButtons';
 import Table from './SearchTable/Components/Table';
-import SearchFields from './SearchFields/SearchFields';
 import { motion } from 'framer-motion';
 import animation from './Animation';
+import MainFilter from './SearchFields/MainFilter';
 
 const SearchArea = () => {
   return (
@@ -12,7 +12,7 @@ const SearchArea = () => {
       initial = 'initial'
       animate = 'final'
       exit = 'exit' >
-      <SearchFields/>
+      <MainFilter/>
       <Table/>
       <PageButtons/>
     </motion.div>

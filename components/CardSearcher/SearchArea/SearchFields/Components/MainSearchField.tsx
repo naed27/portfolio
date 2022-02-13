@@ -1,5 +1,5 @@
 import styles from '../Styles/MainSearchField.module.scss'
-import { ChangeEvent, useCallback, useContext, useState } from 'react'
+import { ChangeEvent, useCallback, useContext, useEffect, useState } from 'react'
 import { Searcher } from '../../../Hooks/SearchTools';
 import { GlobalContext } from '../../../Misc/globalContext';
 
@@ -23,6 +23,10 @@ export default function MainSearchField ({searcher}: Props) {
       search({name:input});
     }, 200));
   }
+
+  useEffect(()=>{
+    setPlaceHolder(query.name);
+  },[query.name])
 
   return (
     <div className={styles.container} >

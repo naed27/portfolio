@@ -7,11 +7,12 @@ import SearchArea from '../SearchArea/SearchArea';
 import CardSearcherLogic from './CardSearcherLogic';
 import ViewCardArea from '../ViewerArea/ViewCardArea';
 import { AnimatePresence, motion } from 'framer-motion';
+import AdvancedFilter from '../SearchArea/SearchFields/AdvancedFilter';
 
 const CardSearcher = () => {
 
   const { isLoading, globalValues }  = CardSearcherLogic();
-  const { showDeck, showSearcher, selectedCard } = globalValues;
+  const { showDeck, showSearcher, selectedCard, showMoreFilters } = globalValues;
 
   if(isLoading) return <div className={styles.loaderContainer}>Loading...</div>
 
@@ -29,6 +30,7 @@ const CardSearcher = () => {
           {showSearcher&&<SearchArea key={`search_area`}/>}
         </AnimatePresence>
         {selectedCard&&<ViewCardArea card={selectedCard} key={`view_area`}/> }
+        {showMoreFilters && <AdvancedFilter/>}
       </GlobalContext.Provider>
     </motion.div>
   )
