@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Query, YGOCard } from "../Misc/globalTypes";
+import { GlobalContextType, Query, YGOCard } from "../Misc/globalTypes";
 import { useState, useEffect, useMemo } from "react";
 import { initialQuery, initializeHolders } from "../Misc/initializers";
 import { fetchUniqueProps } from "../SearchArea/SearchFields/Functions/Functions";
@@ -19,6 +19,7 @@ export default function CardSearcherLogic() {
 
   const [selectedCard,setSelectedCard] = useState<YGOCard|null>(null);
   const [searchIndex,setSearchIndex] = useState<number|null>(null);
+  const [showMoreFilters,setShowMoreFilters] = useState<boolean>(false);
 
   const [mainDeck,setMainDeck] = useState<(YGOCard|null)[]>(initializeHolders(60));
   const [sideDeck,setSideDeck] = useState<(YGOCard|null)[]>(initializeHolders(15));
@@ -29,7 +30,7 @@ export default function CardSearcherLogic() {
 
   const cardTypes = useMemo(() => fetchUniqueProps(mainCards),[mainCards]);
 
-  const globalValues = {
+  const globalValues:GlobalContextType = {
     query,
     showDeck,
     mainDeck,
@@ -44,6 +45,7 @@ export default function CardSearcherLogic() {
     searchedCards,
     maxPageOfTable,
     tablePageRange,
+    showMoreFilters,
     numberOfCardsShownOnPage,
 
     setQuery,
@@ -59,6 +61,7 @@ export default function CardSearcherLogic() {
     setSearchedCards,
     setMaxPageOfTable,
     setTablePageRange,
+    setShowMoreFilters,
     setNumberOfCardsShownOnPage,
   }
 

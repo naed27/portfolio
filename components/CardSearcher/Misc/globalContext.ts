@@ -15,8 +15,9 @@ export const GlobalContext = createContext<GlobalContextType>({
   selectedCard:null,
   showSearcher: true,
   query: initialQuery,
-  numberOfCardsShownOnPage:0,
   tablePageRange:20,
+  showMoreFilters:false,
+  numberOfCardsShownOnPage:0,
 
   setQuery:()=>null,
   toggleDeck:()=>null,
@@ -30,8 +31,9 @@ export const GlobalContext = createContext<GlobalContextType>({
   setSelectedCard:()=>null,
   setSearchedCards:()=>null,
   setMaxPageOfTable:()=>null,
-  setNumberOfCardsShownOnPage:()=>null,
   setTablePageRange:()=>null,
+  setShowMoreFilters:()=>null,
+  setNumberOfCardsShownOnPage:()=>null,
 
   cardTypes:{
     primaryTypes:[],
