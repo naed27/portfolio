@@ -1,12 +1,14 @@
 import { MutableRefObject, useEffect } from "react";
+import { delay } from "../utility/functions";
 
 export default function useOnClickOutside(ref:MutableRefObject<HTMLDivElement | null>, handler:{(event:MouseEvent|TouchEvent):void}) {
 
   useEffect(
     () => {
-      const listener = (event:MouseEvent|TouchEvent) => {
+      const listener = async (event:MouseEvent|TouchEvent) => {
         // Do nothing if clicking ref's element or descendent elements
         if (!ref.current || ref.current.contains(event.target as Node)) return;
+        await delay(100);
         handler(event);
       };
       document.addEventListener("mousedown", listener);
