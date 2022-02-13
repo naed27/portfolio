@@ -186,7 +186,6 @@ export default function ScrollableDiv ({
 
 
   useEffect(() => {
-    console.log('resetting scrollbar')
     if (!scrollableDivRef.current) return;
     const scrollableDiv = scrollableDivRef.current;
     const calculateScrolls = ()=>{
@@ -195,23 +194,26 @@ export default function ScrollableDiv ({
       setVerticalScrollBasePoint(undefined);
       setHorizontalScrollBasePoint(undefined);
     }
-    handleScroll('reset');
     calculateScrolls();
-    
     window.addEventListener('resize', calculateScrolls);
     scrollableDiv.addEventListener('scroll', ()=>{handleScroll()}, true);
     return function cleanup(){
       window.removeEventListener('resize', calculateScrolls)
       scrollableDiv.removeEventListener('scroll', ()=>{handleScroll()}, true);
     }
-
   },[
     children,
-    dependencies,
     handleScroll,
     calcVerticalThumbSize,
     calcHorizontalThumbSize,
   ]);
+
+  useEffect(()=>{
+    handleScroll('reset');
+  },[
+    dependencies,
+    handleScroll
+  ])
 
   useEffect(() => {
     document.addEventListener('mousemove', handleDocumentMouseMove);
