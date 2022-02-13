@@ -20,17 +20,13 @@ export default function AdvancedFilter (){
 
   return (
     <Modal className={styles.container} onClickOutside={onClickOutside}>
-      <div className={styles.section}>
         <Name searcher={searcher}/>
         <Desc searcher={searcher}/>
         <Type searcher={searcher}/>
         <SubType searcher={searcher}/>
-      </div>
-      <div className={styles.section}>
         <Level searcher={searcher}/>
         <Atk searcher={searcher}/>
         <Def searcher={searcher}/>
-      </div>
     </Modal>
   )
 }

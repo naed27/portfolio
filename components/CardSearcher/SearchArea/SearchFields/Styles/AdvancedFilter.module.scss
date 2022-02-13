@@ -1,5 +1,5 @@
 .container{
-  max-width:600px;
+  max-width:700px;
   width:100%;
   height:auto;
   display: flex;
@@ -7,15 +7,8 @@
   flex-wrap: wrap;
   justify-content: center;
   position:relative;
-  padding-top:5px;
+  padding:20px;
   user-select: none;
-  background: rgb(22, 22, 22);
-}
-
-.section {
-  width:100%;
-  height:auto;
-  display: flex;
-  flex-direction: column;
-  position:relative;
+  background: black;
+  border:0.2px solid gray;
 }
