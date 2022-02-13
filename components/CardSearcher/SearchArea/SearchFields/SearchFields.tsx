@@ -8,6 +8,8 @@ import Name from './Components/Name';
 import Desc from './Components/Desc';
 import SearchTools from '../../Hooks/SearchTools';
 import { useCallback } from 'react';
+import MainSearchField from './Components/MainSearchField';
+import MoreOptionsButton from './Components/MoreOptionsButton';
 
 function SearchFields (){
   
@@ -16,19 +18,26 @@ function SearchFields (){
 
   return (
     <div className={styles.container}>
-      <div className={styles.section}>
-        <Name searcher={searcher}/>
-        <Desc searcher={searcher}/>
-        <Type searcher={searcher}/>
-        <SubType searcher={searcher}/>
-      </div>
-      <div className={styles.section}>
-        <Level searcher={searcher}/>
-        <Atk searcher={searcher}/>
-        <Def searcher={searcher}/>
-      </div>
-    </div>  
+      <MainSearchField searcher={searcher}/>
+      <MoreOptionsButton/>
+    </div>
   )
+
+  // return (
+  //   <div className={styles.container}>
+  //     <div className={styles.section}>
+  //       <Name searcher={searcher}/>
+  //       <Desc searcher={searcher}/>
+  //       <Type searcher={searcher}/>
+  //       <SubType searcher={searcher}/>
+  //     </div>
+  //     <div className={styles.section}>
+  //       <Level searcher={searcher}/>
+  //       <Atk searcher={searcher}/>
+  //       <Def searcher={searcher}/>
+  //     </div>
+  //   </div>  
+  // )
 }
 
 export default SearchFields

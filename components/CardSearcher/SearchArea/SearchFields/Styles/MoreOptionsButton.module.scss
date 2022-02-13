@@ -1,0 +1,23 @@
+.container{
+  width:100%;
+  display: flex;
+  flex-direction: row;
+  margin-bottom:5px;
+  height:32px;
+  padding:0px 5px 0px 5px;
+}
+
+.wrapper{
+  flex:6;
+  height:100%;
+  background-color: black;
+  color:white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-top:0px;
+  border-bottom:1px solid gray;
+  border-left: 1px solid gray;
+  border-right: 1px solid gray;
+}
