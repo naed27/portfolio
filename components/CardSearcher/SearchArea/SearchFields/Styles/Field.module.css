@@ -3,21 +3,19 @@
   display: flex;
   flex-direction: row;
   font-size: 14px;
-  margin-top:1%;
-  margin-bottom:1%;
+  margin-top:5px;
+  margin-bottom:5px;
   height:24px;
   padding:0px 5px 0px 5px;
 }
 
 .label{
-  
-  flex:1;
+  width:50px;
   height:100%;
   color:rgb(255, 255, 255);
   display: flex;
   align-items: center;
   padding-left: 5px;
-  
 }
 
 .wrapper{
@@ -69,7 +67,7 @@
   left:0;
   margin-bottom: -100px;
   margin-left: -1px;
-  width:101%;
+  width:calc(100% + 2px);
   height:auto;
   border: 0.5px solid gray;
   border-top: 0px;
