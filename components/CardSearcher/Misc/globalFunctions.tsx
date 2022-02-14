@@ -106,7 +106,7 @@ export const containsKeyword = (main_word:string|undefined,key_word:string) =>{
 export const containsKeywords = (main_word:string|undefined,key_words:string) =>{
   if(main_word===undefined)return false;
   const mainword = main_word.toLowerCase();
-  const keywords = key_words.toLowerCase().split(' ');
+  const keywords = key_words.toLowerCase().split(/[\s,]+/);
   const tracker = keywords.map((keyword)=>({
     keyword:keyword,
     i:0,
