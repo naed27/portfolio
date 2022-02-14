@@ -58,6 +58,8 @@ export interface Query {
   atk:{min:number,max:number}
   def:{min:number,max:number}
   level:{min:number,max:number},
+  limit: number
+  cardGame: string
 }
 
 export interface DeckFunctions{

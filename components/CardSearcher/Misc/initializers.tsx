@@ -11,6 +11,8 @@ export const initialQuery: Query = {
   atk:{ min:-1, max:-1 },
   def:{ min:-1, max:-1 },
   level:{ min:-1, max:-1 },
+  limit: -1,
+  cardGame:'',
 }
 
 export const initializeHolders = ( size: number )=>{

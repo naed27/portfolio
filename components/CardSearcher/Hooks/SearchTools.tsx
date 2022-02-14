@@ -30,6 +30,8 @@ export interface InputQuery{
   atk?:{min:number,max:number},
   def?:{min:number,max:number},
   level?:{min:number,max:number},
+  limit?:number,
+  cardGame?:string,
 }
 
 const SearchTools = () =>{
@@ -39,9 +41,7 @@ const SearchTools = () =>{
     setQuery,
     mainCards,
     setPageNumber,
-    tablePageRange,
     setSearchedCards,
-    setMaxPageOfTable,
   } = useContext(GlobalContext);
 
   const search = (new_input:InputQuery)=>{
