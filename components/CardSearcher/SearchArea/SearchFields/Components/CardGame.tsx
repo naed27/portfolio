@@ -14,7 +14,7 @@ export default function CardGame ({searcher}: {searcher:Searcher}){
 
   return (
     <div className={styles.container} >
-      <div className={styles.label}>Card Game</div>
+      <div className={styles.label}>TCG/OCG</div>
       <div className={styles.wrapper}>
       <Menu 
         title={'card_game'}

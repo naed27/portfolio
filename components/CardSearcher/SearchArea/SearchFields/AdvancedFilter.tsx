@@ -13,6 +13,7 @@ import { GlobalContext } from '../../Misc/globalContext';
 import Keywords from './Components/Keywords';
 import Limit from './Components/Limit';
 import CardGame from './Components/CardGame';
+import AdvancedButtons from './Components/AdvancedButtons';
 
 export default function AdvancedFilter (){
   
@@ -33,6 +34,9 @@ export default function AdvancedFilter (){
         <Def searcher={searcher}/>
         <Limit searcher={searcher}/>
         <CardGame searcher={searcher}/>
+
+        <AdvancedButtons/>
+
     </Modal>
   )
 }
