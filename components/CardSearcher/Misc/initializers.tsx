@@ -3,6 +3,7 @@ import { Query } from './globalTypes';
 export const initialQuery: Query = {
   name:'',
   desc:'',
+  keywords:'',
   type:'',
   subtype:'',
   race:'',

@@ -10,6 +10,7 @@ import SearchTools from '../../Hooks/SearchTools';
 import { useCallback, useContext } from 'react';
 import Modal from '../../../../utility/Modal/Modal';
 import { GlobalContext } from '../../Misc/globalContext';
+import Keywords from './Components/Keywords';
 
 export default function AdvancedFilter (){
   
@@ -22,6 +23,7 @@ export default function AdvancedFilter (){
     <Modal className={styles.container} onClickOutside={onClickOutside}>
         <Name searcher={searcher}/>
         <Desc searcher={searcher}/>
+        <Keywords searcher={searcher}/>
         <Type searcher={searcher}/>
         <SubType searcher={searcher}/>
         <Level searcher={searcher}/>

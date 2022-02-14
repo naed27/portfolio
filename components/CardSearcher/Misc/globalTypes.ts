@@ -50,6 +50,7 @@ export interface banlist_info{
 export interface Query {
   name:string,
   desc:string,
+  keywords:string,
   type:string,
   subtype:string,
   race:string,

@@ -7,7 +7,8 @@ import {
   areExactlySame, 
   containsKeyword, 
   isGreaterAndEqual,
-  isLesserAndEqual, } from '../Misc/globalFunctions';
+  isLesserAndEqual,
+  containsKeywords, } from '../Misc/globalFunctions';
 
 export interface SearchStoreType {
   query: Query,
@@ -21,6 +22,7 @@ export type Searcher = (input: InputQuery) => void;
 export interface InputQuery{
   name?:string,
   desc?:string,
+  keywords?:string,
   type?:string,
   subtype?:string,
   race?:string,
@@ -68,6 +70,7 @@ const SearchTools = () =>{
     
     !isEmpty( input.name ) && (result = filterByName ( input.name, result ))
     !isEmpty( input.desc ) && (result = filterByDesc ( input.desc, result ))
+    !isEmpty( input.keywords ) && (result = filterByKeywords ( input.keywords, result ))
     !isEmpty( input.type ) && (result = filterByType ( input.type, result ))
 
     if(input.type==='Monster'){
@@ -109,6 +112,7 @@ export default SearchTools;
 
 const filterByName = (name: string, result:YGOCard[]) => result.filter( c => containsKeyword( c.name, name ))
 const filterByDesc = (desc: string, result:YGOCard[]) => result.filter( c => containsKeyword( c.desc, desc ))
+const filterByKeywords = (keywords: string, result:YGOCard[]) => result.filter( c => containsKeywords( c.name, keywords ) || containsKeywords( c.desc, keywords ) )
 const filterByType = (type: string, result:YGOCard[]) => result.filter( c => containsKeyword( c.type, type ))
 const filterByMinLv = (min: number, result:YGOCard[]) => result.filter( c => isGreaterAndEqual(c.level, min))
 const filterByMaxLv = (max: number, result:YGOCard[]) => result.filter( c => isLesserAndEqual(c.level, max))
