@@ -20,10 +20,13 @@ function Menu ({title,placeholder,items,itemHandler,showOnlyWhen=true}:MenuProps
   const buttonClickHandler = () => setShowMenu(current=>!current);
   useOnClickOutside(buttonRef, () => setShowMenu(false));
 
+  const menuItems  = useMemo(()=>items,[items]);
+  const menuTitle = useMemo(()=>title,[title]);
+
   const defaultValue = useCallback(()=>{
-    const defaultVal = isString(items[0])?'':-1;
+    const defaultVal = isString(menuItems[0])?'':-1;
     theItemHandler(defaultVal);
-  },[theItemHandler,items])
+  },[theItemHandler,menuItems])
 
   const displayPlaceHolder = useCallback(()=>{
     if(
@@ -36,13 +39,13 @@ function Menu ({title,placeholder,items,itemHandler,showOnlyWhen=true}:MenuProps
   },[placeholder])
 
   const itemDivs:JSX.Element[] = useMemo(()=>{
-    const choices =  items.map((item,i)=>(
-      <div className={styles.item} key={`item_${title}_${i}`} onClick={()=>theItemHandler(item)}>
+    const choices =  menuItems.map((item,i)=>(
+      <div className={styles.item} key={`item_${menuTitle}_${i}`} onClick={()=>theItemHandler(item)}>
         { capitalizeProperly(item) }
       </div>
     ))
     return choices
-  },[ title, items, theItemHandler ]);
+  },[ menuTitle, menuItems, theItemHandler ]);
 
   if(!showOnlyWhen)return null;
 
@@ -51,7 +54,7 @@ function Menu ({title,placeholder,items,itemHandler,showOnlyWhen=true}:MenuProps
       <div className={styles.downLogo}></div>
       {displayPlaceHolder()}
       {(showMenu&&items.length>0)?<div className={styles.menu}>
-        <div key={`item_${title}_default`} className={styles.item} onClick={defaultValue}>{`None`}</div>
+        <div key={`item_${menuTitle}_default`} className={styles.item} onClick={defaultValue}>{`None`}</div>
       {itemDivs}
       </div>:null}
     </div>
