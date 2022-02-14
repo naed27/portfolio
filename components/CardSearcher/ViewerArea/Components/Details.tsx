@@ -39,7 +39,7 @@ export default function Details({card}:{card:YGOCard}){
 
   return (
     <div className={styles.container}>
-      <ScrollableDiv className={styles.desc}>
+      <ScrollableDiv className={styles.desc} dependencies={[card]}>
         {showTypeRaceAttr(card)}
         {showLevel(card)}
         {showAtkDef(card)}
