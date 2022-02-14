@@ -1,5 +1,5 @@
 import styles from '../Styles/Field.module.scss'
-import { ChangeEvent, useCallback, useContext, useState } from 'react'
+import { ChangeEvent, useCallback, useContext, useState, useEffect } from 'react'
 import { Searcher } from '../../../Hooks/SearchTools';
 import { GlobalContext } from '../../../Misc/globalContext';
 
@@ -19,6 +19,10 @@ function Name ({searcher}: {searcher:Searcher}) {
       search({name:input});
     }, 200));
   }
+
+  useEffect(()=>{
+    setPlaceHolder(query.name);
+  },[query.name])
 
   return (
     <div className={styles.container} >

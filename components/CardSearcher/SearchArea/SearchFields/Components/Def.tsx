@@ -13,7 +13,7 @@ export default function Def (searcher: {searcher:Searcher}){
 
   return (
     <div className={styles.container}>
-      <div className={styles.label}>Def</div>
+      <div className={styles.label}>Defense</div>
       <div className={styles.wrapper}>
 
         <input 
@@ -68,10 +68,19 @@ function Logic ({searcher}: {searcher:Searcher}){
     setMaxPlaceHolder('');
   },[query.type])
 
+  useEffect(()=>{
+    if(query.def.min === -1 || query.def.max === -1){
+      if(query.def.min === -1 ) setMinPlaceHolder('');
+      if(query.def.max === -1) setMaxPlaceHolder('');
+      return
+    }
+    setMinPlaceHolder(`${query.def.min}`);
+    setMaxPlaceHolder(`${query.def.max}`);
+  },[query.def.min,query.def.max])
+
   return {
     minDefHandler, 
     maxDefHandler, 
     minPlaceHolder, 
     maxPlaceHolder,}
-
 }

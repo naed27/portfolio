@@ -31,9 +31,20 @@ function Atk ({searcher}: {searcher:Searcher}){
     setMaxPlaceHolder('');
   },[query.type])
 
+  
+  useEffect(()=>{
+    if(query.atk.min === -1 || query.atk.max === -1){
+      if(query.atk.min === -1 ) setMinPlaceHolder('');
+      if(query.atk.max === -1) setMaxPlaceHolder('');
+      return
+    }
+    setMinPlaceHolder(`${query.atk.min}`);
+    setMaxPlaceHolder(`${query.atk.max}`);
+  },[query.atk.min,query.atk.max])
+
   return (
     <div className={styles.container} >
-      <div className={styles.label}>Atk</div>
+      <div className={styles.label}>Attack</div>
       <div className={styles.wrapper}>
 
         <input 
