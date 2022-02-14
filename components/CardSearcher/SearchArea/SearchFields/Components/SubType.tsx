@@ -23,6 +23,7 @@ function SubType ({searcher}: {searcher:Searcher}){
 
   return (
     <div className={styles.container}>
+      {query.type!=='Monster' &&(<div className={styles.cover}></div>)}
       <div className={styles.label}></div>
       <div className={styles.wrapper}>
 

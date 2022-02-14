@@ -44,6 +44,8 @@ function Atk ({searcher}: {searcher:Searcher}){
 
   return (
     <div className={styles.container} >
+      {query.type!=='Monster' &&(<div className={styles.cover}></div>)}
+
       <div className={styles.label}>Attack</div>
       <div className={styles.wrapper}>
 

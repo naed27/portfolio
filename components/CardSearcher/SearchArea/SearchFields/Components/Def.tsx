@@ -9,10 +9,12 @@ export default function Def (searcher: {searcher:Searcher}){
     minDefHandler, 
     maxDefHandler, 
     minPlaceHolder, 
-    maxPlaceHolder,} = Logic(searcher);
+    maxPlaceHolder,
+    query} = Logic(searcher);
 
   return (
     <div className={styles.container}>
+      {query.type!=='Monster' &&(<div className={styles.cover}></div>)}
       <div className={styles.label}>Defense</div>
       <div className={styles.wrapper}>
 
@@ -82,5 +84,6 @@ function Logic ({searcher}: {searcher:Searcher}){
     minDefHandler, 
     maxDefHandler, 
     minPlaceHolder, 
-    maxPlaceHolder,}
+    maxPlaceHolder,
+    query}
 }
