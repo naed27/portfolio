@@ -42,6 +42,9 @@ export const capitalizeFirstLetter = (str:string) => str.charAt(0).toUpperCase()
 
 export const capitalizeProperly = (str:string|number) =>{
   const string  = str.toString().toLowerCase();
+  const initials = string.split('.').slice(0,-1)
+  const allAreInitials = initials.every(initial=>initial.length === 1);
+  if(allAreInitials) return initials.join('.').toUpperCase();
   return string.split(' ').map(word => capitalizeFirstLetter(word)).join(' ');
 }
 
