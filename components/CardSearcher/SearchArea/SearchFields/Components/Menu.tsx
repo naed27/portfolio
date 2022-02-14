@@ -51,7 +51,9 @@ function Menu ({title,placeholder,items,itemHandler,showOnlyWhen=true}:MenuProps
 
   return (
     <div className={styles.button} onClick={buttonClickHandler} ref={buttonRef}>
-      <div className={styles.downLogo}>v</div>
+      <div className={styles.downLogo}>
+        {showMenu?'∧':'v'}
+      </div>
       {displayPlaceHolder()}
       {(showMenu&&items.length>0)?<div className={styles.menu}>
         <div key={`item_${menuTitle}_default`} className={styles.item} onClick={defaultValue}>{`None`}</div>

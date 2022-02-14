@@ -1,19 +1,34 @@
 import styles from '../Styles/Field.module.scss'
-import { ChangeEvent, useCallback, useContext, useState } from 'react'
+import { useCallback, useContext, } from 'react'
 import { Searcher } from '../../../Hooks/SearchTools';
 import { GlobalContext } from '../../../Misc/globalContext';
+import {initialQuery} from '../../../Misc/initializers';
 
-export default function AdvancedButtons () {
+export default function AdvancedButtons ({searcher}: {searcher:Searcher}) {
   
-  
+  const search = useCallback(searcher,[searcher]);
   const { setShowMoreFilters } = useContext(GlobalContext);
-
-
+  const onClickSearch = useCallback(()=>setShowMoreFilters(false),[setShowMoreFilters])
+  const onClickReset = useCallback(()=>search(initialQuery),[search])
 
   return (
-    <div className={styles.container} style={{marginTop:`20px`}} >
-      <div className={styles.advancedButton}>Reset</div>
-      <div className={styles.advancedButton}>Search</div>
+    <div 
+      className={styles.container} 
+      style={{marginTop:`40px`, marginBottom:`10px`}}>
+
+      <div 
+        className={styles.advancedButton} 
+        style={{width:'100px', marginRight:`5px`}} 
+        onClick={onClickReset}>
+          Reset
+      </div>
+
+      <div 
+        className={styles.advancedButton}
+        onClick={onClickSearch}>
+        Search | Close
+      </div>
+
     </div>  
   )
 }

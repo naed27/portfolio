@@ -69,9 +69,7 @@
   border: 1.5px solid gray;
   display: flex;
   align-items: center;
-  padding-left: 5px;
   position: relative;
-  margin:2px;
   display:flex;
   justify-content: center;
   align-items:center;
@@ -81,7 +79,7 @@
   position: absolute;
   bottom:0;
   left:0;
-  margin-bottom: -100px;
+  margin-bottom: -101px;
   margin-left: -1px;
   width:calc(100% + 1.5px);
   height:auto;

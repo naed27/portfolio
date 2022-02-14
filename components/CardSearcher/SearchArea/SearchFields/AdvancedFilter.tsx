@@ -35,7 +35,7 @@ export default function AdvancedFilter (){
         <Limit searcher={searcher}/>
         <CardGame searcher={searcher}/>
 
-        <AdvancedButtons/>
+        <AdvancedButtons searcher={searcher}/>
 
     </Modal>
   )
