@@ -10,7 +10,7 @@ export default function CardGame ({searcher}: {searcher:Searcher}){
   const search = useCallback(searcher,[searcher]);
 
   const queryCardGame = useCallback((input:string)=> search({cardGame:input}),[search]);
-  const cardGameChoices = useMemo(()=>['Official Card Game', 'Trading Card Game'],[]);
+  const cardGameChoices = useMemo(()=>['O.C.G.', 'T.C.G.'],[]);
 
   return (
     <div className={styles.container} >
