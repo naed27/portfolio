@@ -11,6 +11,8 @@ import { useCallback, useContext } from 'react';
 import Modal from '../../../../utility/Modal/Modal';
 import { GlobalContext } from '../../Misc/globalContext';
 import Keywords from './Components/Keywords';
+import Limit from './Components/Limit';
+import CardGame from './Components/CardGame';
 
 export default function AdvancedFilter (){
   
@@ -29,6 +31,8 @@ export default function AdvancedFilter (){
         <Level searcher={searcher}/>
         <Atk searcher={searcher}/>
         <Def searcher={searcher}/>
+        <Limit searcher={searcher}/>
+        <CardGame searcher={searcher}/>
     </Modal>
   )
 }

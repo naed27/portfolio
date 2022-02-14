@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import useOnClickOutside from '../../../../../hooks/useOnClickOutside';
-import { capitalizeFirstLetter, isString } from '../../../Misc/globalFunctions';
+import { capitalizeFirstLetter, capitalizeProperly, isString } from '../../../Misc/globalFunctions';
 import styles from '../Styles/Field.module.scss'
 
 interface MenuProps {
@@ -26,14 +26,19 @@ function Menu ({title,placeholder,items,itemHandler,showOnlyWhen=true}:MenuProps
   },[theItemHandler,items])
 
   const displayPlaceHolder = useCallback(()=>{
-    if(placeholder===-1)return ''
-    return capitalizeFirstLetter(placeholder.toString().toLowerCase())
+    if(
+      placeholder===-1||
+      placeholder===null||
+      placeholder===undefined||
+      placeholder===''
+      )return ''
+    return capitalizeProperly(placeholder);
   },[placeholder])
 
   const itemDivs:JSX.Element[] = useMemo(()=>{
     const choices =  items.map((item,i)=>(
       <div className={styles.item} key={`item_${title}_${i}`} onClick={()=>theItemHandler(item)}>
-        { capitalizeFirstLetter(item.toString().toLowerCase()) }
+        { capitalizeProperly(item) }
       </div>
     ))
     return choices

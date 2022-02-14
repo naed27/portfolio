@@ -38,8 +38,11 @@ export const isWithinRange = (input:number|undefined,range:{min:number,max:numbe
   return false;
 }
 
-export const capitalizeFirstLetter = (str:string)=>{
-  return str.charAt(0).toUpperCase() + str.slice(1);
+export const capitalizeFirstLetter = (str:string) => str.charAt(0).toUpperCase() + str.slice(1)
+
+export const capitalizeProperly = (str:string|number) =>{
+  const string  = str.toString().toLowerCase();
+  return string.split(' ').map(word => capitalizeFirstLetter(word)).join(' ');
 }
 
 export const renewTimer = (callback:()=>void,timerId:NodeJS.Timeout, newTime:number)=>{
