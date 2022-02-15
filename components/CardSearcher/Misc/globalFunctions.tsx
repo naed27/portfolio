@@ -71,15 +71,6 @@ export const parseLimit = ( cardGame:YGOCardGame, banlistInfo?:banlist_info,) =>
   return 3
 }
 
-export const getCardLimit = (card:YGOCard)=>{
-  if(card.banlist_info === null || card.banlist_info === undefined)return 3;
-  switch(card.banlist_info.ban_tcg){
-    case 'Banned':return 0
-    case 'Limited':return 1
-    default:return 3;
-  }
-}
-
 export const getCardCategory = (card:YGOCard)=>{
   if(
     containsKeyword(card.type,'xyz')||
