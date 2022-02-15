@@ -9,7 +9,7 @@ export default function CardGame ({searcher}: {searcher:Searcher}){
   const {query} = useContext(GlobalContext);
   const search = useCallback(searcher,[searcher]);
 
-  const queryCardGame = useCallback((input:string)=> search({cardGame:input}),[search]);
+  const queryCardGame = useCallback((input:'TCG' | 'OCG')=> search({cardGame:input}),[search]);
   const cardGameChoices = useMemo(()=>['O.C.G.', 'T.C.G.'],[]);
 
   return (
