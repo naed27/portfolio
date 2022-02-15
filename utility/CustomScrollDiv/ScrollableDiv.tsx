@@ -12,7 +12,7 @@ const DEFAULT_SCROLL_VALUES = {
     thumbOpacity:0.5,
     trackPadding:0,
     trackColor:'transparent',
-    trackBorder:`0px`,
+    trackBorder:`0px solid transparent`,
     scrollBorderRadius:`0px`,
     onHoverOnly:false,
   },
@@ -36,6 +36,8 @@ interface Props{
   scrollY?:ScrollProps,
   scrollX?:ScrollProps,
   onClick?:() => any
+  onMouseEnter?:() => any
+  onMouseLeave?:() => any
 }
 
 export default function ScrollableDiv ({
@@ -44,7 +46,9 @@ export default function ScrollableDiv ({
   dependencies=null,
   scrollY,
   scrollX,
-  onClick: onClickHandler=()=>{}
+  onClick: onClickHandlerRaw=()=>{},
+  onMouseEnter: onMouseEnter=()=>{},
+  onMouseLeave: onMouseLeave=()=>{}
 }:Props) {
 
   const scroll = useMemo(() => {
@@ -143,9 +147,6 @@ export default function ScrollableDiv ({
   const verticalScrollMouseDown = useCallback(mouseDownOnScrollVertical,[mouseDownOnScrollVertical]);
 
  
-  const mouseEnterHandler = useCallback(() => !isHoveringOnContainer && setHoveringOnContainer(true), [isHoveringOnContainer]);
-  const mouseLeaveHandler = useCallback(() => isHoveringOnContainer && setHoveringOnContainer(false), [isHoveringOnContainer]);
-
   const handleScroll = useCallback((position:string|undefined = 'normal') => {
     if (!scrollableDivRef.current) return;
     const scrollableDiv = scrollableDivRef.current;
@@ -179,10 +180,16 @@ export default function ScrollableDiv ({
     if (!isVerticalDragging && !isHorizontalDragging)return
     event.preventDefault();
     
-    if (isVerticalDragging)return setVerticalDragging(false);
-    if (isHorizontalDragging)return setHorizontalDragging(false);
+    if (isVerticalDragging){
+      !isHoveringOnContainer&&onMouseLeave()
+      return setVerticalDragging(false)
+    }
+    if (isHorizontalDragging){
+      !isHoveringOnContainer&&onMouseLeave()
+      return setHorizontalDragging(false)
+    }
 
-  },[isVerticalDragging, isHorizontalDragging]);
+  },[isVerticalDragging, isHorizontalDragging,onMouseLeave,isHoveringOnContainer]);
 
 
   useEffect(() => {
@@ -217,17 +224,42 @@ export default function ScrollableDiv ({
 
   useEffect(() => {
     document.addEventListener('mousemove', handleDocumentMouseMove);
-    document.addEventListener('mouseup', handleDocumentMouseUp);
-    document.addEventListener('mouseleave', handleDocumentMouseUp);
     return function cleanup() {
       document.removeEventListener('mousemove', handleDocumentMouseMove);
-      document.removeEventListener('mouseup', handleDocumentMouseUp);
-      document.removeEventListener('mouseleave', handleDocumentMouseUp);
     };
   },[
     handleDocumentMouseMove, 
-    handleDocumentMouseUp
   ]);
+
+  useEffect(()=>{
+    document.addEventListener('mouseup', handleDocumentMouseUp);
+    document.addEventListener('mouseleave', handleDocumentMouseUp);
+    return function cleanup() {
+      document.removeEventListener('mouseup', handleDocumentMouseUp);
+      document.removeEventListener('mouseleave', handleDocumentMouseUp);
+    };
+  },[handleDocumentMouseUp])
+
+  const handleVerticalScrollThumbMouseDown = useCallback(event => {
+    verticalScrollMouseDown(event,verticalScrollThumbStart,verticalScrollBasePoint)
+  } ,[verticalScrollMouseDown, verticalScrollThumbStart, verticalScrollBasePoint ]);
+
+  const handleHorizontalScrollThumbMouseDown = useCallback(event => {
+    horizontalScrollMouseDown(event,horizontalScrollThumbStart,horizontalScrollBasePoint)
+  } ,[horizontalScrollMouseDown, horizontalScrollThumbStart, horizontalScrollBasePoint ]);
+
+  const mouseEnterHandler = useCallback(() => {
+    !isHoveringOnContainer && setHoveringOnContainer(true)
+    onMouseEnter()
+  }, [isHoveringOnContainer, onMouseEnter]);
+
+  const mouseLeaveHandler = useCallback(() => {
+    isHoveringOnContainer && setHoveringOnContainer(false)
+    if(!isVerticalDragging&&!isHorizontalDragging){
+      onMouseLeave()
+    }
+
+  }, [isHoveringOnContainer, onMouseLeave, isVerticalDragging,isHorizontalDragging]);
 
   return (
     <div 
@@ -235,16 +267,16 @@ export default function ScrollableDiv ({
       onMouseEnter={mouseEnterHandler}
       onMouseLeave={mouseLeaveHandler}
       style={{padding:0,border:0,overflow: `hidden`}} 
-      onClick={onClickHandler}
+      onClick={onClickHandlerRaw}
     >
 
-      <div className={className} ref={scrollableDivRef} style={{margin:`0`}}>
+      <div className={className} ref={scrollableDivRef} style={{margin:`0`, position:`relative`}}>
         {children}
       </div>
       
       <ScrollContext.Provider value={contextValues}>
-        <VerticalScroll onMouseDown={(e)=>verticalScrollMouseDown(e,verticalScrollThumbStart,verticalScrollBasePoint)}/>
-        <HorizontalScroll onMouseDown={(e)=>horizontalScrollMouseDown(e,horizontalScrollThumbStart,horizontalScrollBasePoint)}/>
+        <VerticalScroll onMouseDown={(e)=>handleVerticalScrollThumbMouseDown(e)}/>
+        <HorizontalScroll onMouseDown={(e)=>handleHorizontalScrollThumbMouseDown(e)}/>
       </ScrollContext.Provider>
     </div>
   )
