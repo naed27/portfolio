@@ -18,9 +18,9 @@ function PageButtons (){
 
   return (
     <div className={styles.container} >
-      <div className={styles.pageButton} onClick={pageBack}></div>
+      <div className={styles.pageButton} style={{borderRight:`1px solid gray`}} onClick={pageBack}>{`<`}</div>
       <div className={styles.pageStatus}>{`${pageNumber} / ${maxPageOfTable}`}</div>
-      <div className={styles.pageButton} onClick={pageForward}></div>
+      <div className={styles.pageButton} style={{borderLeft:`1px solid gray`}} onClick={pageForward}>{`>`}</div>
     </div>  
   )
 }
