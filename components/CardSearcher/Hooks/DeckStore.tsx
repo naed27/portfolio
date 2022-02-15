@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { GlobalContext } from '../Misc/globalContext';
-import { getCardCategory, getCardLimit } from '../Misc/globalFunctions';
+import { getCardCategory, parseLimit } from '../Misc/globalFunctions';
 import { YGOCard } from '../Misc/globalTypes';
 
 const DeckStore = () =>{
@@ -9,6 +9,7 @@ const DeckStore = () =>{
     mainDeck,setMainDeck,
     extraDeck,setExtraDeck,
     sideDeck, setSideDeck,
+    query
   } = useContext(GlobalContext);
 
   const getCard = (category:string,index:number)=>{
@@ -64,13 +65,13 @@ const DeckStore = () =>{
   const addToDeck = (deckType:string,card:YGOCard)=>{
     const deck = getDeck(deckType);
     const setter= getSetter(deckType);
-    const cardLimit = getCardLimit(card);
+    const cardLimit = parseLimit(query.cardGame, card.banlist_info);
     const cardCount = getExistingCardCount(card);
     const freeSlotsInDeck = getFreeSlotsInDeck(deck);
     const targetIndex = (deck.length-freeSlotsInDeck);
 
     if(freeSlotsInDeck===0)return
-    if(cardCount===cardLimit)return
+    if(cardCount>=cardLimit)return
 
     setter( current => ([
       ...current.slice(0,targetIndex),
