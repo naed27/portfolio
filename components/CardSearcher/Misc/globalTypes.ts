@@ -10,7 +10,10 @@ export interface YGOCard{
   def?:number,
   level?:number,
   race?:string,
-  attribute?:string
+  attribute?:string,
+  linkval?:number,
+  linkmarkers?:string[],
+  scale?:number,
   card_images:card_images_type[],
   card_prices?:card_prices_type[],
   card_sets?:card_sets[],
