@@ -134,7 +134,7 @@ const filterByLimit = (limit: number, cardGame:YGOCardGame, result:YGOCard[]) =>
 const parseLimit = ( cardGame:YGOCardGame, banlistInfo?:banlist_info,) =>{
   if(banlistInfo===undefined) return 3
     const {ban_ocg, ban_tcg} = banlistInfo;
-    if(cardGame==='O.C.G'){
+    if(cardGame==='O.C.G.'){
       if(ban_ocg==='Banned') return 0
       if(ban_ocg==='Limited') return 1
       if(ban_ocg==='Semi-Limited') return 2

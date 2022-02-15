@@ -50,7 +50,7 @@ export interface banlist_info{
   ban_tcg: 'Banned' | 'Limited' | 'Semi-Limited',
 }
 
-export type YGOCardGame = 'T.C.G.' | 'O.C.G'
+export type YGOCardGame = 'T.C.G.' | 'O.C.G.'
 
 export interface Query {
   name:string,
