@@ -34,7 +34,9 @@ const Card = ({card}:{card:YGOCard}) => {
       </div>
 
       <div className={styles.details}>{card.name}</div>
-      {renderCardLimit(card)}
+      <div className={styles.limitContainer}>
+        {renderCardLimit(card)}
+      </div>
     </div>
   );
 
