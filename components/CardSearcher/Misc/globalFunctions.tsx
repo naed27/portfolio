@@ -183,3 +183,9 @@ export const areExactlySame = (word1:string|undefined,word2:string|undefined)=>{
   if(word1===word2)return true
   return false;
 }
+
+export const hasSameLetters = (word1:string|undefined,word2:string|undefined) => {
+  if(word1===undefined || word2===undefined)return false;
+  if(word1.toLowerCase()===word2.toLowerCase())return true
+  return false;
+}
