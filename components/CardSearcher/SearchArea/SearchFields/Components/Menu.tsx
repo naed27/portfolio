@@ -11,9 +11,10 @@ interface MenuProps {
   items:(string|number)[],
   itemHandler:(value:any)=>void,
   showOnlyWhen?:boolean
+  noNone?:boolean
 }
 
-function Menu ({className='',title,placeholder,items,itemHandler,showOnlyWhen=true}:MenuProps) {
+function Menu ({className='',title,placeholder,items,itemHandler,showOnlyWhen=true,noNone=false}:MenuProps) {
 
   const theItemHandler = useCallback(itemHandler, [itemHandler]);
 
@@ -77,7 +78,7 @@ function Menu ({className='',title,placeholder,items,itemHandler,showOnlyWhen=tr
         onMouseLeave={mouseOutsideMenu}
         >
 
-        <div key={`item_${menuTitle}_default`} className={styles.item} onClick={defaultValue}>{`None`}</div>
+        {!noNone&&(<div key={`item_${menuTitle}_default`} className={styles.item} onClick={defaultValue}>{`None`}</div>)}
         {itemDivs}
 
       </ScrollableDiv>
