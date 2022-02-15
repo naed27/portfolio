@@ -1,47 +1,12 @@
 import styles from '../Styles/Field.module.scss'
 import { Searcher } from '../../../Hooks/SearchTools';
-import { ChangeEvent, useCallback, useContext, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { GlobalContext } from '../../../Misc/globalContext';
+import FieldCover from '../../../../../utility/FieldCover/FieldCover';
+import TextCover from '../../../../../utility/TextCover/TextCover';
 
-export default function Def (searcher: {searcher:Searcher}){
+export default function Def ({searcher}: {searcher:Searcher}){
   
-  const {
-    minDefHandler, 
-    maxDefHandler, 
-    minPlaceHolder, 
-    maxPlaceHolder,
-    query} = Logic(searcher);
-
-  return (
-    <div className={styles.container}>
-      {query.type!=='Monster' &&(<div className={styles.cover}></div>)}
-      <div className={styles.label}>Defense</div>
-      <div className={styles.wrapper}>
-
-        <input 
-          className={`${styles.input}`} 
-          type="text" 
-          onChange={minDefHandler} 
-          spellCheck="false"
-          value={minPlaceHolder}
-        />
-
-        <div className={styles.separator}>{`<`}</div>
-
-        <input 
-          className={`${styles.input}`} 
-          type="text" 
-          onChange={maxDefHandler} 
-          spellCheck="false"
-          value={maxPlaceHolder}
-        />
-      </div>
-    </div>  
-  )
-}
-
-function Logic ({searcher}: {searcher:Searcher}){
-
   const search = useCallback(searcher,[searcher]);
   const [minPlaceHolder,setMinPlaceHolder] = useState('');
   const [maxPlaceHolder,setMaxPlaceHolder] = useState('');
@@ -80,10 +45,41 @@ function Logic ({searcher}: {searcher:Searcher}){
     setMaxPlaceHolder(`${query.def.max}`);
   },[query.def.min,query.def.max])
 
-  return {
-    minDefHandler, 
-    maxDefHandler, 
-    minPlaceHolder, 
-    maxPlaceHolder,
-    query}
+  const showCoverCondition = useMemo(()=> query.type!=='Monster',[query.type])
+
+  return (
+    <div className={styles.container}>
+
+      <TextCover className={styles.label} showCover={showCoverCondition}>
+        {`Defense`}
+      </TextCover>
+
+      <div className={styles.wrapper}>
+        <FieldCover className={styles.fieldWrapper} showCover={showCoverCondition}>
+          <input 
+            className={`${styles.input}`} 
+            type="text" 
+            onChange={minDefHandler} 
+            spellCheck="false"
+            value={minPlaceHolder}
+          />
+        </FieldCover>
+
+        <TextCover className={styles.separator} showCover={showCoverCondition}>
+          {`<`}
+        </TextCover>
+
+        <FieldCover className={styles.fieldWrapper} showCover={showCoverCondition}>
+          <input 
+            className={`${styles.input}`} 
+            type="text" 
+            onChange={maxDefHandler} 
+            spellCheck="false"
+            value={maxPlaceHolder}
+          />
+        </FieldCover>
+        
+      </div>
+    </div>  
+  )
 }

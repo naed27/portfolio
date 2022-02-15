@@ -1,9 +1,10 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import useOnClickOutside from '../../../../../hooks/useOnClickOutside';
-import { capitalizeFirstLetter, capitalizeProperly, isString } from '../../../Misc/globalFunctions';
+import { capitalizeProperly, isString } from '../../../Misc/globalFunctions';
 import styles from '../Styles/Field.module.scss'
 
 interface MenuProps {
+  className?: string;
   title:string,
   placeholder:string|number,
   items:(string|number)[],
@@ -11,7 +12,7 @@ interface MenuProps {
   showOnlyWhen?:boolean
 }
 
-function Menu ({title,placeholder,items,itemHandler,showOnlyWhen=true}:MenuProps) {
+function Menu ({className='',title,placeholder,items,itemHandler,showOnlyWhen=true}:MenuProps) {
 
   const theItemHandler = useCallback(itemHandler, [itemHandler]);
 
@@ -50,7 +51,7 @@ function Menu ({title,placeholder,items,itemHandler,showOnlyWhen=true}:MenuProps
   if(!showOnlyWhen)return null;
 
   return (
-    <div className={styles.button} onClick={buttonClickHandler} ref={buttonRef}>
+    <div className={className} onClick={buttonClickHandler} ref={buttonRef}>
       <div className={styles.downLogo}>
         {showMenu?'∧':'v'}
       </div>

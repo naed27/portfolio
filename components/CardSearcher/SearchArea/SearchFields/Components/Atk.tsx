@@ -1,7 +1,9 @@
 import styles from '../Styles/Field.module.scss'
-import { ChangeEvent, useCallback, useContext, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { GlobalContext } from '../../../Misc/globalContext';
 import { Searcher } from '../../../Hooks/SearchTools';
+import FieldCover from '../../../../../utility/FieldCover/FieldCover';
+import TextCover from '../../../../../utility/TextCover/TextCover';
 
 function Atk ({searcher}: {searcher:Searcher}){
   
@@ -42,30 +44,41 @@ function Atk ({searcher}: {searcher:Searcher}){
     setMaxPlaceHolder(`${query.atk.max}`);
   },[query.atk.min,query.atk.max])
 
-  return (
-    <div className={styles.container} >
-      {query.type!=='Monster' &&(<div className={styles.cover}></div>)}
+  
+  const showCoverCondition = useMemo(()=> query.type!=='Monster',[query.type])
 
-      <div className={styles.label}>Attack</div>
+  return (
+    <div className={styles.container}>
+
+      <TextCover className={styles.label} showCover={showCoverCondition}>
+        {`Attack`}
+      </TextCover>
+
       <div className={styles.wrapper}>
 
-        <input 
-          className={`${styles.input}`} 
-          type="text" 
-          onChange={minAtkHandler} 
-          spellCheck="false"
-          value={minPlaceHolder}
-        />
+        <FieldCover className={styles.fieldWrapper} showCover={showCoverCondition}>
+          <input 
+            className={`${styles.input}`} 
+            type="text" 
+            onChange={minAtkHandler} 
+            spellCheck="false"
+            value={minPlaceHolder}
+          />
+        </FieldCover>
 
-        <div className={styles.separator}>{`<`}</div>
+        <TextCover className={styles.separator} showCover={showCoverCondition}>
+          {`<`}
+        </TextCover>
 
-        <input 
-          className={`${styles.input}`} 
-          type="text" 
-          onChange={maxAtkHandler} 
-          spellCheck="false"
-          value={maxPlaceHolder}
-        />
+        <FieldCover className={styles.fieldWrapper} showCover={showCoverCondition}>
+          <input 
+            className={`${styles.input}`} 
+            type="text" 
+            onChange={maxAtkHandler} 
+            spellCheck="false"
+            value={maxPlaceHolder}
+          />
+        </FieldCover>
 
       </div>
     </div>  

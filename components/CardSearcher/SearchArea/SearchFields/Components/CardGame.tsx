@@ -17,6 +17,7 @@ export default function CardGame ({searcher}: {searcher:Searcher}){
       <div className={styles.label}>TCG/OCG</div>
       <div className={styles.wrapper}>
       <Menu 
+        className={styles.button} 
         title={'card_game'}
         placeholder={query.limit} 
         items={cardGameChoices} 

@@ -3,6 +3,7 @@ import { useCallback, useContext, useMemo} from 'react';
 import Menu from './Menu';
 import { Searcher } from '../../../Hooks/SearchTools';
 import { GlobalContext } from '../../../Misc/globalContext';
+import FieldCover from '../../../../../utility/FieldCover/FieldCover';
 
 
 function Type ({searcher}: {searcher:Searcher}) {
@@ -30,20 +31,24 @@ function Type ({searcher}: {searcher:Searcher}) {
     <div className={styles.container} >
       <div className={styles.label}>Type</div>
       <div className={styles.wrapper}>
-
-        <Menu 
-          title={'primary_types'}
-          placeholder={query.type} 
-          items={primaryTypes} 
-          itemHandler={primaryTypeHandler}/>
+        <FieldCover className={styles.fieldWrapper} showCover={false}>
+          <Menu 
+            className={styles.button} 
+            title={'primary_types'}
+            placeholder={query.type} 
+            items={primaryTypes} 
+            itemHandler={primaryTypeHandler}/>
+        </FieldCover>
 
         <div className={styles.separator}></div>
-
-        <Menu 
-          title={'secondary_types'}
-          placeholder={query.subtype} 
-          items={secondaryTypes} 
-          itemHandler={secondaryTypeHandler}/>
+        <FieldCover className={styles.fieldWrapper} showCover={query.type===''}>
+          <Menu 
+            className={styles.button}
+            title={'secondary_types'}
+            placeholder={query.subtype} 
+            items={secondaryTypes} 
+            itemHandler={secondaryTypeHandler}/>
+        </FieldCover>
       </div>
     </div>  
   )

@@ -17,6 +17,7 @@ export default function Limit ({searcher}: {searcher:Searcher}){
       <div className={styles.label}>Limit</div>
       <div className={styles.wrapper}>
         <Menu 
+          className={styles.button} 
           title={'card_limit'}
           placeholder={query.limit} 
           items={limitChoices} 

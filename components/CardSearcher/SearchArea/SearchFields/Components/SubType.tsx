@@ -1,8 +1,10 @@
 import styles from '../Styles/Field.module.scss'
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import Menu from './Menu';
 import { Searcher } from '../../../Hooks/SearchTools';
 import { GlobalContext } from '../../../Misc/globalContext';
+import FieldCover from '../../../../../utility/FieldCover/FieldCover';
+import TextCover from '../../../../../utility/TextCover/TextCover';
 
 
 
@@ -21,28 +23,37 @@ function SubType ({searcher}: {searcher:Searcher}){
 
   const attrHandler = (input:string)=>search({attribute:input});
 
+  const showCoverCondition = useMemo(()=> query.type!=='Monster',[query.type])
+
   return (
-    <div className={styles.container}>
-      {query.type!=='Monster' &&(<div className={styles.cover}></div>)}
-      <div className={styles.label}></div>
-      <div className={styles.wrapper}>
+      <div className={styles.container}>
+         <TextCover className={styles.label} showCover={showCoverCondition}>
+          {`Sub-Type`}
+        </TextCover>
+          <div className={styles.wrapper}>
 
-        <Menu
-          title={'races'}
-          placeholder={query.race} 
-          items={raceChoices} 
-          itemHandler={raceHandler}/>
+            <FieldCover className={styles.fieldWrapper} showCover={showCoverCondition}>
+              <Menu
+                className={styles.button}
+                title={'races'}
+                placeholder={query.race} 
+                items={raceChoices} 
+                itemHandler={raceHandler}/>
+            </FieldCover>
+           
+            <div className={styles.separator}></div>
 
-        <div className={styles.separator}></div>
-
-        <Menu
-          title={'attributes'}
-          placeholder={query.attribute} 
-          items={attrChoices} 
-          itemHandler={attrHandler}/>
-        
+            <FieldCover className={styles.fieldWrapper} showCover={showCoverCondition}>
+              <Menu
+                className={styles.button}
+                title={'attributes'}
+                placeholder={query.attribute} 
+                items={attrChoices} 
+                itemHandler={attrHandler}/>
+            </FieldCover>
+            
+          </div>
       </div>
-    </div>  
   )
 }
 
