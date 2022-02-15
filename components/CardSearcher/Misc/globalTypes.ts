@@ -50,6 +50,7 @@ export interface banlist_info{
   ban_tcg: 'Banned' | 'Limited' | 'Semi-Limited',
 }
 
+export type YGOCardGame = 'T.C.G.' | 'O.C.G'
 
 export interface Query {
   name:string,
@@ -63,7 +64,7 @@ export interface Query {
   def:{min:number,max:number}
   level:{min:number,max:number},
   limit: number
-  cardGame: 'TCG' | 'OCG'
+  cardGame: YGOCardGame
 }
 
 export interface DeckFunctions{

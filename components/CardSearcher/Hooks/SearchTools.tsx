@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useContext } from 'react'
-import { YGOCard, Query, banlist_info } from '../Misc/globalTypes';
+import { YGOCard, Query, banlist_info, YGOCardGame } from '../Misc/globalTypes';
 import { GlobalContext } from '../Misc/globalContext';
 import { 
   isEmpty, 
@@ -32,7 +32,7 @@ export interface InputQuery{
   def?:{min:number,max:number},
   level?:{min:number,max:number},
   limit?:number,
-  cardGame?:'TCG' | 'OCG',
+  cardGame?:YGOCardGame,
 }
 
 const SearchTools = () =>{
@@ -126,15 +126,15 @@ const filterByRace = (race: string, result:YGOCard[]) => result.filter( c => are
 const filterByAttr = (attr: string, result:YGOCard[]) => result.filter( c => areExactlySame( c.attribute, attr ))
 const filterByMonsterSubType = (subType: string, result:YGOCard[]) => result.filter( c => hasSameLetters( c.type.split(' ')[0], subType ))
 const filterByNonMonsterSubType = (subType: string, result:YGOCard[]) => result.filter( c => containsKeyword( c.race, subType))
-const filterByLimit = (limit: number, cardGame:'TCG' | 'OCG', result:YGOCard[]) => result.filter( c => {
+const filterByLimit = (limit: number, cardGame:YGOCardGame, result:YGOCard[]) => result.filter( c => {
   const {banlist_info} = c;
   return limit === parseLimit(cardGame, banlist_info);
 })
 
-const parseLimit = ( cardGame:'TCG' | 'OCG', banlistInfo?:banlist_info,) =>{
+const parseLimit = ( cardGame:YGOCardGame, banlistInfo?:banlist_info,) =>{
   if(banlistInfo===undefined) return 3
     const {ban_ocg, ban_tcg} = banlistInfo;
-    if(cardGame==='OCG'){
+    if(cardGame==='O.C.G'){
       if(ban_ocg==='Banned') return 0
       if(ban_ocg==='Limited') return 1
       if(ban_ocg==='Semi-Limited') return 2
