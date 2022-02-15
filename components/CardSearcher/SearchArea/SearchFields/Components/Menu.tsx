@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import useOnClickOutside from '../../../../../hooks/useOnClickOutside';
 import { capitalizeProperly, isString } from '../../../Misc/globalFunctions';
-import styles from '../Styles/Field.module.scss'
+import styles from '../Styles/Menu.module.scss'
 
 interface MenuProps {
   className?: string;
