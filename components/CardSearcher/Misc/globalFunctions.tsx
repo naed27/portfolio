@@ -71,32 +71,6 @@ export const parseLimit = ( cardGame:YGOCardGame, banlistInfo?:banlist_info,) =>
   return 3
 }
 
-export const renderCardLimit = (card:YGOCard|null)=>{
-  if(card===null)return null
-  if(card.banlist_info === null || card.banlist_info === undefined)return null
-  switch(card.banlist_info.ban_tcg){
-    case 'Banned':return (
-      <div className={styles.container}>
-        {/* <Image 
-          src={'./Forbidden.svg'} 
-          alt='card image'
-          layout='fill'
-          objectFit='contain'
-        /> */}
-      </div>);
-    case 'Limited':return (
-      <div className={styles.container}>
-        {/* <Image 
-          src={'./Limited.svg'} 
-          alt='card image'
-          layout='fill'
-          objectFit='contain'
-        /> */}
-      </div>)
-    default:return null;
-  }
-}
-
 export const getCardLimit = (card:YGOCard)=>{
   if(card.banlist_info === null || card.banlist_info === undefined)return 3;
   switch(card.banlist_info.ban_tcg){

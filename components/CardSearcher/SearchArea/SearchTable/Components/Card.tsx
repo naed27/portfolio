@@ -3,7 +3,7 @@ import { YGOCard } from '../../../Misc/globalTypes';
 import styles from '../Styles/Card.module.css';
 import { GlobalContext } from '../../../Misc/globalContext';
 import React, { useCallback, useContext, memo, useMemo} from 'react';
-import { parseLimit, renderCardLimit } from '../../../Misc/globalFunctions';
+import { parseLimit } from '../../../Misc/globalFunctions';
 
 const Card = ({card}:{card:YGOCard}) => {
 
