@@ -19,7 +19,6 @@ export const fetchCardTypes = (mainCards:YGOCard[])=>{
     if(containsKeyword(type,'Trap')) return pushIfUnique(trapTypes,race)
     if(containsKeyword(type,'Monster')) {
       if(attribute===undefined)return
-      if(level===undefined)return
       pushIfUnique(monsterTypes,type.split(' ')[0])
       pushIfUnique(attributes,attribute)
       pushIfUnique(races,race)
