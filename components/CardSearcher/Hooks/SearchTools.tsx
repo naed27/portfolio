@@ -8,7 +8,8 @@ import {
   containsKeyword, 
   isGreaterAndEqual,
   isLesserAndEqual,
-  containsKeywords, } from '../Misc/globalFunctions';
+  containsKeywords,
+  hasSameLetters, } from '../Misc/globalFunctions';
 
 export interface SearchStoreType {
   query: Query,
@@ -113,7 +114,7 @@ export default SearchTools;
 const filterByName = (name: string, result:YGOCard[]) => result.filter( c => containsKeyword( c.name, name ))
 const filterByDesc = (desc: string, result:YGOCard[]) => result.filter( c => containsKeyword( c.desc, desc ))
 const filterByKeywords = (keywords: string, result:YGOCard[]) => result.filter( c => containsKeywords( c.name, keywords ) || containsKeywords( c.desc, keywords ) )
-const filterByType = (type: string, result:YGOCard[]) => result.filter( c => areExactlySame( c.type.split(' ')[0], type ))
+const filterByType = (type: string, result:YGOCard[]) => result.filter( c => containsKeywords( c.type, type ))
 const filterByMinLv = (min: number, result:YGOCard[]) => result.filter( c => isGreaterAndEqual(c.level, min))
 const filterByMaxLv = (max: number, result:YGOCard[]) => result.filter( c => isLesserAndEqual(c.level, max))
 const filterByMinAtk = (min: number, result:YGOCard[]) => result.filter( c => isGreaterAndEqual(c.atk, min))
@@ -122,5 +123,5 @@ const filterByMinDef = (min: number, result:YGOCard[]) => result.filter( c => is
 const filterByMaxDef = (max: number, result:YGOCard[]) => result.filter( c => isLesserAndEqual(c.def, max))
 const filterByRace = (race: string, result:YGOCard[]) => result.filter( c => areExactlySame( c.race, race ))
 const filterByAttr = (attr: string, result:YGOCard[]) => result.filter( c => areExactlySame( c.attribute, attr ))
-const filterByMonsterSubType = (subType: string, result:YGOCard[]) => result.filter( c => containsKeyword( c.type, subType))
+const filterByMonsterSubType = (subType: string, result:YGOCard[]) => result.filter( c => hasSameLetters( c.type.split(' ')[0], subType ))
 const filterByNonMonsterSubType = (subType: string, result:YGOCard[]) => result.filter( c => containsKeyword( c.race, subType))
