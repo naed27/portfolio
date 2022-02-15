@@ -45,9 +45,9 @@ export interface card_sets{
 }
 
 export interface banlist_info{
-  ban_goat: string,
-  ban_ocg: string,
-  ban_tcg: string,
+  ban_goat?: 'Banned' | 'Limited' | 'Semi-Limited',
+  ban_ocg: 'Banned' | 'Limited' | 'Semi-Limited',
+  ban_tcg: 'Banned' | 'Limited' | 'Semi-Limited',
 }
 
 
