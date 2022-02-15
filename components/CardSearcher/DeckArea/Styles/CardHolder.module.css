@@ -6,3 +6,20 @@
   position: relative;
   flex:none;
 }
+
+.limitContainer{
+  position:absolute;
+  top:0;
+  right:0;
+  height:30%;
+  aspect-ratio: 1/1;
+  margin:1px;
+  z-index: 1;
+  border: 1px solid red;
+  border-radius: 50%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.85);
+  font-size: 12px;
+}

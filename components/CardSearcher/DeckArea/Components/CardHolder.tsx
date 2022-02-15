@@ -3,7 +3,7 @@ import { YGOCard, DeckFunctions } from '../../Misc/globalTypes';
 import Image from 'next/image'
 import React, { useContext } from 'react';
 import { containsKeyword, getCardCategory } from '../../Misc/globalFunctions';
-import {getCardLimit,renderCardLimit} from '../../Misc/globalFunctions';
+import {parseLimit} from '../../Misc/globalFunctions';
 import { GlobalContext } from '../../Misc/globalContext';
 
 const CardHolder = ({category,index,size,functions}:{
@@ -19,7 +19,7 @@ const CardHolder = ({category,index,size,functions}:{
     getExistingCardCount
   } = functions;
 
-  const {setSelectedCard} = useContext(GlobalContext); 
+  const {setSelectedCard,query} = useContext(GlobalContext); 
 
   const viewCard = ()=>{
     const holder = getCard(category,index);
@@ -43,7 +43,7 @@ const CardHolder = ({category,index,size,functions}:{
     const deck = getDeck(category);
     const setter= getSetter(category);
     const holder = getCard(category,index);
-    const cardLimit = getCardLimit(card);
+    const cardLimit = parseLimit(query.cardGame,card.banlist_info);
     const existCount = getExistingCardCount(card)
     if(deck===null||setter===null||cardLimit===existCount)return
 
@@ -99,13 +99,19 @@ const CardHolder = ({category,index,size,functions}:{
 
   const render = (holder: YGOCard | null)=>{
     if(holder===null)return
+    const limit = parseLimit(query.cardGame,holder.banlist_info)
     return (
-      <Image 
-      src={`${holder.card_images[0].image_url_small}`} 
-      alt='card'
-      layout='fill'
-      objectFit='contain'
-      />
+      <> 
+        <Image 
+        src={`${holder.card_images[0].image_url_small}`} 
+        alt='card'
+        layout='fill'
+        objectFit='contain'
+        />
+        {limit<3&&(<div className={styles.limitContainer}>
+        {limit}
+        </div>)}
+      </>
     )
   }
 
@@ -118,9 +124,8 @@ const CardHolder = ({category,index,size,functions}:{
       onDragStart={dragStart}
       onDragEnd={dragEnd}
       onClick={viewCard}
-      >
-        {renderCardLimit(getCard(category,index))}
-        {render(getCard(category,index))}
+    >
+      {render(getCard(category,index))}
     </div>
   );
 
