@@ -2,7 +2,7 @@ import { pushIfUnique } from "../../../../../utility/functions";
 import { sortStrings, containsKeyword, sortNumbers } from "../../../Misc/globalFunctions";
 import { YGOCard } from "../../../Misc/globalTypes";
 
-export const fetchUniqueProps = (mainCards:YGOCard[])=>{
+export const fetchCardTypes = (mainCards:YGOCard[])=>{
   
   const primaryTypes = ['Monster','Spell','Trap'];
   const races:string[] = [];

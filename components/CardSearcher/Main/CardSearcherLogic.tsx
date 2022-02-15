@@ -2,7 +2,7 @@ import axios from "axios";
 import { GlobalContextType, Query, YGOCard } from "../Misc/globalTypes";
 import { useState, useEffect, useMemo } from "react";
 import { initialQuery, initializeHolders } from "../Misc/initializers";
-import { fetchUniqueProps } from "../SearchArea/SearchFields/Functions/Functions";
+import { fetchCardTypes } from "../SearchArea/SearchFields/Functions/Functions";
 
 export default function CardSearcherLogic() {
 
@@ -28,7 +28,7 @@ export default function CardSearcherLogic() {
   const [showSearcher,toggleSearcher] = useState(true);
   const [showDeck,toggleDeck] = useState(false);
 
-  const cardTypes = useMemo(() => fetchUniqueProps(mainCards),[mainCards]);
+  const cardTypes = useMemo(() => fetchCardTypes(mainCards),[mainCards]);
 
   const globalValues:GlobalContextType = {
     query,
