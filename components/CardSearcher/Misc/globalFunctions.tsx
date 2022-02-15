@@ -1,4 +1,4 @@
-import {YGOCard} from './globalTypes';
+import {banlist_info, YGOCard, YGOCardGame} from './globalTypes';
 import styles from './Styles/CardLimit.module.css'
 import Image from 'next/image'
 
@@ -55,6 +55,19 @@ export const capitalizeProperly = (str:string|number|undefined) =>{
 export const renewTimer = (callback:()=>void,timerId:NodeJS.Timeout, newTime:number)=>{
   clearTimeout(timerId);
   return setTimeout(callback,newTime);
+}
+
+export const parseLimit = ( cardGame:YGOCardGame, banlistInfo?:banlist_info,) =>{
+  if(banlistInfo===undefined) return 3
+    const {ban_ocg, ban_tcg} = banlistInfo;
+    if(cardGame==='O.C.G.'){
+      if(ban_ocg==='Banned') return 0
+      if(ban_ocg==='Limited') return 1
+      if(ban_ocg==='Semi-Limited') return 2
+    }
+    if(ban_tcg==='Banned') return 0
+    if(ban_tcg==='Limited') return 1
+    if(ban_tcg==='Semi-Limited') return 3
 }
 
 export const renderCardLimit = (card:YGOCard|null)=>{

@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useContext } from 'react'
-import { YGOCard, Query, banlist_info, YGOCardGame } from '../Misc/globalTypes';
+import { YGOCard, Query, YGOCardGame } from '../Misc/globalTypes';
 import { GlobalContext } from '../Misc/globalContext';
 import { 
   isEmpty, 
@@ -9,7 +9,8 @@ import {
   isGreaterAndEqual,
   isLesserAndEqual,
   containsKeywords,
-  hasSameLetters, } from '../Misc/globalFunctions';
+  hasSameLetters,
+  parseLimit, } from '../Misc/globalFunctions';
 
 export interface SearchStoreType {
   query: Query,
@@ -131,15 +132,4 @@ const filterByLimit = (limit: number, cardGame:YGOCardGame, result:YGOCard[]) =>
   return limit === parseLimit(cardGame, banlist_info);
 })
 
-const parseLimit = ( cardGame:YGOCardGame, banlistInfo?:banlist_info,) =>{
-  if(banlistInfo===undefined) return 3
-    const {ban_ocg, ban_tcg} = banlistInfo;
-    if(cardGame==='O.C.G.'){
-      if(ban_ocg==='Banned') return 0
-      if(ban_ocg==='Limited') return 1
-      if(ban_ocg==='Semi-Limited') return 2
-    }
-    if(ban_tcg==='Banned') return 0
-    if(ban_tcg==='Limited') return 1
-    if(ban_tcg==='Semi-Limited') return 3
-}
+
