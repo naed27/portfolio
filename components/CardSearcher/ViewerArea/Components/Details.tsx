@@ -26,10 +26,37 @@ export default function Details({card}:{card:YGOCard}){
     return(<div>{`${levelStr} ${starsStr}`}</div>)
   },[])
 
+  const showLinkValues = useCallback((card:YGOCard)=>{
+    const {linkval, linkmarkers} = card
+    if(linkval === undefined || linkmarkers === undefined)return null
+
+    const arrows = linkmarkers.map((marker)=>{
+      switch(marker){
+        case 'Right': return '→'
+        case 'Left': return '←'
+        case 'Top': return '↑'
+        case 'Top-Right': return '↗'
+        case 'Top-Left': return '↖'
+        case 'Bottom': return '↓'
+        case 'Bottom-Right': return '↘'
+        case 'Bottom-Left': return '↙'
+        default: return
+      }
+    }).join(' ')
+
+    return(<div>{`LINK: ${linkval} [ ${arrows} ]`}</div>)
+  },[])
+
+  const showScale = useCallback((card:YGOCard)=>{
+    const {scale} = card
+    if(scale===undefined)return null
+    return(<div>{`SCALE: ${scale}`}</div>)
+  },[])
+
   const showAtkDef = useCallback((card:YGOCard)=>{
     const {atk,def} = card;
     if(atk===undefined||def===undefined)return null
-    return (<div>{`ATK: ${atk} / DEF: ${def}`}</div>)
+    return (<div>{`ATK : ${atk} / EF: ${def}`}</div>)
   },[])
   
   const showDesc = useCallback((card:YGOCard)=>{
@@ -42,6 +69,8 @@ export default function Details({card}:{card:YGOCard}){
       <ScrollableDiv className={styles.desc} dependencies={[card]}>
         {showTypeRaceAttr(card)}
         {showLevel(card)}
+        {showLinkValues(card)}
+        {showScale(card)}
         {showAtkDef(card)}
         <br/>
         {showDesc(card)}

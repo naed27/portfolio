@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react'
 
+type linkMark = 'Right' | 'Left' | 'Top' | 'Top-Right' | 'Top-Left' | 'Bottom' | 'Bottom-Right' | 'Bottom-Left'
 
 export interface YGOCard{
   id:number,
@@ -12,7 +13,7 @@ export interface YGOCard{
   race?:string,
   attribute?:string,
   linkval?:number,
-  linkmarkers?:string[],
+  linkmarkers?:linkMark[],
   scale?:number,
   card_images:card_images_type[],
   card_prices?:card_prices_type[],
