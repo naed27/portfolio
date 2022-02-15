@@ -13,9 +13,20 @@ interface MenuProps {
   showOnlyWhen?:boolean
   noDefault?:boolean
   defaultText?:string
+  defaultValue?:string|number
 }
 
-function Menu ({className='',title,placeholder,items,itemHandler,showOnlyWhen=true,noDefault=false,defaultText='None'}:MenuProps) {
+function Menu ({
+  className='',
+  title,
+  placeholder,
+  items,
+  itemHandler,
+  showOnlyWhen=true,
+  noDefault=false,
+  defaultText='None',
+  defaultValue
+}:MenuProps) {
 
   const theItemHandler = useCallback(itemHandler, [itemHandler]);
 
@@ -27,12 +38,7 @@ function Menu ({className='',title,placeholder,items,itemHandler,showOnlyWhen=tr
   const menuItems  = useMemo(()=>items,[items]);
   const menuTitle = useMemo(()=>title,[title]);
 
-  const defaultValue = useCallback(()=>{
-    const defaultVal = isString(menuItems[0])?'':-1;
-    theItemHandler(defaultVal);
-    setShowMenu(false);
-    setHoldMenu(false);
-  },[theItemHandler,menuItems])
+ 
 
   const mouseInsideMenu = () => setHoldMenu(true)
   const mouseOutsideMenu = () => setHoldMenu(false)
@@ -53,6 +59,19 @@ function Menu ({className='',title,placeholder,items,itemHandler,showOnlyWhen=tr
     setShowMenu(false);
     setHoldMenu(false);
   },[theItemHandler])
+
+  const defaultClickHandler = useCallback(()=>{
+    const defaultVal = (()=>{
+      if(defaultValue) return defaultValue
+      if(isString(menuItems[0]))
+        return ''
+      return -1;
+    })()
+
+    theItemHandler(defaultVal);
+    setShowMenu(false);
+    setHoldMenu(false);
+  },[theItemHandler,menuItems, defaultValue])
 
   const itemDivs:JSX.Element[] = useMemo(()=>{
     const choices =  menuItems.map((item,i)=>(
@@ -79,7 +98,7 @@ function Menu ({className='',title,placeholder,items,itemHandler,showOnlyWhen=tr
         onMouseLeave={mouseOutsideMenu}
         >
 
-        {!noDefault&&(<div key={`item_${menuTitle}_default`} className={styles.item} onClick={defaultValue}>{defaultText}</div>)}
+        {!noDefault&&(<div key={`item_${menuTitle}_default`} className={styles.item} onClick={defaultClickHandler}>{defaultText}</div>)}
         {itemDivs}
 
       </ScrollableDiv>
