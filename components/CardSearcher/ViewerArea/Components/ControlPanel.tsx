@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction, useCallback,useMemo } from "react";
-import { DeckFunctions, YGOCard } from "../../Misc/globalTypes";
+import { DeckFunctions, YGOCard, Query } from "../../Misc/globalTypes";
 import styles from "../Styles/ControlPanel.module.scss";
 import Controller from './Controller';
-import { getCardLimit } from '../../Misc/globalFunctions';
+import { parseLimit } from '../../Misc/globalFunctions';
 
 interface Props{
   addToDeck:(deckType: string, card: YGOCard) => void,
@@ -11,16 +11,17 @@ interface Props{
   getExistingCardCount:(card: YGOCard) => number,
   getDeck: (category: string) => (YGOCard | null)[],
   setShowControllers: Dispatch<SetStateAction<boolean>>,
-  card:YGOCard
+  card:YGOCard,
+  query:Query,
 }
 
 export default function ControlPanel({props,functions}:{props:Props,functions:DeckFunctions}){
 
-  const {getExistingCardCount,setShowControllers,card} = props
+  const {getExistingCardCount,setShowControllers,card,query} = props
   const getCardCount = useCallback(getExistingCardCount,[getExistingCardCount]);
-  const getCardMax = useCallback(getCardLimit,[getCardLimit]);
+  const getCardLimit = useCallback(parseLimit,[parseLimit]);
   const cardCount = useMemo(()=>getCardCount(card),[getCardCount,card]);
-  const cardLimit = useMemo(()=>getCardMax(card),[getCardMax,card]);
+  const cardLimit = useMemo(()=>getCardLimit(query.cardGame,card.banlist_info),[query.cardGame,getCardLimit,card]);
 
   return (
     <div className={styles.container}>
