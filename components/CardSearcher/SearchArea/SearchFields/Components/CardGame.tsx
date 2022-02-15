@@ -19,7 +19,7 @@ export default function CardGame ({searcher}: {searcher:Searcher}){
       <Menu 
         className={styles.button} 
         title={'card_game'}
-        placeholder={query.limit} 
+        placeholder={query.cardGame} 
         items={cardGameChoices} 
         itemHandler={queryCardGame}/>
       </div>
