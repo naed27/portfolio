@@ -18,6 +18,7 @@ export default function CardGame ({searcher}: {searcher:Searcher}){
       <div className={styles.wrapper}>
       <Menu 
         defaultText='Default (TCG)'
+        defaultValue={'T.C.G.'}
         className={styles.button} 
         title={'card_game'}
         placeholder={query.cardGame} 
