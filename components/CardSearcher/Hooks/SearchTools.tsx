@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useContext } from 'react'
-import { YGOCard, Query } from '../Misc/globalTypes';
+import { YGOCard, Query, banlist_info } from '../Misc/globalTypes';
 import { GlobalContext } from '../Misc/globalContext';
 import { 
   isEmpty, 
@@ -128,18 +128,18 @@ const filterByMonsterSubType = (subType: string, result:YGOCard[]) => result.fil
 const filterByNonMonsterSubType = (subType: string, result:YGOCard[]) => result.filter( c => containsKeyword( c.race, subType))
 const filterByLimit = (limit: number, cardGame:'TCG' | 'OCG', result:YGOCard[]) => result.filter( c => {
   const {banlist_info} = c;
-  {
-    if(banlist_info===undefined) return 3
-    const {ban_ocg, ban_tcg} = banlist_info;
+  return limit === parseLimit(cardGame, banlist_info);
+})
 
+const parseLimit = ( cardGame:'TCG' | 'OCG', banlistInfo?:banlist_info,) =>{
+  if(banlistInfo===undefined) return 3
+    const {ban_ocg, ban_tcg} = banlistInfo;
     if(cardGame==='OCG'){
       if(ban_ocg==='Banned') return 0
       if(ban_ocg==='Limited') return 1
       if(ban_ocg==='Semi-Limited') return 2
     }
-
     if(ban_tcg==='Banned') return 0
     if(ban_tcg==='Limited') return 1
     if(ban_tcg==='Semi-Limited') return 3
-  }
-})
+}
