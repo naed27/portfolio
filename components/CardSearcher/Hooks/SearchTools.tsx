@@ -32,7 +32,7 @@ export interface InputQuery{
   def?:{min:number,max:number},
   level?:{min:number,max:number},
   limit?:number,
-  cardGame?:string,
+  cardGame?:'TCG' | 'OCG',
 }
 
 const SearchTools = () =>{
@@ -69,6 +69,7 @@ const SearchTools = () =>{
 
     let result:YGOCard[] = [...mainCards];
     
+    !isNegative( input.limit ) && (result = filterByLimit ( input.limit, input.cardGame, result ))
     !isEmpty( input.name ) && (result = filterByName ( input.name, result ))
     !isEmpty( input.desc ) && (result = filterByDesc ( input.desc, result ))
     !isEmpty( input.keywords ) && (result = filterByKeywords ( input.keywords, result ))
