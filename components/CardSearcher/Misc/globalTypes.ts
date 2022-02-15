@@ -63,7 +63,7 @@ export interface Query {
   def:{min:number,max:number}
   level:{min:number,max:number},
   limit: number
-  cardGame: string
+  cardGame: 'TCG' | 'OCG'
 }
 
 export interface DeckFunctions{

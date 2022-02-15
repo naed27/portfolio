@@ -125,3 +125,20 @@ const filterByRace = (race: string, result:YGOCard[]) => result.filter( c => are
 const filterByAttr = (attr: string, result:YGOCard[]) => result.filter( c => areExactlySame( c.attribute, attr ))
 const filterByMonsterSubType = (subType: string, result:YGOCard[]) => result.filter( c => hasSameLetters( c.type.split(' ')[0], subType ))
 const filterByNonMonsterSubType = (subType: string, result:YGOCard[]) => result.filter( c => containsKeyword( c.race, subType))
+const filterByLimit = (limit: number, cardGame:'TCG' | 'OCG', result:YGOCard[]) => result.filter( c => {
+  const {banlist_info} = c;
+  {
+    if(banlist_info===undefined) return 3
+    const {ban_ocg, ban_tcg} = banlist_info;
+
+    if(cardGame==='OCG'){
+      if(ban_ocg==='Banned') return 0
+      if(ban_ocg==='Limited') return 1
+      if(ban_ocg==='Semi-Limited') return 2
+    }
+
+    if(ban_tcg==='Banned') return 0
+    if(ban_tcg==='Limited') return 1
+    if(ban_tcg==='Semi-Limited') return 3
+  }
+})
