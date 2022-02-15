@@ -42,18 +42,18 @@ interface Props{
 
 export default function ScrollableDiv ({
   children,
-  className='',
-  dependencies=null,
-  scrollY,
-  scrollX,
-  onClick: onClickHandlerRaw=()=>{},
-  onMouseEnter: onMouseEnter=()=>{},
-  onMouseLeave: onMouseLeave=()=>{}
+  className = '',
+  dependencies = null,
+  scrollY = DEFAULT_SCROLL_VALUES.XY,
+  scrollX = DEFAULT_SCROLL_VALUES.XY,
+  onClick = () => {},
+  onMouseEnter = () => {},
+  onMouseLeave = () => {},
 }:Props) {
-
+  
   const scroll = useMemo(() => {
-    const X = (scrollX===undefined)?DEFAULT_SCROLL_VALUES.XY:{...DEFAULT_SCROLL_VALUES.XY, ...scrollX};
-    const Y = (scrollY===undefined)?DEFAULT_SCROLL_VALUES.XY:{...DEFAULT_SCROLL_VALUES.XY, ...scrollY};
+    const X = {...DEFAULT_SCROLL_VALUES.XY, ...scrollX};
+    const Y = {...DEFAULT_SCROLL_VALUES.XY, ...scrollY};
     return {X,Y};
   },[scrollY,scrollX]);
   
@@ -267,7 +267,7 @@ export default function ScrollableDiv ({
       onMouseEnter={mouseEnterHandler}
       onMouseLeave={mouseLeaveHandler}
       style={{padding:0,border:0,overflow: `hidden`}} 
-      onClick={onClickHandlerRaw}
+      onClick={onClick}
     >
 
       <div className={className} ref={scrollableDivRef} style={{margin:`0`, position:`relative`}}>
