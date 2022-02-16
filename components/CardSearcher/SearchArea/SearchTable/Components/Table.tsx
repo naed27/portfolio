@@ -12,7 +12,7 @@ export default function Table () {
   const pool = useMemo(()=>searchedCards,[searchedCards]);
 
   const render = useCallback((pool:YGOCard[],currentPageNumber:number)=>{
-    const range = 30;
+    const range = 36;
     const start = (currentPageNumber-1)*range;
     const end = start+range;
     const cardWidth = 47.34;
