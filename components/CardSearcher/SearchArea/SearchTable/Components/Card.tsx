@@ -4,6 +4,7 @@ import { GlobalContext } from '../../../Misc/globalContext';
 import React, { useCallback, useContext, memo, useMemo} from 'react';
 import { parseLimit } from '../../../Misc/globalFunctions';
 import CardImage from '../../../Utility/CardImage/CardImage';
+import ScrollableDiv from '../../../../../utility/CustomScrollDiv/ScrollableDiv';
 
 interface Props {
   card:YGOCard
@@ -35,11 +36,15 @@ const Card = ({card, cardSize}:Props) => {
     >
       <div 
         className={styles.imageContainer}
-        style={{width:`${cardSize.width}px`}}>
+        style={{width:`${cardSize.width}px`, minWidth:`${cardSize.width}px`}}>
         <CardImage card={card} limit={limit}/>
       </div>
 
-      <div className={styles.details}>{card.name}</div>
+      <div 
+        className={styles.details}
+      >
+        {card.name}
+      </div>
     </div>
   );
 

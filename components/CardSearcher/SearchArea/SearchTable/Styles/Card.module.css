@@ -6,6 +6,8 @@
   display: flex;
   align-items: center;
   color:white;
+  flex-basis:300px;
+  flex-grow: 1;
 }
 
 .container:hover{
@@ -16,12 +18,14 @@
 .imageContainer{
   position: relative;
   height:100%;
-  width:60px;
 }
 
 .details{
-  padding-left:5px;
+  position:relative;
+  padding:0px 10px 0px 5px;
   width:auto;
-  overflow-x: auto;
+  overflow: auto;
+  white-space: nowrap;
+  text-overflow: '';
 }
 
