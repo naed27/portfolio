@@ -22,7 +22,9 @@ export default function Table () {
     return [
       ...pool.slice(start,end).map((card)=>(<Card card={card} key={`table_item_${card.id}`} cardSize={cardSize}/>)),
       <Card key='table_item_placeholder_invisibleChild_1' cardSize={{...cardSize,height:0}}/>,
-      <Card key='table_item_placeholder_invisibleChild_2' cardSize={{...cardSize,height:0}}/>
+      <Card key='table_item_placeholder_invisibleChild_2' cardSize={{...cardSize,height:0}}/>,
+      <Card key='table_item_placeholder_invisibleChild_3' cardSize={{...cardSize,height:0}}/>,
+      <Card key='table_item_placeholder_invisibleChild_4' cardSize={{...cardSize,height:0}}/>,
     ]
   },[tablePageRange])
 
