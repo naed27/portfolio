@@ -41,7 +41,7 @@ function CardImage({props:{
     <div className={styles.container}>
       <div className={styles.leftButton} onClick={()=>{setSearchIndex(leftButtonHandler(searchIndex))}}>{`<`}</div>
       <Image 
-          src={`${card.card_images[0].image_url_small}`} 
+          src={`${card.card_images[0].image_url}`} 
           alt='card image'
           layout='fill'
           objectFit='contain'

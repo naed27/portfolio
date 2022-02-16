@@ -17,7 +17,7 @@ export default function CardImage ({
   return (
     <> 
       <Image 
-      src={`${card.card_images[0].image_url_small}`} 
+      src={`${card.card_images[0].image_url}`} 
       alt='card'
       layout='fill'
       objectFit='contain'
