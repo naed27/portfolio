@@ -1,11 +1,16 @@
-import Image from 'next/image';
 import { YGOCard } from '../../../Misc/globalTypes';
 import styles from '../Styles/Card.module.css';
 import { GlobalContext } from '../../../Misc/globalContext';
 import React, { useCallback, useContext, memo, useMemo} from 'react';
 import { parseLimit } from '../../../Misc/globalFunctions';
+import CardImage from '../../../Utility/CardImage/CardImage';
 
-const Card = ({card}:{card:YGOCard}) => {
+interface Props {
+  card:YGOCard
+  cardSize:{width:number, height:number}
+}
+
+const Card = ({card, cardSize}:Props) => {
 
   const {setSelectedCard,setSearchIndex,searchedCards,query} = useContext(GlobalContext);
 
@@ -21,22 +26,17 @@ const Card = ({card}:{card:YGOCard}) => {
   const limit = useMemo(()=>parseLimit(query.cardGame,card.banlist_info),[ card, query.cardGame ]);
 
   return (
-    <div className={styles.container} 
+    <div 
+      className={styles.container} 
       draggable
       onClick={viewCard}
       onDragStart={(e)=>{onDragHandler(e)}}
+      style={{height:`${cardSize.height}px`}}
     >
-      <div className={styles.image}>
-        <Image 
-          src={`${card.card_images[0].image_url_small}`} 
-          alt='card image'
-          layout='fill'
-          objectFit='contain'
-        /> 
-        
-        {limit<3&&(<div className={styles.limitContainer}>
-          {limit}
-        </div>)}
+      <div 
+        className={styles.imageContainer}
+        style={{width:`${cardSize.width}px`}}>
+        <CardImage card={card} limit={limit}/>
       </div>
 
       <div className={styles.details}>{card.name}</div>

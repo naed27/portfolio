@@ -15,7 +15,11 @@ export default function Table () {
     const range = 20;
     const start = (currentPageNumber-1)*range;
     const end = start+range;
-    return pool.slice(start,end).map((card)=>(<Card card={card} key={`table_item_${card.id}`} />));
+    const cardWidth = 47.34;
+    const cardHeight = cardWidth*1.465;
+    const cardSize = {width:cardWidth, height:cardHeight};
+
+    return pool.slice(start,end).map((card)=>(<Card card={card} key={`table_item_${card.id}`} cardSize={cardSize}/>));
   },[])
 
   const calcMaxPage = useCallback((tablePageRange, searchedCards) => {
