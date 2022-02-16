@@ -5,6 +5,7 @@ import React, { useContext } from 'react';
 import { containsKeyword, getCardCategory } from '../../Misc/globalFunctions';
 import {parseLimit} from '../../Misc/globalFunctions';
 import { GlobalContext } from '../../Misc/globalContext';
+import CardImage from '../../Utility/CardImage/CardImage';
 
 const CardHolder = ({category,index,size,functions}:{
   category:string,
@@ -94,25 +95,12 @@ const CardHolder = ({category,index,size,functions}:{
         return filtered
       });
     }, 0.1);
-
   };
 
-  const render = (holder: YGOCard | null)=>{
-    if(holder===null)return
-    const limit = parseLimit(query.cardGame,holder.banlist_info)
-    return (
-      <> 
-        <Image 
-        src={`${holder.card_images[0].image_url_small}`} 
-        alt='card'
-        layout='fill'
-        objectFit='contain'
-        />
-        {limit<3&&(<div className={styles.limitContainer}>
-        {limit}
-        </div>)}
-      </>
-    )
+  const render = (card: YGOCard | null)=>{
+    if(card===null)return
+    const limit = parseLimit(query.cardGame,card.banlist_info)
+    return <CardImage card={card} limit={limit}/>
   }
 
   return (
