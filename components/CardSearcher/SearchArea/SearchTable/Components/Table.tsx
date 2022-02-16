@@ -12,7 +12,7 @@ export default function Table () {
   const pool = useMemo(()=>searchedCards,[searchedCards]);
 
   const render = useCallback((pool:YGOCard[],currentPageNumber:number)=>{
-    const range = 36;
+    const range = tablePageRange;
     const start = (currentPageNumber-1)*range;
     const end = start+range;
     const cardWidth = 47.34;
@@ -24,7 +24,7 @@ export default function Table () {
       <Card key='table_item_placeholder_invisibleChild_1' cardSize={{...cardSize,height:0}}/>,
       <Card key='table_item_placeholder_invisibleChild_2' cardSize={{...cardSize,height:0}}/>
     ]
-  },[])
+  },[tablePageRange])
 
   const calcMaxPage = useCallback((tablePageRange, searchedCards) => {
     if(searchedCards.length === 0) return 1;

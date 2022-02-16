@@ -14,7 +14,7 @@ export default function CardSearcherLogic() {
 
   const [pageNumber,setPageNumber] = useState<number>(1);
   const [maxPageOfTable,setMaxPageOfTable] = useState<number>(0); 
-  const [tablePageRange, setTablePageRange] = useState<number>(20);
+  const [tablePageRange, setTablePageRange] = useState<number>(36);
   const [numberOfCardsShownOnPage,setNumberOfCardsShownOnPage] = useState<number>(1); 
 
   const [selectedCard,setSelectedCard] = useState<YGOCard|null>(null);
