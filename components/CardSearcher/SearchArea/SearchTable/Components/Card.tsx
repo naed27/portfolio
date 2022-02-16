@@ -51,9 +51,9 @@ const Card = ({card, cardSize}:Props) => {
 
         <div className={styles.details} >
           <ScrollableDiv 
-            onStartScrollMouseClick={()=>{console.log('locked');setViewLock(true)}}
-            onEndScrollMouseClick={async () =>{ delay(300); setViewLock(false) }}
             className={styles.text} 
+            onEndScrollMouseClick={async () =>{ delay(300); setViewLock(false) }}
+            onStartScrollMouseClick={()=>{console.log('locked');setViewLock(true)}}
             scrollX={{
               scrollBorderRadius:`20px`, 
               trackPadding:0.5,
