@@ -11,7 +11,7 @@ function MainDeck({functions}:{functions:DeckFunctions}) {
   const generateMainDeck = useCallback(()=>{
 
     const cardWidth = 47.34;
-    const cardHeight = cardWidth*1.5;
+    const cardHeight = cardWidth*1.465;
     const cardSize = {width:cardWidth, height:cardHeight};
 
     const windowHeight = window.innerHeight;
