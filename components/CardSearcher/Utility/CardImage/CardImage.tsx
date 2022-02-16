@@ -4,10 +4,15 @@ import styles from './CardImage.module.scss';
 
 interface Props {
   card:YGOCard, 
-  limit:number
+  limit:number,
+  style?:React.CSSProperties
 }
 
-export default function CardImage ({card,limit}:Props) {
+export default function CardImage ({
+  card,
+  limit,
+  style
+}:Props) {
 
   return (
     <> 
@@ -17,7 +22,7 @@ export default function CardImage ({card,limit}:Props) {
       layout='fill'
       objectFit='contain'
       />
-      {limit<3&&(<div className={styles.limitContainer}>
+      {limit<3&&(<div className={styles.limitContainer} style={style}>
       {limit}
       </div>)}
     </>
