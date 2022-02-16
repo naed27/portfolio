@@ -55,8 +55,11 @@ export default function Details({card}:{card:YGOCard}){
 
   const showAtkDef = useCallback((card:YGOCard)=>{
     const {atk,def} = card;
-    if(atk===undefined||def===undefined)return null
-    return (<div>{`ATK : ${atk} / DEF: ${def}`}</div>)
+    if(atk===undefined&&def===undefined)return null
+    const atkStr = atk===undefined?'':`ATK: ${atk}`
+    const defStr = def===undefined?'':`DEF: ${def}`
+    const separator = atk===undefined||def===undefined?'':` / `
+    return(<div>{`${atkStr}${separator}${defStr}`}</div>)
   },[])
   
   const showDesc = useCallback((card:YGOCard)=>{
