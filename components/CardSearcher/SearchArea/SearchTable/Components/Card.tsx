@@ -14,7 +14,6 @@ interface Props {
 const Card = ({card, cardSize}:Props) => {
 
   const {setSelectedCard,setSearchIndex,searchedCards,query} = useContext(GlobalContext);
-  const holderRef = useRef<HTMLDivElement>(null);
 
   const viewCard = ()=>{
     if( card===null || card===undefined )return
@@ -38,7 +37,6 @@ const Card = ({card, cardSize}:Props) => {
       onClick={viewCard}
       onDragStart={(e)=>{onDragHandler(e)}}
       style={{height:`${cardSize.height}px`}}
-      ref={holderRef}
     >
       {card&&(
       <>
