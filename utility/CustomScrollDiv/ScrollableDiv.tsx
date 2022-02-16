@@ -38,6 +38,8 @@ interface Props{
   onClick?:() => any
   onMouseEnter?:() => any
   onMouseLeave?:() => any
+  onStartScrollMouseClick?:() => any 
+  onEndScrollMouseClick?:() => any
 }
 
 export default function ScrollableDiv ({
@@ -49,6 +51,8 @@ export default function ScrollableDiv ({
   onClick = () => {},
   onMouseEnter = () => {},
   onMouseLeave = () => {},
+  onStartScrollMouseClick = () => {},
+  onEndScrollMouseClick = () => {},
 }:Props) {
   
   const scroll = useMemo(() => {
@@ -188,7 +192,6 @@ export default function ScrollableDiv ({
       !isHoveringOnContainer&&onMouseLeave()
       return setHorizontalDragging(false)
     }
-
   },[isVerticalDragging, isHorizontalDragging,onMouseLeave,isHoveringOnContainer]);
 
 
@@ -240,11 +243,11 @@ export default function ScrollableDiv ({
     };
   },[handleDocumentMouseUp])
 
-  const handleVerticalScrollThumbMouseDown = useCallback(event => {
+  const vScrollMouseDownHandler = useCallback(event => {
     verticalScrollMouseDown(event,verticalScrollThumbStart,verticalScrollBasePoint)
   } ,[verticalScrollMouseDown, verticalScrollThumbStart, verticalScrollBasePoint ]);
 
-  const handleHorizontalScrollThumbMouseDown = useCallback(event => {
+  const hScrollMouseDownHandler = useCallback(event => {
     horizontalScrollMouseDown(event,horizontalScrollThumbStart,horizontalScrollBasePoint)
   } ,[horizontalScrollMouseDown, horizontalScrollThumbStart, horizontalScrollBasePoint ]);
 
@@ -275,8 +278,15 @@ export default function ScrollableDiv ({
       </div>
       
       <ScrollContext.Provider value={contextValues}>
-        <VerticalScroll onMouseDown={(e)=>handleVerticalScrollThumbMouseDown(e)}/>
-        <HorizontalScroll onMouseDown={(e)=>handleHorizontalScrollThumbMouseDown(e)}/>
+        <VerticalScroll 
+          onMouseDownCapture={()=>onStartScrollMouseClick()}
+          onMouseUpCapture={()=>onEndScrollMouseClick()}
+          onMouseDown={(e)=>vScrollMouseDownHandler(e)}
+        />
+
+        <HorizontalScroll 
+          onMouseDown={(e)=>hScrollMouseDownHandler(e)}
+        />
       </ScrollContext.Provider>
     </div>
   )

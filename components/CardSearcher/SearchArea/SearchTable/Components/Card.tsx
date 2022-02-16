@@ -5,6 +5,7 @@ import React, { useCallback, useContext, memo, useMemo, useRef, useEffect, useSt
 import { parseLimit } from '../../../Misc/globalFunctions';
 import CardImage from '../../../Utility/CardImage/CardImage';
 import ScrollableDiv from '../../../../../utility/CustomScrollDiv/ScrollableDiv';
+import { delay } from '../../../../../utility/functions';
 
 interface Props {
   card?:YGOCard|null
@@ -14,12 +15,14 @@ interface Props {
 const Card = ({card, cardSize}:Props) => {
 
   const {setSelectedCard,setSearchIndex,searchedCards,query} = useContext(GlobalContext);
+  const [viewLock,setViewLock] = useState(false);
 
-  const viewCard = ()=>{
+  const viewCard = useCallback(()=>{
+    if(viewLock)return
     if( card===null || card===undefined )return
     setSelectedCard(card);
     setSearchIndex(searchedCards.findIndex(c=>c.id===card.id))
-  }
+  },[ card, searchedCards, setSelectedCard, setSearchIndex, viewLock ])
 
   const onDragHandler = useCallback((e:React.DragEvent<HTMLDivElement>)=>{
     e.dataTransfer.setData('card',JSON.stringify(card));
@@ -47,12 +50,16 @@ const Card = ({card, cardSize}:Props) => {
         </div>
 
         <div className={styles.details} >
-          <ScrollableDiv className={styles.text} 
+          <ScrollableDiv 
+            onStartScrollMouseClick={()=>{console.log('locked');setViewLock(true)}}
+            onEndScrollMouseClick={async () =>{ delay(300); setViewLock(false) }}
+            className={styles.text} 
             scrollX={{
               scrollBorderRadius:`20px`, 
               trackPadding:0.5,
-            }}>
-              {card.name}
+            }}
+          >
+            {card.name}
           </ScrollableDiv>
         </div>
       </>

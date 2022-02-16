@@ -5,11 +5,15 @@ import { ScrollContext } from './Context'
 interface Props{
   onMouseDown?: (e: any) => any;
   onMouseUp?: (e: any) => any;
+  onMouseDownCapture?: (e: any) => any;
+  onMouseUpCapture?: (e: any) => any;
 }
 
 export default function HorizontalScroll ({
   onMouseDown = () => null,
-  onMouseUp = () => null
+  onMouseUp = () => null,
+  onMouseDownCapture = () => null,
+  onMouseUpCapture = () => null,
 }:Props) {
 
   const mouseDownHandler = useCallback(onMouseDown,[onMouseDown])
@@ -37,6 +41,8 @@ export default function HorizontalScroll ({
               className={styles.horizontalScrollTrack} 
               onMouseDown={mouseDownHandler}
               onMouseUp={mouseUpHandler}
+              onMouseDownCapture={onMouseDownCapture}
+              onMouseUpCapture={onMouseUpCapture}
               style={{
                 padding: `${scroll.X.trackPadding}px`,
                 width:`calc(100% - ${(showVerticalScrollBar)?scroll.X.thumbThickness:0}px)`,
