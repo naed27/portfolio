@@ -7,7 +7,7 @@ import CardImage from '../../../Utility/CardImage/CardImage';
 import ScrollableDiv from '../../../../../utility/CustomScrollDiv/ScrollableDiv';
 
 interface Props {
-  card:YGOCard
+  card?:YGOCard|null
   cardSize:{width:number, height:number}
 }
 
@@ -16,6 +16,7 @@ const Card = ({card, cardSize}:Props) => {
   const {setSelectedCard,setSearchIndex,searchedCards,query} = useContext(GlobalContext);
 
   const viewCard = ()=>{
+    if( card===null || card===undefined )return
     setSelectedCard(card);
     setSearchIndex(searchedCards.findIndex(c=>c.id===card.id))
   }
@@ -24,7 +25,10 @@ const Card = ({card, cardSize}:Props) => {
     e.dataTransfer.setData('card',JSON.stringify(card));
   },[card]);
 
-  const limit = useMemo(()=>parseLimit(query.cardGame,card.banlist_info),[ card, query.cardGame ]);
+  const limit = useMemo(()=>{
+    if(card===null || card===undefined) return -1
+    return parseLimit(query.cardGame,card.banlist_info)
+  },[ card, query.cardGame ]);
 
   return (
     <div 
@@ -34,17 +38,19 @@ const Card = ({card, cardSize}:Props) => {
       onDragStart={(e)=>{onDragHandler(e)}}
       style={{height:`${cardSize.height}px`}}
     >
-      <div 
-        className={styles.imageContainer}
-        style={{width:`${cardSize.width}px`, minWidth:`${cardSize.width}px`}}>
-        <CardImage card={card} limit={limit}/>
-      </div>
+      {card&&(
+      <>
+        <div 
+          className={styles.imageContainer}
+          style={{width:`${cardSize.width}px`, minWidth:`${cardSize.width}px`}}>
+          <CardImage card={card} limit={limit}/>
+        </div>
 
-      <div 
-        className={styles.details}
-      >
-        {card.name}
-      </div>
+        <div className={styles.details}>
+          {card.name}
+        </div>
+      </>
+      )}
     </div>
   );
 
