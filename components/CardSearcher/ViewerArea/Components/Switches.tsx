@@ -19,7 +19,7 @@ export default function Switches({props:{setSelectedCard,setShowControllers,show
   return (
     <div className={styles.container}>
       <div className={styles.button} onClick={toggleControllers}>
-        {!showControllers?(`Add to Deck`):(`Description`)}
+        {!showControllers?(`Manage`):(`Description`)}
       </div>
 
       <div className={styles.button} onClick={closeViewer}>
