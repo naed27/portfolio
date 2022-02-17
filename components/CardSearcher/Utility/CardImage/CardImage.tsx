@@ -6,22 +6,24 @@ interface Props {
   card:YGOCard, 
   limit:number,
   style?:React.CSSProperties
+  showImage?:boolean
 }
 
 export default function CardImage ({
   card,
   limit,
-  style
+  style,
+  showImage = false
 }:Props) {
 
   return (
     <div className={styles.wrapper}> 
-      {/* <Image 
+      {showImage&&(<Image 
       src={`${card.card_images[0].image_url}`} 
       alt='card'
       layout='fill'
       objectFit='contain'
-      /> */}
+      />)}
       {limit<3&&(<div className={styles.limitContainer} style={style}>
       {limit}
       </div>)}
