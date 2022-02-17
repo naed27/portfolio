@@ -27,12 +27,14 @@ export default function CardSearcherLogic() {
 
   const [showSearcher,toggleSearcher] = useState(true);
   const [showDeck,toggleDeck] = useState(false);
+  const [showImages,setShowImages] = useState(false);
 
   const cardTypes = useMemo(() => fetchCardTypes(mainCards),[mainCards]);
 
   const globalValues:GlobalContextType = {
     query,
     showDeck,
+    showImages,
     mainDeck,
     sideDeck, 
     extraDeck,
@@ -55,6 +57,7 @@ export default function CardSearcherLogic() {
     setExtraDeck,
     setMainCards,
     setPageNumber,
+    setShowImages,
     toggleSearcher, 
     setSearchIndex,
     setSelectedCard,
