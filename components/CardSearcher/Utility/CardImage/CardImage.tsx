@@ -15,7 +15,7 @@ export default function CardImage ({
 }:Props) {
 
   return (
-    <> 
+    <div className={styles.wrapper}> 
       {/* <Image 
       src={`${card.card_images[0].image_url}`} 
       alt='card'
@@ -25,7 +25,7 @@ export default function CardImage ({
       {limit<3&&(<div className={styles.limitContainer} style={style}>
       {limit}
       </div>)}
-    </>
+    </div>
   )
 
 }
