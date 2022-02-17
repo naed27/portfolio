@@ -78,6 +78,7 @@ export interface DeckFunctions{
 export interface GlobalContextType{
   readonly query: Query
   readonly showDeck: boolean,
+  readonly showImage: boolean,
   readonly pageNumber: number,
   readonly cardTypes: CardTypes,
   readonly mainCards: YGOCard[],
@@ -95,6 +96,7 @@ export interface GlobalContextType{
 
   readonly setQuery: Dispatch<SetStateAction<Query>>,
   readonly toggleDeck: Dispatch<SetStateAction<boolean>>,
+  readonly setShowImage: Dispatch<SetStateAction<boolean>>,
   readonly setPageNumber: Dispatch<SetStateAction<number>>,
   readonly setMainCards: Dispatch<SetStateAction<YGOCard[]>>,
   readonly toggleSearcher: Dispatch<SetStateAction<boolean>>,
