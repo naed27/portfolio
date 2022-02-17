@@ -9,6 +9,7 @@ interface Props{
   setSearchIndex:Dispatch<SetStateAction<number | null>>,
   searchedCards:YGOCard[],
   card:YGOCard,
+  showImage?:boolean,
 }
 
 function CardImage({props:{
@@ -16,7 +17,9 @@ function CardImage({props:{
   searchIndex,
   setSearchIndex,
   searchedCards,
-  card}}:{props:Props}) {
+  card,
+  showImage=false,
+}}:{props:Props}) {
 
   const leftButtonHandler = useCallback((searchIndex:number|null)=>{
     const currentIndex = searchIndex;
@@ -40,12 +43,12 @@ function CardImage({props:{
   return (
     <div className={styles.container}>
       <div className={styles.leftButton} onClick={()=>{setSearchIndex(leftButtonHandler(searchIndex))}}>{`<`}</div>
-      {/* <Image 
+      {showImage&&(<Image 
           src={`${card.card_images[0].image_url}`} 
           alt='card image'
           layout='fill'
           objectFit='contain'
-      /> */}
+      />)}
       <div className={styles.rightButton} onClick={()=>{setSearchIndex(rightButtonHandler(searchIndex))}}>{`>`}</div>
     </div>
   )
