@@ -14,7 +14,7 @@ interface Props {
 
 const Card = ({card, cardSize}:Props) => {
 
-  const {setSelectedCard,setSearchIndex,searchedCards,query} = useContext(GlobalContext);
+  const {setSelectedCard,setSearchIndex,searchedCards,query,showImages} = useContext(GlobalContext);
   const [viewLock,setViewLock] = useState(false);
 
   const viewCard = useCallback(()=>{
@@ -46,7 +46,7 @@ const Card = ({card, cardSize}:Props) => {
         <div 
           className={styles.imageContainer}
           style={{width:`${cardSize.width}px`, minWidth:`${cardSize.width}px`}}>
-          <CardImage card={card} limit={limit}/>
+          <CardImage card={card} limit={limit} showImages={showImages}/>
         </div>
 
         <div className={styles.details} >

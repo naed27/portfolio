@@ -18,7 +18,8 @@ function ViewCardArea({card}:{card:YGOCard}) {
     searchIndex,
     setSearchIndex,
     searchedCards,
-    query
+    query,
+    showImages,
   } = useContext(GlobalContext);
 
   const [showControllers, setShowControllers] = useState(false);
@@ -35,7 +36,7 @@ function ViewCardArea({card}:{card:YGOCard}) {
 
   const deckFunctions = {getCard,getSetter,getDeck,getExistingCardCount};
   const switchProps = {setSelectedCard,setShowControllers,showControllers};
-  const imageProps = {setSelectedCard,searchIndex,setSearchIndex,searchedCards,card};
+  const imageProps = {setSelectedCard,searchIndex,setSearchIndex,searchedCards,card,showImages};
   const controlProps = {addToDeck,removeFromDeck,getDeckCardCount,getExistingCardCount,card,getDeck,setShowControllers,query};
 
   const modalRef = useRef<HTMLDivElement>(null);
