@@ -40,12 +40,12 @@ function CardImage({props:{
   return (
     <div className={styles.container}>
       <div className={styles.leftButton} onClick={()=>{setSearchIndex(leftButtonHandler(searchIndex))}}>{`<`}</div>
-      <Image 
+      {/* <Image 
           src={`${card.card_images[0].image_url}`} 
           alt='card image'
           layout='fill'
           objectFit='contain'
-      />
+      /> */}
       <div className={styles.rightButton} onClick={()=>{setSearchIndex(rightButtonHandler(searchIndex))}}>{`>`}</div>
     </div>
   )

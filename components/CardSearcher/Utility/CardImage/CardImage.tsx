@@ -16,12 +16,12 @@ export default function CardImage ({
 
   return (
     <> 
-      <Image 
+      {/* <Image 
       src={`${card.card_images[0].image_url}`} 
       alt='card'
       layout='fill'
       objectFit='contain'
-      />
+      /> */}
       {limit<3&&(<div className={styles.limitContainer} style={style}>
       {limit}
       </div>)}
