@@ -6,19 +6,19 @@ interface Props {
   card:YGOCard, 
   limit:number,
   style?:React.CSSProperties
-  showImage?:boolean
+  showImages?:boolean
 }
 
 export default function CardImage ({
   card,
   limit,
   style,
-  showImage = false
+  showImages = false
 }:Props) {
 
   return (
     <div className={styles.wrapper}> 
-      {showImage&&(<Image 
+      {showImages&&(<Image 
       src={`${card.card_images[0].image_url}`} 
       alt='card'
       layout='fill'
