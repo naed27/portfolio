@@ -1,6 +1,6 @@
 import styles from './AudioVisualizer.module.css'
 import { FunctionComponent, useEffect, useRef, useState } from 'react'
-import world from './World';
+import world from './VisualizerLogic/CanvasLogic';
 import { motion } from 'framer-motion'
 import animation from './Animation';
 
