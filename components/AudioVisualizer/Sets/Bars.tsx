@@ -1,4 +1,4 @@
-import { getAverage, getDifference, getNeighbors } from "../../../../utility/functions";
+import { getAverage, getDifference, getNeighbors } from "../../../utility/functions";
 import Bar from "../Objects/Bar";
 
 interface constructorParamsType{

@@ -1,4 +1,4 @@
-import { getAverage, getDifference, getNeighbors } from "../../../../utility/functions";
+import { getAverage, getDifference, getNeighbors } from "../../../utility/functions";
 import ArcLine from "../Objects/ArcLine";
 
 interface constructorParamsType{

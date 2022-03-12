@@ -1,4 +1,4 @@
-import { getAverage, getNeighbors} from "../../../../utility/functions";
+import { getAverage, getNeighbors} from "../../../utility/functions";
 
 interface ConstructorParamsType{
   readonly ctx:CanvasRenderingContext2D,

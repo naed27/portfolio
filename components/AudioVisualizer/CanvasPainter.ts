@@ -1,6 +1,6 @@
-import Arc from '../Objects/Arc';
-import ArcLines from '../Sets/ArcLines'
-import Listener from '../AudioListener/Listener';
+import Arc from './Objects/Arc';
+import ArcLines from './Sets/ArcLines'
+import AudioManager from './AudioManager';
 
 export default function world (
   inputRef:any,
@@ -18,7 +18,6 @@ export default function world (
   const canvas:HTMLCanvasElement = canvasRef.current
   const playButton:HTMLDivElement = playButtonRef.current;
   const inputHolder:HTMLInputElement = inputRef.current;
-  const audio:HTMLAudioElement = new Audio();
   const progressLine:HTMLDivElement = progressLineRef.current;
   canvas.width=container.offsetWidth;
   canvas.height=container.offsetHeight;
@@ -33,37 +32,26 @@ export default function world (
     ctx.canvas.width=container.offsetWidth;
     ctx.canvas.height=container.offsetHeight;
   })
-
   
   const arcLines = new ArcLines({
     ctx:ctx,
     base_radius:60
   })
 
-  const audioStats = new Listener({
-    audio:audio,
-    playButton:playButton,
-    inputHolder:inputHolder,
-    customBinCount:1024,
-    binCountPercentage:70,
-    reactPlayButtonUpdater:setPlaying
-  })
+  const audioManager = new AudioManager({ isPlayingStatus: setPlaying })
 
-  const{playAudio,changeAudio} = audioStats;
-
+  const{ audio, playPauseAudio, changeAudio } = audioManager;
 
   let animationFrameId:number;
   const animate = ():void=>{
-    const {audioAnalyser,frequencyArray} = audioStats;
+    const { audioAnalyser,frequencyArray } = audioManager;
     if(audioAnalyser!==null&&frequencyArray!==null){
-
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
       audioAnalyser.getByteFrequencyData(frequencyArray)
       arcLines.drawArcLines(frequencyArray);
       updateProgress(audio);
-
     }
-    animationFrameId = window.requestAnimationFrame(()=>{animate()})
+    animationFrameId = window.requestAnimationFrame(()=>animate())
   }
 
   animate();
@@ -74,13 +62,13 @@ export default function world (
     progressLine.style.width=`${progressPercent}%`
   }
 
-  playButton.addEventListener('click',playAudio)
+  playButton.addEventListener('click',playPauseAudio)
   inputHolder.addEventListener('change',changeAudio)  
 
   return ()=>{
-    audio.src = "";
+    audio.src = '';
     window.cancelAnimationFrame(animationFrameId);
-    playButton.removeEventListener('click',playAudio);
+    playButton.removeEventListener('click',playPauseAudio);
     inputHolder.removeEventListener('change',changeAudio);
   }
 }
