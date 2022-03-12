@@ -17,6 +17,32 @@ export default class ArcLineSet{
     this.BASE_RADIUS=baseRadius
   }
 
+  
+  readonly draw = (frequencyArray:Uint8Array)=> {
+  
+    // get the frequency range 
+    const start = Math.floor(frequencyArray.length*0.2);
+    const end = frequencyArray.length-start;
+    const rangedArray = frequencyArray.slice(start,end)
+
+    // prepare
+    const frequencies = this.parse(rangedArray)
+
+    const flattenedArray = this.flatten(frequencies,26); //20
+    let smoothenedArray = this.smoothen(flattenedArray,4,7); //4 - 7
+    smoothenedArray = this.smoothen(smoothenedArray,2,1);
+    
+    const arcLineStore = this.getArcLineStore(frequencies);
+    const lineCount = arcLineStore.length;
+
+    for (let i = 0; i < smoothenedArray.length; i++) {
+      const arcLine = arcLineStore[i];
+      const frequency = smoothenedArray[i];
+      arcLine.draw({i,frequency,lineCount});
+    }
+    
+  }
+
   readonly parse = (frequencyArray:Uint8Array)=>{
 
     const leftside =[]
@@ -74,30 +100,6 @@ export default class ArcLineSet{
   }
 
 
-  readonly draw = (frequencyArray:Uint8Array)=> {
-  
-    // get the frequency range 
-    const start = Math.floor(frequencyArray.length*0.2);
-    const end = frequencyArray.length-start;
-    const rangedArray = frequencyArray.slice(start,end)
-
-    // prepare
-    const frequencies = this.parse(rangedArray)
-
-    const flattenedArray = this.flatten(frequencies,26); //20
-    let smoothenedArray = this.smoothen(flattenedArray,4,7); //4 - 7
-    smoothenedArray = this.smoothen(smoothenedArray,2,1);
-    
-    const arcLineStore = this.getArcLineStore(frequencies);
-    const lineCount = arcLineStore.length;
-
-    for (let i = 0; i < smoothenedArray.length; i++) {
-      const arcLine = arcLineStore[i];
-      const frequency = smoothenedArray[i];
-      arcLine.draw({i,frequency,lineCount});
-    }
-    
-  }
 
 
   
