@@ -1,6 +1,6 @@
 import Arc from './Objects/Arc';
-import ArcLines from './Sets/ArcLines'
 import AudioManager from './AudioManager';
+import ArcLineSet from './Sets/ArcLineSet';
 
 export default function world (
   inputRef:any,
@@ -33,9 +33,9 @@ export default function world (
     ctx.canvas.height=container.offsetHeight;
   })
   
-  const arcLines = new ArcLines({
+  const arcLines = new ArcLineSet({
     ctx:ctx,
-    base_radius:60
+    baseRadius:60
   })
 
   const audioManager = new AudioManager({ isPlayingStatus: setPlaying })
@@ -48,7 +48,7 @@ export default function world (
     if(audioAnalyser!==null&&frequencyArray!==null){
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
       audioAnalyser.getByteFrequencyData(frequencyArray)
-      arcLines.drawArcLines(frequencyArray);
+      arcLines.draw(frequencyArray);
       updateProgress(audio);
     }
     animationFrameId = window.requestAnimationFrame(()=>animate())

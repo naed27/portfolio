@@ -3,21 +3,18 @@ import ArcLine from "../Objects/ArcLine";
 
 interface constructorParamsType{
   readonly ctx:CanvasRenderingContext2D,
-  readonly base_radius:number,
+  readonly baseRadius:number,
 }
 
-class ArcLines{
+export default class ArcLineSet{
 
   readonly ctx:CanvasRenderingContext2D;
   readonly BASE_RADIUS:number;
   readonly arcLineStore:ArcLine[]=[];
 
-  constructor({
-    ctx,
-    base_radius
-  }:constructorParamsType){
+  constructor({ ctx, baseRadius }: constructorParamsType){
     this.ctx=ctx;
-    this.BASE_RADIUS=base_radius
+    this.BASE_RADIUS=baseRadius
   }
 
   readonly parse = (frequencyArray:Uint8Array)=>{
@@ -40,7 +37,7 @@ class ArcLines{
 
     const merged = [...leftside,...rightside.reverse()]
     const percentage = Math.floor(merged.length*0.75);
-    return [...merged.slice(percentage,merged.length),...merged.slice(0,percentage)]
+    return [...merged.slice(percentage,merged.length),...merged.slice(0,percentage)];
 
   }
 
@@ -77,7 +74,7 @@ class ArcLines{
   }
 
 
-  readonly drawArcLines = (frequencyArray:Uint8Array)=> {
+  readonly draw = (frequencyArray:Uint8Array)=> {
   
     // get the frequency range 
     const start = Math.floor(frequencyArray.length*0.2);
@@ -124,5 +121,3 @@ class ArcLines{
   }
 
 }
-
-export default ArcLines;
