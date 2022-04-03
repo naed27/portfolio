@@ -23,6 +23,7 @@ export default function CardImage ({
       alt='card'
       layout='fill'
       objectFit='contain'
+      unoptimized
       />)}
       {limit<3&&(<div className={styles.limitContainer} style={style}>
       {limit}

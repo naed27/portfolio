@@ -27,7 +27,7 @@ export default function CardSearcherLogic() {
 
   const [showSearcher,toggleSearcher] = useState(true);
   const [showDeck,toggleDeck] = useState(false);
-  const [showImages,setShowImages] = useState(false); //disabling images for now
+  const [showImages,setShowImages] = useState(true); //enabling images (warning: might surpass free-limit)
 
   const cardTypes = useMemo(() => fetchCardTypes(mainCards),[mainCards]);
 
