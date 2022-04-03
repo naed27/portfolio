@@ -29,7 +29,7 @@ export default class ArcLineSet{
 
     const parsedFrequencies = this.parse(trimmedFrequencies)
 
-    const smoothFrenquencies = this.smoothen(parsedFrequencies,2,15);
+    const smoothFrenquencies = this.smoothen(parsedFrequencies,4,3);
     
     const arcLineStore = this.getArcLineStore(smoothFrenquencies);
     const lineCount = arcLineStore.length;
@@ -69,7 +69,7 @@ export default class ArcLineSet{
   smoothen = (frequencies:number[],neighborCount:number,loopCount:number):number[]=>{
     for(let i = 1; i <= loopCount; i++){
       frequencies = frequencies.map(( frequency, j ) =>
-        getAverage( [...getNeighbors(frequencies, j, i > 1 ? neighborCount : 6), frequency] ));
+        getAverage( [...getNeighbors(frequencies, j, i > 1 ? neighborCount : 4), frequency] ));
     }
     return frequencies
   }
