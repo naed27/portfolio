@@ -1,4 +1,3 @@
-
 interface ArcParams{
   readonly ctx:CanvasRenderingContext2D,
   readonly x?:number,
@@ -24,8 +23,6 @@ interface arcState{
   readonly endAngle:number,
   readonly impact:number,
 }
-
-
 
 class Arc{
 

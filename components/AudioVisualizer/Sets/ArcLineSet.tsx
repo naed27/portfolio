@@ -76,7 +76,7 @@ export default class ArcLineSet{
 
   getArcLineStore = ( frequencyArray: number[] ) => {
     if(this.arcLineStore.length===0)
-      this.setArcLineStore(frequencyArray);
+      this.setArcLineStore(frequencyArray)
     return this.arcLineStore;
   }
 

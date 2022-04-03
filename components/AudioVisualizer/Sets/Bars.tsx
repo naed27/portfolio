@@ -10,18 +10,16 @@ class Bars{
   readonly ctx:CanvasRenderingContext2D;
   readonly barStore:Bar[]=[];
 
-  constructor({
-    ctx
-  }:constructorParamsType){
+  constructor({ ctx }: constructorParamsType){
     this.ctx=ctx;
   }
 
-  readonly parse = (frequencyArray:Uint8Array)=>{
+  parse = (frequencyArray:Uint8Array | number[])=>{
    
     const leftside =[]
     const rightside = []
     const requirement = 0;
-    const average = Math.floor(getAverage(frequencyArray));
+    const average = Math.floor(getAverage(frequencyArray as number[]));
 
     for (let i = 0; i < frequencyArray.length; i++) {
       const frequency = frequencyArray[i];
@@ -34,12 +32,11 @@ class Bars{
         rightside.push(frequency);
       }
       
-      
     }
     return [...leftside,...rightside.reverse()];
   }
 
-  readonly drawBars = (frequencyArray:Uint8Array)=> {
+  drawBars = (frequencyArray:Uint8Array)=> {
   
     const frequencies = this.parse(frequencyArray);
     const barStore = this.getBarStore(frequencies);
@@ -54,27 +51,16 @@ class Bars{
     
   }
 
-  readonly getBarStore = (frequencyArray:Uint8Array|number[]):Bar[] =>{
-    if(this.ctx===null)return this.barStore
-    if(this.barStore.length!==0)return this.barStore
-    if(this.barStore.length<0)return []
-    
-    return this.setupBarStore(frequencyArray);
-  }
-
-  readonly setupBarStore = (frequencyArray:Uint8Array|number[]):Bar[]=>{
-    const barCount = frequencyArray.length;
-    const canvasWidth = this.ctx.canvas.width;
-    const canvasBottom = this.ctx.canvas.height;
-    const barWidth = canvasWidth/barCount;
-
-    for (let i = 0; i < barCount; i++) {
-      this.barStore.push(new Bar({ctx:this.ctx}));
-    }
-
+  getBarStore = (frequencyArray:Uint8Array|number[]):Bar[] =>{
+    if(this.barStore.length===0)
+      this.setupBarStore(frequencyArray as number[])
     return this.barStore;
   }
 
+  setupBarStore = (frequencyArray:number[]) => {
+    frequencyArray.map(()=>this.barStore.push(new Bar({ctx:this.ctx})))
+  }
+    
 }
 
 export default Bars;
