@@ -45,13 +45,10 @@ export const toBase64 = (file: any) => new Promise((resolve, reject) => {
   reader.onerror = error => reject(error);
 });
 
-export const getAverage = (array:number[]|Uint8Array) =>{
+export const getAverage = (array:number[]) =>{
   if(array.length===0)return 0;
-  let res = 0;
-  array.forEach(number => {
-    res+=number;
-  });
-  return (res/array.length);
+  const arrayTotalSum = array.reduce((a,b)=>a+b);
+  return (arrayTotalSum/array.length);
 }
 
 export const getNeighbors = (dataArray:Uint8Array|number[],i:number,numOfNeighbors:number)=>{

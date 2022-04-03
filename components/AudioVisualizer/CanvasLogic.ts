@@ -1,30 +1,37 @@
-import Arc from './Objects/Arc';
+import { Dispatch, RefObject, SetStateAction } from 'react';
 import AudioManager from './AudioManager';
 import ArcLineSet from './Sets/ArcLineSet';
 
 export default function world (
-  inputRef:any,
-  canvasRef:any,
-  containerRef:any,
-  playButtonRef:any,
-  progressLineRef:any,
-  setPlaying:any
+  inputRef:RefObject<HTMLInputElement>,
+  canvasRef:RefObject<HTMLCanvasElement>,
+  containerRef:RefObject<HTMLDivElement>,
+  playButtonRef:RefObject<HTMLDivElement>,
+  progressLineRef:RefObject<HTMLDivElement>,
+  setPlaying:Dispatch<SetStateAction<boolean>>
 ):{ ():void } | void {
 
-
-  //setup canvas and context
-  if (containerRef.current === null||canvasRef.current === null || inputRef.current===null) return
-  const container:HTMLDivElement = containerRef.current
+  if (
+        inputRef.current === null
+    ||  canvasRef.current === null 
+    ||  containerRef.current === null 
+    ||  playButtonRef.current === null
+    ||  progressLineRef.current === null
+  ) return
+  
   const canvas:HTMLCanvasElement = canvasRef.current
-  const playButton:HTMLDivElement = playButtonRef.current;
-  const inputHolder:HTMLInputElement = inputRef.current;
-  const progressLine:HTMLDivElement = progressLineRef.current;
+  const container:HTMLDivElement = containerRef.current
+  const inputHolder:HTMLInputElement = inputRef.current
+  const playButton:HTMLDivElement = playButtonRef.current
+  const progressLine:HTMLDivElement = progressLineRef.current
+
   canvas.width=container.offsetWidth;
   canvas.height=container.offsetHeight;
   console.log(`width: ${container.offsetWidth}`)
   console.log(`height: ${container.offsetHeight}`)
   const ctx:CanvasRenderingContext2D|null = canvas.getContext('2d');
-  if(ctx===null)return
+  
+  if(ctx===null) return
 
   window.addEventListener('resize',()=>{
     canvas.width=container.offsetWidth;
@@ -33,39 +40,37 @@ export default function world (
     ctx.canvas.height=container.offsetHeight;
   })
   
-  const arcLines = new ArcLineSet({
-    ctx:ctx,
-    baseRadius:60
-  })
+  const arcLines = new ArcLineSet({ ctx })
 
-  const audioManager = new AudioManager({ isPlayingStatus: setPlaying })
+  const audioManager = new AudioManager({ setPlaying })
 
   const{ audio, playPauseAudio, changeAudio } = audioManager;
 
-  let animationFrameId:number;
-  const animate = ():void=>{
-    const { audioAnalyser,frequencyArray } = audioManager;
-    if(audioAnalyser!==null&&frequencyArray!==null){
+  let animationFrameId: number;
+
+  const animate = () => {
+    const { audioAnalyser, frequencyArray } = audioManager;
+    if(audioAnalyser && frequencyArray){
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
       audioAnalyser.getByteFrequencyData(frequencyArray)
       arcLines.draw(frequencyArray);
       updateProgress(audio);
     }
-    animationFrameId = window.requestAnimationFrame(()=>animate())
+    animationFrameId = window.requestAnimationFrame(animate)
   }
 
   animate();
 
   const updateProgress = (audio:HTMLAudioElement)=>{
     const {duration, currentTime} = audio
-    const progressPercent = (currentTime/duration)*100;
-    progressLine.style.width=`${progressPercent}%`
+    const progressPercentage = (currentTime/duration)*100;
+    progressLine.style.width=`${progressPercentage}%`
   }
 
   playButton.addEventListener('click',playPauseAudio)
   inputHolder.addEventListener('change',changeAudio)  
 
-  return ()=>{
+  return () => {
     audio.src = '';
     window.cancelAnimationFrame(animationFrameId);
     playButton.removeEventListener('click',playPauseAudio);

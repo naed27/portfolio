@@ -28,8 +28,6 @@
 }
 
 
-
-
 /* ----------------------- file input --------------------------- */
 
 .controlContainer{
@@ -43,6 +41,8 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  border: 1px solid white;
+  
 }
 
 .inputLabel{
@@ -70,14 +70,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 1px solid white;
 }
-
 
 .audioButton{
   width: 70px;
   height: 40px;
   opacity: 0.7;
-  color:rgb(20, 218, 218);
+  color:darkcyan;
   margin: 5px;
   padding:10px;
   display: flex;
@@ -86,7 +86,7 @@
   cursor: pointer;
   padding:20px;
   border-radius: 10%;
-  border:2px solid rgb(20, 218, 218);
+  border:2px solid darkcyan;
 }
 
 
@@ -98,7 +98,7 @@
   height:15px;
   padding:4px;
   border:2px solid darkcyan;
-  border-radius: 3px;
+  border-radius: 5px;
 }
 
 .progressLine{
@@ -117,12 +117,12 @@
   padding:5px;
   border-radius: 10px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .audioTitle{
-  color:rgb(0, 167, 167);
+  color:darkcyan
 }
 
 

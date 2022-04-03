@@ -67,13 +67,7 @@ class ArcLine{
   update = (updateParams :updateParams):ArcLineState =>{    
     const { i, frequency, lineCount } = updateParams;
 
-    const {
-      startX:previous_start_x,
-      startY:previous_start_y,
-      endX:previous_end_x,
-      endY:previous_end_y,
-      color:previous_color
-    } = this.current_state
+    const { color:previous_color } = this.current_state
 
     const numberOfBars = lineCount;
 
@@ -86,12 +80,12 @@ class ArcLine{
 
     const startX = centerX + Math.cos(barWidth * i) * ((this.BASE_RADIUS) + lineWidth);
     const startY = centerY + Math.sin(barWidth * i) * ((this.BASE_RADIUS) + lineWidth);
-    const endX = centerX + Math.cos(barWidth * i) * ((this.BASE_RADIUS) - (finalHeight*13));
-    const endY = centerY + Math.sin(barWidth * i) * ((this.BASE_RADIUS) - (finalHeight*13));
+    const endX = centerX + Math.cos(barWidth * i) * ((this.BASE_RADIUS) - (finalHeight*14));
+    const endY = centerY + Math.sin(barWidth * i) * ((this.BASE_RADIUS) - (finalHeight*14));
     const color = previous_color;
 
-    const endX2 = centerX + Math.cos(barWidth * i) * ((this.BASE_RADIUS) + (finalHeight*4));
-    const endY2 = centerY + Math.sin(barWidth * i) * ((this.BASE_RADIUS) + (finalHeight*4));
+    const endX2 = centerX + Math.cos(barWidth * i) * ((this.BASE_RADIUS) + (finalHeight*1));
+    const endY2 = centerY + Math.sin(barWidth * i) * ((this.BASE_RADIUS) + (finalHeight*1));
 
     return this.current_state={
       startX:startX,

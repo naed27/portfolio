@@ -1,7 +1,8 @@
+import { Dispatch, SetStateAction } from "react";
 import { toBase64 } from "../../utility/functions";
 
 interface ListenerParams{
-  isPlayingStatus:any
+  setPlaying: Dispatch<SetStateAction<boolean>>
 }
 
 export default class AudioManager{
@@ -11,10 +12,10 @@ export default class AudioManager{
   start: boolean = false;
   isPlaying: boolean = false;
   audioIsEmpty: boolean = true;
-
-  readonly customBinCount: number = 1024;
-  readonly binCountPercentage: number = 70/100;
+  
   readonly isPlayingStatus: any;
+  readonly customBinCount: number = 512;
+  readonly binCountPercentage: number = (70) / 100;
 
   bufferLength: number | null = null;
   frequencyArray: Uint8Array | null = null;
@@ -22,14 +23,13 @@ export default class AudioManager{
   audioAnalyser: AnalyserNode | null = null;
   audioSource: MediaElementAudioSourceNode | null = null;
 
-  constructor({
-    isPlayingStatus
-  }:ListenerParams){
+  constructor({ setPlaying: isPlayingStatus }:ListenerParams){
     this.isPlayingStatus = isPlayingStatus
   }
 
-  readonly playPauseAudio = ()=>{  
-    if(this.audioIsEmpty){ return console.log('empty audio');}
+  readonly playPauseAudio = () => {  
+    if(this.audioIsEmpty) 
+      return console.log('empty audio'); 
 
     if(this.isPlaying){ 
       this.isPlaying = false;

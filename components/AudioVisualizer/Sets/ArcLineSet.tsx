@@ -2,56 +2,55 @@ import { getAverage, getDifference, getNeighbors } from "../../../utility/functi
 import ArcLine from "../Objects/ArcLine";
 
 interface constructorParamsType{
-  readonly ctx:CanvasRenderingContext2D,
-  readonly baseRadius:number,
+  readonly ctx:CanvasRenderingContext2D
 }
 
 export default class ArcLineSet{
 
-  readonly ctx:CanvasRenderingContext2D;
-  readonly BASE_RADIUS:number;
-  readonly arcLineStore:ArcLine[]=[];
+  readonly ctx: CanvasRenderingContext2D;
+  readonly BASE_RADIUS: number = 60;
+  readonly offset = (15) / 100; // (start at 20% of total frequencies) / (end at 80% of total frequencies)
 
-  constructor({ ctx, baseRadius }: constructorParamsType){
-    this.ctx=ctx;
-    this.BASE_RADIUS=baseRadius
+  arcLineStore: ArcLine [] = [];
+
+  constructor({ ctx }: constructorParamsType){
+    this.ctx = ctx;
   }
 
-  
-  readonly draw = (frequencyArray:Uint8Array)=> {
-  
-    // get the frequency range 
-    const start = Math.floor(frequencyArray.length*0.2);
-    const end = frequencyArray.length-start;
-    const rangedArray = frequencyArray.slice(start,end)
+  trimFrequency = (frequencyArray: number[]) => {
+    const start = Math.floor(frequencyArray.length * this.offset);
+    const end = frequencyArray.length - start;
+    return frequencyArray.slice(start,end)
+  }
 
-    // prepare
-    const frequencies = this.parse(rangedArray)
+  draw = (frequencyArray:Uint8Array | number[])=> {
+  
+    const trimmedFrequencies = this.trimFrequency(frequencyArray as number[])
 
-    const flattenedArray = this.flatten(frequencies,26); //20
-    let smoothenedArray = this.smoothen(flattenedArray,4,7); //4 - 7
-    smoothenedArray = this.smoothen(smoothenedArray,2,1);
+    const parsedFrequencies = this.parse(trimmedFrequencies)
+
+    const smoothFrenquencies = this.smoothen(parsedFrequencies,2,15);
     
-    const arcLineStore = this.getArcLineStore(frequencies);
+    const arcLineStore = this.getArcLineStore(smoothFrenquencies);
     const lineCount = arcLineStore.length;
 
-    for (let i = 0; i < smoothenedArray.length; i++) {
+    smoothFrenquencies.map((frequency, i) => {
       const arcLine = arcLineStore[i];
-      const frequency = smoothenedArray[i];
       arcLine.draw({i,frequency,lineCount});
-    }
+    })
     
   }
 
-  readonly parse = (frequencyArray:Uint8Array)=>{
+  parse = (frequencyArray:Uint8Array | number[])=>{
 
     const leftside =[]
     const rightside = []
-    const requirement = 18;
-    const average = Math.floor(getAverage(frequencyArray));
+    const requirement = 8;
+    const average = Math.floor(getAverage(frequencyArray as number[]));
     for (let i = 0; i < frequencyArray.length; i++) {
       const frequency = frequencyArray[i];
       const difference = getDifference(average,frequency);
+
       if(difference<requirement){
         leftside.push(0);
         rightside.push(0);
@@ -67,59 +66,22 @@ export default class ArcLineSet{
 
   }
 
-  readonly flatten = (frequencies:number[],neighborCount:number)=>{
-    const flattenedArray = [];
-    for (let i = 0; i < frequencies.length; i++) {
-      const frequency = frequencies[i];
-      const neighbors = getNeighbors(frequencies,i,neighborCount);
-      const average = getAverage([...neighbors,frequency]);
-      flattenedArray.push(average);
+  smoothen = (frequencies:number[],neighborCount:number,loopCount:number):number[]=>{
+    for(let i = 1; i <= loopCount; i++){
+      frequencies = frequencies.map(( frequency, j ) =>
+        getAverage( [...getNeighbors(frequencies, j, i > 1 ? neighborCount : 6), frequency] ));
     }
-    return flattenedArray
+    return frequencies
   }
 
-  readonly smoothen = (numbers:number[],neighborCount:number,loopCount:number):number[]=>{
-    let result:number[]=[];
-  
-    while(loopCount!=0){
-  
-      let temp:number[] = [];
-      if(result.length>0)numbers=result;
-  
-      for (let i = 0; i < numbers.length; i++) {
-        const frequency = numbers[i];
-        const neighbors = getNeighbors(numbers,i,neighborCount);
-        const average = getAverage([...neighbors,frequency]);
-        temp.push(average);
-      }
-      loopCount--
-      result=temp;
-    }
-    
-    return result
-  }
-
-
-
-
-  
-
-  readonly getArcLineStore = (frequencyArray:Uint8Array|number[]):ArcLine[] =>{
-    if(this.ctx===null)return this.arcLineStore
-    if(this.arcLineStore.length!==0)return this.arcLineStore
-    if(this.arcLineStore.length<0)return []
-    
-    return this.setArcLineStore(frequencyArray);
-  }
-
-  readonly setArcLineStore = (frequencyArray:Uint8Array|number[]):ArcLine[]=>{
-    for (let i = 0; i < frequencyArray.length; i++) {
-      this.arcLineStore.push(new ArcLine({
-        ctx:this.ctx,
-        baseRadius:this.BASE_RADIUS
-      }));
-    }
+  getArcLineStore = ( frequencyArray: number[] ) => {
+    if(this.arcLineStore.length===0)
+      this.setArcLineStore(frequencyArray);
     return this.arcLineStore;
+  }
+
+  setArcLineStore = (frequencyArray: number[]) => {
+    this.arcLineStore = frequencyArray.map(() => new ArcLine({ ctx:this.ctx, baseRadius:this.BASE_RADIUS }) )
   }
 
 }
