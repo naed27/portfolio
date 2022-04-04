@@ -69,7 +69,7 @@ class ArcLine{
 
     const numberOfBars = lineCount;
 
-    const finalHeight = frequency *0.01; //smoothened and scaled
+    const finalHeight = frequency * 0.01; 
   
     const centerX = this.ctx.canvas.width / 2;
     const centerY = this.ctx.canvas.height / 2;
@@ -78,12 +78,12 @@ class ArcLine{
 
     const startX = centerX + Math.cos(barWidth * i) * ((this.BASE_RADIUS) + lineWidth);
     const startY = centerY + Math.sin(barWidth * i) * ((this.BASE_RADIUS) + lineWidth);
-    const endX = centerX + Math.cos(barWidth * i) * ((this.BASE_RADIUS) - (finalHeight*14));
-    const endY = centerY + Math.sin(barWidth * i) * ((this.BASE_RADIUS) - (finalHeight*14));
+    const endX = centerX + Math.cos(barWidth * i) * ((this.BASE_RADIUS) - (finalHeight*0));
+    const endY = centerY + Math.sin(barWidth * i) * ((this.BASE_RADIUS) - (finalHeight*0));
     const color = previous_color;
 
-    const endX2 = centerX + Math.cos(barWidth * i) * ((this.BASE_RADIUS) + (finalHeight*1));
-    const endY2 = centerY + Math.sin(barWidth * i) * ((this.BASE_RADIUS) + (finalHeight*1));
+    const endX2 = centerX + Math.cos(barWidth * i) * ((this.BASE_RADIUS) + (finalHeight*20));
+    const endY2 = centerY + Math.sin(barWidth * i) * ((this.BASE_RADIUS) + (finalHeight*20));
 
     return this.current_state={
       startX:startX,

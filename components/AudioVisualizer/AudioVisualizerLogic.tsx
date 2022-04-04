@@ -11,7 +11,7 @@ export default function AudioVisualizerLogic() {
   const playButtonRef = useRef<HTMLDivElement>(null);
   const progressLineRef = useRef<HTMLDivElement>(null);
   
-  const [audioTitle, setAudioTitle] = useState<string>('');
+  const [audioTitle, setAudioTitle] = useState<string | null>(null);
   const [playing, setPlaying] = useState<boolean>(false);
 
 

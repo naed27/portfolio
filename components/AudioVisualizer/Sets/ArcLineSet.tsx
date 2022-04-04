@@ -8,8 +8,9 @@ interface constructorParamsType{
 export default class ArcLineSet{
 
   readonly ctx: CanvasRenderingContext2D;
-  readonly BASE_RADIUS: number = 60;
-  readonly offset = (15) / 100; // (start at 20% of total frequencies) / (end at 80% of total frequencies)
+  readonly BASE_RADIUS: number = 70;
+  readonly offset = (20) / 100; // (start at 20% of total frequencies) / (end at 80% of total frequencies)
+  readonly minimumFrequencyStrength = 0;
 
   arcLineStore: ArcLine [] = [];
 
@@ -29,15 +30,12 @@ export default class ArcLineSet{
 
     const parsedFrequencies = this.parse(trimmedFrequencies)
 
-    const smoothFrenquencies = this.smoothen(parsedFrequencies,4,3);
+    const finalSmooth = parsedFrequencies
     
-    const arcLineStore = this.getArcLineStore(smoothFrenquencies);
+    const arcLineStore = this.getArcLineStore(finalSmooth);
     const lineCount = arcLineStore.length;
 
-    smoothFrenquencies.map((frequency, i) => {
-      const arcLine = arcLineStore[i];
-      arcLine.draw({i,frequency,lineCount});
-    })
+    finalSmooth.map((frequency, i) => arcLineStore[i].draw({i,frequency,lineCount}))
     
   }
 
@@ -45,13 +43,13 @@ export default class ArcLineSet{
 
     const leftside =[]
     const rightside = []
-    const requirement = 8;
     const average = Math.floor(getAverage(frequencyArray as number[]));
+
     for (let i = 0; i < frequencyArray.length; i++) {
       const frequency = frequencyArray[i];
       const difference = getDifference(average,frequency);
 
-      if(difference<requirement){
+      if(difference<this.minimumFrequencyStrength){
         leftside.push(0);
         rightside.push(0);
       }else{
@@ -59,20 +57,15 @@ export default class ArcLineSet{
         rightside.push(frequency);
       }
     }
-
-    const merged = [...leftside,...rightside.reverse()]
-    const percentage = Math.floor(merged.length*0.75);
-    return [...merged.slice(percentage,merged.length),...merged.slice(0,percentage)];
+    const res = rightside.concat(leftside.reverse());
+    const percentage = Math.floor(res.length*0.75);
+    return [...res.slice(percentage,res.length),...res.slice(0,percentage)];
 
   }
 
-  smoothen = (frequencies:number[],neighborCount:number,loopCount:number):number[]=>{
-    for(let i = 1; i <= loopCount; i++){
-      frequencies = frequencies.map(( frequency, j ) =>
-        getAverage( [...getNeighbors(frequencies, j, i > 1 ? neighborCount : 4), frequency] ));
-    }
-    return frequencies
-  }
+  smoothen = (frequencies:number[],neighborCount:number): number[]=> 
+    frequencies.map(( frequency, j ) =>
+      getAverage( [...getNeighbors(frequencies, j, neighborCount), frequency] ));
 
   getArcLineStore = ( frequencyArray: number[] ) => {
     if(this.arcLineStore.length===0)

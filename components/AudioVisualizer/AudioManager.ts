@@ -14,7 +14,7 @@ export default class AudioManager{
   audioIsEmpty: boolean = true;
   
   readonly isPlayingStatus: any;
-  readonly customBinCount: number = 512;
+  readonly customBinCount: number = 256;
   readonly binCountPercentage: number = (70) / 100;
 
   bufferLength: number | null = null;

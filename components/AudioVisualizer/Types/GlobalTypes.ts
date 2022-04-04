@@ -9,8 +9,8 @@ export interface GlobalContextType{
   readonly progressLineRef?: RefObject<HTMLDivElement>
 
   readonly playing?: boolean
-  readonly audioTitle?: string
+  readonly audioTitle?: string | null
 
   readonly setPlaying?: Dispatch<SetStateAction<boolean>>
-  readonly setAudioTitle?: Dispatch<SetStateAction<string>>
+  readonly setAudioTitle?: Dispatch<SetStateAction<string | null>>
 }
