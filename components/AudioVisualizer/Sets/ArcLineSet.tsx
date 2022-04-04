@@ -1,4 +1,4 @@
-import { getAverage, getDifference, getNeighbors } from "../../../utility/functions";
+import { getAverage, getDifference } from "../../../utility/functions";
 import ArcLine from "../Objects/ArcLine";
 
 interface constructorParamsType{
@@ -25,18 +25,10 @@ export default class ArcLineSet{
   }
 
   draw = (frequencyArray:Uint8Array | number[])=> {
-  
     const trimmedFrequencies = this.trimFrequency(frequencyArray as number[])
-
     const parsedFrequencies = this.parse(trimmedFrequencies)
-
-    const finalSmooth = parsedFrequencies
-    
-    const arcLineStore = this.getArcLineStore(finalSmooth);
-    const lineCount = arcLineStore.length;
-
-    finalSmooth.map((frequency, i) => arcLineStore[i].draw({i,frequency,lineCount}))
-    
+    const arcLineStore = this.getArcLineStore(parsedFrequencies);
+    parsedFrequencies.map((frequency, i) => arcLineStore[i].draw({i,frequency,lineCount: arcLineStore.length}))
   }
 
   parse = (frequencyArray:Uint8Array | number[])=>{

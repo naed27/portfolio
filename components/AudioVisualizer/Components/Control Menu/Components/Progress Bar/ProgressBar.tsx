@@ -6,11 +6,8 @@ export default function ProgressBar () {
   
   const { progressLineRef, audioTitle } = useContext(GlobalContext)
 
-  if(audioTitle === null) 
-    return null
-    
   return (
-    <div className={styles.progressContainer}>
+    <div className={styles.progressContainer}  style={{opacity:(audioTitle === null)?0:1}}>
       <div ref={progressLineRef} className={styles.progressBar}></div>
     </div>
   )
