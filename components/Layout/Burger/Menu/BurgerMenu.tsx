@@ -23,7 +23,6 @@ export default function BurgerMenu () {
             <Link href="/moving-box"><a>Moving Box</a></Link>
             <Link href="/card-searcher"><a>Card Searcher</a></Link>
             <Link href="/audio-visualizer"><a>Audio Visualizer</a></Link>
-            <Link href="/weather-simulator"><a>Weather Simulator</a></Link>
           </motion.div>
         }
       </AnimatePresence>
