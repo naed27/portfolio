@@ -40,7 +40,6 @@ export default class ArcLineSet{
   }
 
   parse = (frequencyArray:Uint8Array | number[])=>{
-
     const leftside =[]
     const rightside = []
     const average = Math.floor(getAverage(frequencyArray as number[]));
@@ -60,12 +59,7 @@ export default class ArcLineSet{
     const res = rightside.concat(leftside.reverse());
     const percentage = Math.floor(res.length*0.75);
     return [...res.slice(percentage,res.length),...res.slice(0,percentage)];
-
   }
-
-  smoothen = (frequencies:number[],neighborCount:number): number[]=> 
-    frequencies.map(( frequency, j ) =>
-      getAverage( [...getNeighbors(frequencies, j, neighborCount), frequency] ));
 
   getArcLineStore = ( frequencyArray: number[] ) => {
     if(this.arcLineStore.length===0)
