@@ -9,18 +9,7 @@ import DeckStore from '../Hooks/DeckStore';
 
 function DeckArea() {  
 
-  const {
-    getCard,
-    getSetter,
-    getDeck,
-    getExistingCardCount} = DeckStore();
-
-  const functions = {
-    getCard,
-    getSetter,
-    getDeck,
-    getExistingCardCount
-  };
+  const functions = DeckStore();
 
   return (
     <motion.div className = { styles.container }
