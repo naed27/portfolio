@@ -3,6 +3,7 @@ import { toBase64 } from "../../utility/functions";
 
 interface ListenerParams{
   setPlaying: Dispatch<SetStateAction<boolean>>
+  progressLine: HTMLDivElement
 }
 
 export default class AudioManager{
@@ -13,9 +14,12 @@ export default class AudioManager{
   isPlaying: boolean = false;
   audioIsEmpty: boolean = true;
   
-  readonly isPlayingStatus: any;
-  readonly customBinCount: number = 256;
+  readonly progressLine: HTMLDivElement;
+  readonly isPlayingStatus: Dispatch<SetStateAction<boolean>>;
+
+  readonly baseBinCount: number = 256;
   readonly binCountPercentage: number = (70) / 100;
+  readonly frequencyLength: number = Math.floor((this.baseBinCount/2) * this.binCountPercentage);
 
   bufferLength: number | null = null;
   frequencyArray: Uint8Array | null = null;
@@ -23,8 +27,19 @@ export default class AudioManager{
   audioAnalyser: AnalyserNode | null = null;
   audioSource: MediaElementAudioSourceNode | null = null;
 
-  constructor({ setPlaying: isPlayingStatus }:ListenerParams){
+  constructor({ setPlaying: isPlayingStatus, progressLine }:ListenerParams){
     this.isPlayingStatus = isPlayingStatus
+    this.progressLine = progressLine
+  }
+
+  readonly clearCasette = () =>{
+    this.audio.pause();
+    this.audio.src = '';
+    this.audioIsEmpty = true;
+    this.isPlaying = false;
+    this.isPlayingStatus(false)
+    this.progressLine.style.width=`0%`
+    return console.log('empty audio'); 
   }
 
   readonly playPauseAudio = () => {  
@@ -44,8 +59,15 @@ export default class AudioManager{
     return 
   }
 
+  readonly endAudio = () =>{
+    this.isPlaying = false;
+    this.isPlayingStatus(false)
+  }
+
   readonly changeAudio = async (e:any)=>{
     if (e.target.files[0]) {
+      if(e.target.files[0].type !== 'audio/mpeg')
+        return this.clearCasette();
       const fileData = await toBase64(e.target.files[0]) as string;
       this.audioIsEmpty = false;
       this.audio.src = fileData;
@@ -57,8 +79,8 @@ export default class AudioManager{
         this.audioSource = this.audioContext.createMediaElementSource(this.audio);
         this.audioSource.connect(this.audioAnalyser);
         this.audioAnalyser.connect(this.audioContext.destination);
-        this.audioAnalyser.fftSize = this.customBinCount;
-        this.bufferLength = this.audioAnalyser.frequencyBinCount*this.binCountPercentage;
+        this.audioAnalyser.fftSize = this.baseBinCount;
+        this.bufferLength = Math.floor(this.audioAnalyser.frequencyBinCount*this.binCountPercentage);
         this.frequencyArray = new Uint8Array(this.bufferLength);
         this.start=true
       }

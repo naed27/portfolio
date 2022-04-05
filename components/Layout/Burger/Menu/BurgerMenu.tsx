@@ -19,10 +19,11 @@ export default function BurgerMenu () {
           animate='final'
           exit='exit'
           >
+            
             <Link href="/"><a>Home</a></Link>
-            <Link href="/moving-box"><a>Moving Box</a></Link>
             <Link href="/card-searcher"><a>Card Searcher</a></Link>
             <Link href="/audio-visualizer"><a>Audio Visualizer</a></Link>
+
           </motion.div>
         }
       </AnimatePresence>

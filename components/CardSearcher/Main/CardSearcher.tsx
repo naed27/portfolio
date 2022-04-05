@@ -1,6 +1,6 @@
 import animation from './animation';
 import DeckArea from '../DeckArea/DeckArea';
-import styles from './CardSearcher.module.css';
+import styles from './CardSearcher.module.scss';
 import { GlobalContext } from '../Misc/globalContext';
 import NavBar from '../NavBar/Components/NavBar';
 import SearchArea from '../SearchArea/SearchArea';
@@ -8,13 +8,16 @@ import CardSearcherLogic from './CardSearcherLogic';
 import ViewCardArea from '../ViewerArea/ViewCardArea';
 import { AnimatePresence, motion } from 'framer-motion';
 import AdvancedFilter from '../SearchArea/SearchFields/AdvancedFilter';
+import LoadingPage from './Components/Loading Page/LoadingPage';
+import NoNetwork from './Components/No Network Page/NoNetwork';
 
 const CardSearcher = () => {
 
-  const { isLoading, globalValues }  = CardSearcherLogic();
-  const { showDeck, showSearcher, selectedCard, showMoreFilters } = globalValues;
+  const { isLoading, globalValues, noNetwork }  = CardSearcherLogic();
+  const { showDeck, showSearcher, selectedCard, showMoreFilters, showDeckBuilder } = globalValues;
 
-  if(isLoading) return <div className={styles.loaderContainer}>Loading...</div>
+  if(noNetwork) return <NoNetwork/>
+  if(isLoading) return <LoadingPage/>
 
   return (
     <motion.div className={styles.container} 
@@ -24,12 +27,12 @@ const CardSearcher = () => {
       exit='exit'
     >
       <GlobalContext.Provider value={globalValues}>
-        <NavBar/>
+        {showDeckBuilder && <NavBar/>}
         <AnimatePresence exitBeforeEnter>
-          {showDeck&&<DeckArea key={`deck_area`}/>}
+          {(showDeckBuilder && showDeck) && <DeckArea key={`deck_area`}/>}
           {showSearcher&&<SearchArea key={`search_area`}/>}
         </AnimatePresence>
-        {selectedCard&&<ViewCardArea card={selectedCard} key={`view_area`}/> }
+        {selectedCard && <ViewCardArea card={selectedCard} key={`view_area`}/> }
         {showMoreFilters && <AdvancedFilter/>}
       </GlobalContext.Provider>
     </motion.div>

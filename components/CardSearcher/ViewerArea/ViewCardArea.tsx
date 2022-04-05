@@ -13,45 +13,34 @@ import DeckStore from '../Hooks/DeckStore';
 
 function ViewCardArea({card}:{card:YGOCard}) {
 
-  const {
-    setSelectedCard,
-    searchIndex,
-    setSearchIndex,
-    searchedCards,
-    query,
-    showImages,
-  } = useContext(GlobalContext);
+  const { setSelectedCard, showDeckBuilder } = useContext(GlobalContext);
 
   const [showControllers, setShowControllers] = useState(false);
   
-  const {
-    addToDeck,
-    removeFromDeck,
-    getDeckCardCount,
-    getExistingCardCount,
-    getDeck,
-    getCard,
-    getSetter
-  } = DeckStore();
+  const deckFunctions = DeckStore();
 
-  const deckFunctions = {getCard,getSetter,getDeck,getExistingCardCount};
-  const switchProps = {setSelectedCard,setShowControllers,showControllers};
-  const imageProps = {setSelectedCard,searchIndex,setSearchIndex,searchedCards,card,showImages};
-  const controlProps = {addToDeck,removeFromDeck,getDeckCardCount,getExistingCardCount,card,getDeck,setShowControllers,query};
+  const switchProps = { showControllers, setShowControllers }
 
   const modalRef = useRef<HTMLDivElement>(null);
   
-  useOnClickOutside(modalRef, () => setSelectedCard(null));
+  useOnClickOutside(modalRef, () => setSelectedCard && setSelectedCard(null));
 
   return (
     <div className={styles.backdrop}>
       <div className={styles.container} ref={modalRef}>
         <Name card={card}/>
-        <CardImage props={imageProps}/>
-        {!showControllers?
-        <Details card={card}/>:
-        <ControlPanel props={controlProps} functions={deckFunctions}/>
-        }
+        <CardImage card={card}/>
+        {(()=>{
+          if(showDeckBuilder===false)
+            return <Details card={card}/>
+          return (
+            <>
+              {!showControllers ?
+              <Details card={card}/> :
+              <ControlPanel card={card} functions={deckFunctions}/>}
+            </>
+          )
+        })()}
         <Switches props={switchProps}/>
       </div>
     </div>

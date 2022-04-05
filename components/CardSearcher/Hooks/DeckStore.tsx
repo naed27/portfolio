@@ -1,9 +1,21 @@
-import { useCallback, useContext, useMemo } from 'react'
+import { Dispatch, SetStateAction, useCallback, useContext, useMemo } from 'react'
 import { GlobalContext } from '../Misc/globalContext';
 import { getCardCategory, parseLimit } from '../Misc/globalFunctions';
 import { YGOCard } from '../Misc/globalTypes';
 
-const DeckStore = () =>{
+export interface DeckFunctions{
+  getDeckStatus: { (deckType: string) : string },
+  getExistingCardCount: { (card: YGOCard) : number },
+  getDeck: { (category: string) : (YGOCard | null)[] },
+  addToDeck: { (deckType: string, card: YGOCard) : void },
+  getFreeSlotsInDeck: { (deck: (YGOCard | null)[]) : number },
+  removeFromDeck: { (deckType: string, card: YGOCard) : void },
+  getCard: { (category: string, index: number) : YGOCard | null },
+  getDeckCardCount: { (card: YGOCard, deckType: string) : number },
+  getSetter: { (category: string) : Dispatch<SetStateAction<(YGOCard | null)[]>> },
+}
+
+const DeckStore = () : DeckFunctions =>{
 
   const {
     mainDeck,setMainDeck,
@@ -51,9 +63,9 @@ const DeckStore = () =>{
     return deck.filter(c=>c?c.id===card.id:false).length;
   },[ getDeck ]);
 
-  const getFreeSlotsInDeck = useCallback((deck:(YGOCard | null)[])=>{
-    return deck.filter((slot)=>slot===null).length;
-  },[])
+  const getFreeSlotsInDeck = useCallback((deck:(YGOCard | null)[])=>
+    deck.filter((slot)=>slot===null).length
+  ,[])
 
   const getDeckStatus = useCallback((deckType:string)=>{
     const deck = getDeck(deckType);
@@ -94,15 +106,15 @@ const DeckStore = () =>{
   },[ getDeck, getSetter ]);
 
   return {
-    mainDeck, setMainDeck,
-    extraDeck, setExtraDeck,
-    sideDeck, setSideDeck,
-
     getCard,
-    getSetter,
     getDeck,
-    getExistingCardCount,getDeckCardCount,
-    addToDeck,removeFromDeck,getDeckStatus
+    getSetter,
+    addToDeck,
+    getDeckStatus,
+    removeFromDeck,
+    getDeckCardCount,
+    getFreeSlotsInDeck,
+    getExistingCardCount,
   }
 }
 

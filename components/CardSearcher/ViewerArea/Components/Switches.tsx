@@ -1,27 +1,26 @@
-import { YGOCard } from '../../Misc/globalTypes';
 import styles from '../Styles/Controls.module.scss';
-import { Dispatch, SetStateAction, useCallback } from 'react';
+import { Dispatch, SetStateAction, useCallback, useContext } from 'react';
+import { GlobalContext } from '../../Misc/globalContext';
 
 interface Props{
-  setSelectedCard:Dispatch<SetStateAction<YGOCard | null>>,
   setShowControllers:Dispatch<SetStateAction<boolean>>,
   showControllers:boolean
 }
 
-export default function Switches({props:{setSelectedCard,setShowControllers,showControllers}}:{props:Props}) {
+export default function Switches({props}:{props:Props}) {
 
-  const closeViewer = useCallback(()=>setSelectedCard(null),
-  [setSelectedCard]);
+  const {setSelectedCard, showDeckBuilder} = useContext(GlobalContext)
+  const closeViewer = useCallback(()=>setSelectedCard(null),[setSelectedCard])
+  const {showControllers,setShowControllers} = props
   
   const toggleControllers = useCallback(()=>setShowControllers(current=>!current),
   [setShowControllers]);
 
   return (
     <div className={styles.container}>
-      <div className={styles.button} onClick={toggleControllers}>
+      {showDeckBuilder&&<div className={styles.button} onClick={toggleControllers}>
         {!showControllers?(`Manage`):(`Description`)}
-      </div>
-
+      </div>}
       <div className={styles.button} onClick={closeViewer}>
         Close
       </div>

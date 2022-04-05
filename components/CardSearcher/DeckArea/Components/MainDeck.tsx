@@ -1,8 +1,8 @@
 import styles from '../Styles/MainDeck.module.css'
 import { useEffect, useState, useCallback } from 'react';
 import CardHolder from './CardHolder';
-import { DeckFunctions } from '../../Misc/globalTypes';
 import ScrollableDiv from '../../../../utility/CustomScrollDiv/ScrollableDiv';
+import { DeckFunctions } from '../../Hooks/DeckStore';
 
 function MainDeck({functions}:{functions:DeckFunctions}) {
 
@@ -40,25 +40,20 @@ function MainDeck({functions}:{functions:DeckFunctions}) {
   },[functions]);
 
   useEffect(()=>{
-    const idk = ()=>setMainDeck(generateMainDeck());
-
-    idk();
-    window.addEventListener('resize', idk);
-    return ()=>{
-      window.removeEventListener('resize', idk)
-    }
+    const generator = ()=>setMainDeck(generateMainDeck())
+    generator();
+    window.addEventListener('resize', generator)
+    return ()=> window.removeEventListener('resize', generator)
   },[generateMainDeck]);
 
   return (
     <ScrollableDiv className={styles.container}>
       <div>
-        {mainDeck.map((array,i)=>{
-          return (
-            <div key={`main_row_${i}`} className={styles.row}>
-              {array}
-            </div>
-          )
-        })}
+        {mainDeck.map(( array, i ) => (
+          <div key={ `main_row_${i}` } className={styles.row}>
+            {array}
+          </div>
+        ))}
       </div>
     </ScrollableDiv>
   )

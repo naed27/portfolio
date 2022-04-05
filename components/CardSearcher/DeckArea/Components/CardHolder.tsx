@@ -1,7 +1,7 @@
 import styles from '../Styles/CardHolder.module.css'
-import { YGOCard, DeckFunctions } from '../../Misc/globalTypes';
-import Image from 'next/image'
+import { YGOCard } from '../../Misc/globalTypes';
 import React, { useContext } from 'react';
+import { DeckFunctions } from '../../Hooks/DeckStore';
 import { containsKeyword, getCardCategory } from '../../Misc/globalFunctions';
 import {parseLimit} from '../../Misc/globalFunctions';
 import { GlobalContext } from '../../Misc/globalContext';

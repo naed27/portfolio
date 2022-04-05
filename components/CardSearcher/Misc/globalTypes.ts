@@ -67,14 +67,6 @@ export interface Query {
   cardGame: YGOCardGame
 }
 
-export interface DeckFunctions{
-  getCard:(category: string, index: number) => YGOCard | null,
-  getSetter:(category: string) => Dispatch<SetStateAction<(YGOCard | null)[]>> | null,
-  getDeck:(category: string) => (YGOCard | null)[] | null,
-  getExistingCardCount:(card: YGOCard) => number
-}
-
-
 export interface GlobalContextType{
   readonly query: Query
   readonly showDeck: boolean,
@@ -92,6 +84,7 @@ export interface GlobalContextType{
   readonly selectedCard: YGOCard|null,
   readonly extraDeck: (YGOCard|null)[],
   readonly showMoreFilters: boolean,
+  readonly showDeckBuilder: boolean,
   readonly numberOfCardsShownOnPage: number,
 
   readonly setQuery: Dispatch<SetStateAction<Query>>,
@@ -109,6 +102,7 @@ export interface GlobalContextType{
   readonly setSelectedCard: Dispatch<SetStateAction<YGOCard|null>>,
   readonly setExtraDeck: Dispatch<SetStateAction<(YGOCard|null)[]>>,
   readonly setShowMoreFilters: Dispatch<SetStateAction<boolean>>,
+  readonly setShowDeckBuilder: Dispatch<SetStateAction<boolean>>,
   readonly setNumberOfCardsShownOnPage: Dispatch<SetStateAction<number>>,
 
 }

@@ -3,32 +3,42 @@ import ArcLine from "../Objects/ArcLine";
 
 interface constructorParamsType{
   readonly ctx:CanvasRenderingContext2D
+  readonly frequencyLength: number
 }
 
 export default class ArcLineSet{
 
   readonly ctx: CanvasRenderingContext2D;
-  readonly BASE_RADIUS: number = 70;
+  readonly BASE_RADIUS: number = 90;
   readonly offset = (20) / 100; // (start at 20% of total frequencies) / (end at 80% of total frequencies)
+  readonly sizeOfSet: number = 0;
   readonly minimumFrequencyStrength = 0;
 
   arcLineStore: ArcLine [] = [];
 
-  constructor({ ctx }: constructorParamsType){
+  constructor({ ctx, frequencyLength }: constructorParamsType){
     this.ctx = ctx;
+    const offset = Math.floor(frequencyLength * this.offset) 
+    this.sizeOfSet = (frequencyLength - (offset*2))*2;
+
+    for (let i = 0; i < this.sizeOfSet; i++) {
+      this.arcLineStore.push( new ArcLine({ ctx:this.ctx, baseRadius:this.BASE_RADIUS }) )
+    } 
+
   }
 
   trimFrequency = (frequencyArray: number[]) => {
-    const start = Math.floor(frequencyArray.length * this.offset);
-    const end = frequencyArray.length - start;
-    return frequencyArray.slice(start,end)
+    const offset = Math.floor(frequencyArray.length * this.offset);
+    const start = offset
+    const end = frequencyArray.length - offset;
+    const res = frequencyArray.slice(start,end)
+    return res
   }
 
-  draw = (frequencyArray:Uint8Array | number[])=> {
+  draw = (frequencyArray:Uint8Array | number[] )=> {
     const trimmedFrequencies = this.trimFrequency(frequencyArray as number[])
     const parsedFrequencies = this.parse(trimmedFrequencies)
-    const arcLineStore = this.getArcLineStore(parsedFrequencies);
-    parsedFrequencies.map((frequency, i) => arcLineStore[i].draw({i,frequency,lineCount: arcLineStore.length}))
+    parsedFrequencies.map((frequency, i) => this.arcLineStore[i].draw({i,frequency,lineCount: this.sizeOfSet}))
   }
 
   parse = (frequencyArray:Uint8Array | number[])=>{
@@ -49,18 +59,10 @@ export default class ArcLineSet{
       }
     }
     const res = rightside.concat(leftside.reverse());
-    const percentage = Math.floor(res.length*0.75);
-    return [...res.slice(percentage,res.length),...res.slice(0,percentage)];
+    const rotation = Math.floor(res.length*0.75);
+    return [...res.slice(rotation,res.length),...res.slice(0,rotation)];
   }
 
-  getArcLineStore = ( frequencyArray: number[] ) => {
-    if(this.arcLineStore.length===0)
-      this.setArcLineStore(frequencyArray)
-    return this.arcLineStore;
-  }
 
-  setArcLineStore = (frequencyArray: number[]) => {
-    this.arcLineStore = frequencyArray.map(() => new ArcLine({ ctx:this.ctx, baseRadius:this.BASE_RADIUS }) )
-  }
 
 }

@@ -1,10 +1,11 @@
 import styles from '../Styles/ControlPanel.module.css'
-import DeckStore from '../../Hooks/DeckStore';
 import { YGOCard } from '../../Misc/globalTypes';
+import { useContext } from 'react';
+import { GlobalContext } from '../../Misc/globalContext';
 
 const ControlPanel = ()=>{
 
-  const {setMainDeck,setExtraDeck,setSideDeck} = DeckStore();
+  const {setMainDeck,setExtraDeck,setSideDeck} = useContext(GlobalContext);
 
   const compare = (a:YGOCard|null,b:YGOCard|null)=>{
     if(a===null||b==null)return 0;

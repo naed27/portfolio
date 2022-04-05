@@ -1,7 +1,7 @@
 import styles from '../Styles/ExtraDeck.module.css'
 import { useCallback} from 'react';
 import CardHolder from './CardHolder';
-import { DeckFunctions } from '../../Misc/globalTypes';
+import { DeckFunctions } from '../../Hooks/DeckStore';
 import ScrollableDiv from '../../../../utility/CustomScrollDiv/ScrollableDiv';
 
 function ExtraDeck({functions}:{functions:DeckFunctions}) {

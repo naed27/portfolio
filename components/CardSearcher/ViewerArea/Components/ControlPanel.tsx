@@ -1,23 +1,15 @@
-import { Dispatch, SetStateAction, useCallback,useMemo } from "react";
-import { DeckFunctions, YGOCard, Query } from "../../Misc/globalTypes";
+import { useCallback,useContext,useMemo } from "react";
+import { YGOCard } from "../../Misc/globalTypes";
 import styles from "../Styles/ControlPanel.module.scss";
 import Controller from './Controller';
 import { parseLimit } from '../../Misc/globalFunctions';
+import { GlobalContext } from "../../Misc/globalContext";
+import { DeckFunctions } from "../../Hooks/DeckStore";
 
-interface Props{
-  addToDeck:(deckType: string, card: YGOCard) => void,
-  removeFromDeck:(deckType: string, card: YGOCard) => void,
-  getDeckCardCount:(card: YGOCard, deckType: string) => number,
-  getExistingCardCount:(card: YGOCard) => number,
-  getDeck: (category: string) => (YGOCard | null)[],
-  setShowControllers: Dispatch<SetStateAction<boolean>>,
-  card:YGOCard,
-  query:Query,
-}
+export default function ControlPanel({card,functions}:{card:YGOCard, functions:DeckFunctions}){
 
-export default function ControlPanel({props,functions}:{props:Props,functions:DeckFunctions}){
-
-  const {getExistingCardCount,setShowControllers,card,query} = props
+  const {query} = useContext(GlobalContext);
+  const {getExistingCardCount} = functions;
   const getCardCount = useCallback(getExistingCardCount,[getExistingCardCount]);
   const getCardLimit = useCallback(parseLimit,[parseLimit]);
   const cardCount = useMemo(()=>getCardCount(card),[getCardCount,card]);
@@ -31,10 +23,10 @@ export default function ControlPanel({props,functions}:{props:Props,functions:De
         </div>
         <div className={styles.body}>
           <div className={styles.deck}>
-            <Controller props={{...props,setShowControllers}} deck={'main'} functions={functions}/>
+            <Controller card={card} deckCategory={'main'} functions={functions}/>
           </div>
           <div className={styles.deck}>
-            <Controller props={{...props,setShowControllers}} deck={'side'} functions={functions}/>
+            <Controller card={card} deckCategory={'side'} functions={functions}/>
           </div>
         </div>
       </div>

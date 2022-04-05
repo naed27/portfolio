@@ -1,22 +1,21 @@
 import styles from '../Styles/Controller.module.scss';
 import { Dispatch, SetStateAction, useRef, useMemo, useCallback, useState } from 'react';
-import { DeckFunctions, YGOCard } from '../../Misc/globalTypes';
+import { YGOCard } from '../../Misc/globalTypes';
 import { capitalizeFirstLetter,getCardCategory } from '../../Misc/globalFunctions';
 import MiniDeck from './MiniDeck';
+import { DeckFunctions } from '../../Hooks/DeckStore';
 
-interface Props{
-  addToDeck:(deckType: string, card: YGOCard) => void,
-  removeFromDeck:(deckType: string, card: YGOCard) => void,
-  getDeckCardCount:(card: YGOCard, deckType: string) => number,
-  getExistingCardCount:(card: YGOCard) => number,
-  getDeck: (category: string) => (YGOCard | null)[],
-  setShowControllers: Dispatch<SetStateAction<boolean>>,
-  card:YGOCard
-}
+export default function Controller({
+  card,
+  functions,
+  deckCategory,
+}:{
+  card:YGOCard,
+  deckCategory:string,
+  functions:DeckFunctions,
+}){
 
-export default function Controller({props,deck:deckCategory,functions}:{props:Props,deck:string,functions:DeckFunctions}){
-
-  const {addToDeck,removeFromDeck,getDeckCardCount,setShowControllers,getDeck,card} = props;
+  const {addToDeck,removeFromDeck,getExistingCardCount,getDeck} = functions;
   const [showMiniDeck,setShowMiniDeck] = useState(false);
 
   const deckType = useMemo(()=>{
@@ -28,7 +27,7 @@ export default function Controller({props,deck:deckCategory,functions}:{props:Pr
     return getDeck(deckType);
   },[deckType,getDeck]);
 
-  const cardcount = useMemo(()=>getDeckCardCount(card,deckCategory),[card,deckCategory,getDeckCardCount]);
+  const cardcount = useMemo(()=>getExistingCardCount(card),[ card, getExistingCardCount ]);
 
   const deckStatus = useMemo(()=>{
     const numOfCards = deck.filter((slot)=>slot!==null).length;
@@ -38,8 +37,8 @@ export default function Controller({props,deck:deckCategory,functions}:{props:Pr
   
   const buttonRef = useRef(null);
 
-  const control = useCallback((action:string)=>{
-    if(action==='add')return addToDeck(deckType,card)
+  const control = useCallback((action:'-'|'+')=>{
+    if(action==='+')return addToDeck(deckType,card)
     return removeFromDeck(deckType,card);
   },[card,deckType,addToDeck,removeFromDeck])
 
@@ -59,15 +58,13 @@ export default function Controller({props,deck:deckCategory,functions}:{props:Pr
           </div>
         
           <div className={styles.controllers}>
-            <div className={styles.controller}onClick={()=>control('remove')}>-</div>
+            <div className={styles.controller}onClick={()=>control('-')}>-</div>
             <div className={styles.status}>{cardcount}</div>
-            <div className={styles.controller}onClick={()=>control('add')}>+</div>
+            <div className={styles.controller}onClick={()=>control('+')}>+</div>
           </div> 
         </>
         }
-        
 
-       
     </div>
   )
 }

@@ -7,6 +7,7 @@ import { fetchCardTypes } from "../SearchArea/SearchFields/Functions/Functions";
 export default function CardSearcherLogic() {
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [noNetwork, setNoNetwork] = useState<boolean>(false);
 
   const [query,setQuery] = useState<Query>(initialQuery);
   const [mainCards,setMainCards] = useState<YGOCard[]>([]);
@@ -28,6 +29,7 @@ export default function CardSearcherLogic() {
   const [showSearcher,toggleSearcher] = useState(true);
   const [showDeck,toggleDeck] = useState(false);
   const [showImages,setShowImages] = useState(true); //enabling images (warning: might surpass free-limit)
+  const [showDeckBuilder,setShowDeckBuilder] = useState(false)
 
   const cardTypes = useMemo(() => fetchCardTypes(mainCards),[mainCards]);
 
@@ -48,8 +50,9 @@ export default function CardSearcherLogic() {
     maxPageOfTable,
     tablePageRange,
     showMoreFilters,
+    showDeckBuilder,
     numberOfCardsShownOnPage,
-
+    
     setQuery,
     toggleDeck,
     setMainDeck,
@@ -65,12 +68,15 @@ export default function CardSearcherLogic() {
     setMaxPageOfTable,
     setTablePageRange,
     setShowMoreFilters,
+    setShowDeckBuilder,
     setNumberOfCardsShownOnPage,
   }
 
   useEffect(()=>{
     const fetchAllCards = async()=>{
-      const result: { data: { data: YGOCard[] } } = await axios.get( `https://db.ygoprodeck.com/api/v7/cardinfo.php` );
+      const result: { data: { data: YGOCard[] } } | undefined | void = await axios.get( `https://db.ygoprodeck.com/api/v7/cardinfo.php` )
+      .catch(()=>console.log('fetch failed'))
+      if(!result) return setNoNetwork(true)
       const cards: YGOCard[] = result.data.data;
       setMainCards(cards)
       setSearchedCards(cards);
@@ -79,5 +85,5 @@ export default function CardSearcherLogic() {
     fetchAllCards();
   },[])
 
-  return {isLoading, globalValues}
+  return {isLoading, noNetwork, globalValues}
 }
