@@ -3,6 +3,7 @@ import Header from './Components/Header/Header'
 import styles from './Home.module.scss'
 import { motion } from 'framer-motion'
 import animation from './Animation'
+import Footer from './Components/Footer/Footer'
 
 export default function Home () {
   return (
@@ -14,6 +15,7 @@ export default function Home () {
 
       <Header/>
       <Body/>
+      <Footer/>
       
     </motion.div>
   )

@@ -1,9 +1,17 @@
 import styles from './Body.module.scss'
+import Chest from './Components/Chest/Chest'
 
 export default function Body () {
   return  (
     <div className={styles.container}>
-      Body
+      <Chest/>
+      <Chest/>
+      <Chest/>
+      <Chest/>
+      <Chest/>
+      <Chest/>
+      <Chest/>
+      <Chest/>
     </div>
   )
 }
