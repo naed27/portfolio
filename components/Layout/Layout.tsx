@@ -2,7 +2,7 @@ import { useState } from "react";
 import { burgerContext } from '../../contexts/burgerContext'
 import Body from './Body/Body'
 import Header from './Header/Header'
-import styles from './Layout.module.css'
+import styles from './Layout.module.scss'
 
 export default function Layout ({children}:any){
 
