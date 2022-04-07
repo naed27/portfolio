@@ -1,0 +1,12 @@
+.container{
+  width:auto;
+  height:auto;
+  opacity: 1;
+  margin-left: 7px;
+  margin-right: 7px;
+  color:rgb(202, 202, 202);
+  
+  &:hover{
+    color:white
+  }
+}

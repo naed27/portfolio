@@ -21,8 +21,8 @@ export default function BurgerMenu () {
           >
             
             <Link href="/"><a>Home</a></Link>
-            <Link href="/card-searcher"><a>Card Searcher</a></Link>
-            <Link href="/audio-visualizer"><a>Audio Visualizer</a></Link>
+            <Link href="/projects/card-searcher"><a>Card Searcher</a></Link>
+            <Link href="/projects/audio-visualizer"><a>Audio Visualizer</a></Link>
 
           </motion.div>
         }

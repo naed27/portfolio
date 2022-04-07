@@ -1,11 +1,11 @@
 .container{
   height:auto;
   width: 100%;
-  color:white;
+  max-width: 700px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   text-align: center;
-  gap:20px;
+  gap:30px;
 }

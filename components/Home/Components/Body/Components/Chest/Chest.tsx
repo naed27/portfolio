@@ -1,9 +1,13 @@
 import styles from './Chest.module.scss'
 
-export default function Chest () {
+export interface Props{
+  label?: string
+}
+
+export default function Chest ({label=''}: Props) {
   return  (
     <div className={styles.container}>
-      chest
+      {label}
     </div>
   )
 }
