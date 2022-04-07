@@ -1,32 +1,56 @@
 import styles from './BurgerMenu.module.scss';
 import Link from 'next/link'
 import { motion,AnimatePresence } from 'framer-motion';
-import { useContext } from 'react'
-import { burgerContext } from '../../../../contexts/burgerContext';
+import { useContext, useCallback } from 'react'
+import { LayoutContext } from '../../Context/LayoutContext'
 import animation from './Animation';
 
 export default function BurgerMenu () {
 
-  const {burgerDisplay} = useContext(burgerContext);
+  return (
+    <AnimatePresence>
+      <motion.div className={styles.container} 
+      variants={animation}
+      initial='initial'
+      animate='final'
+      exit='exit'
+      >
+        
+        <BurgerLink
+          label = 'Home'
+          href = '/'
+          hasNav = {false}
+        />
+        
+        <BurgerLink
+          label = 'Card Searcher'
+          href = '/projects/card-searcher'
+        />
+
+        <BurgerLink
+          label = 'Audio Visualizer'
+          href = '/projects/audio-visualizer'
+        />
+
+      </motion.div>
+    </AnimatePresence>
+  )
+}
+
+function BurgerLink ({label, href, hasNav = true}:{label: string,href: string, hasNav?: boolean}) {
+  
+  const {setAddress, setShowHeader} = useContext(LayoutContext);
+
+  const process = useCallback((href: string) => {
+    setAddress(href)
+    setShowHeader(hasNav)
+  },[hasNav, setAddress, setShowHeader])
 
   return (
-    <>
-      <AnimatePresence>
-        {burgerDisplay&&
-          <motion.div className={styles.container} 
-          variants={animation}
-          initial='initial'
-          animate='final'
-          exit='exit'
-          >
-            
-            <Link href="/"><a>Home</a></Link>
-            <Link href="/projects/card-searcher"><a>Card Searcher</a></Link>
-            <Link href="/projects/audio-visualizer"><a>Audio Visualizer</a></Link>
-
-          </motion.div>
-        }
-      </AnimatePresence>
-    </>
+    <Link href={href}>
+      <a onClick={()=>process(href)}>
+        {label}
+      </a>
+    </Link>
   )
 }

@@ -1,25 +1,32 @@
 import { useState } from "react";
-import { burgerContext } from '../../contexts/burgerContext'
 import Body from './Body/Body'
-import Header from './Header/Header'
+import NavBar from './NavBar/NavBar'
 import styles from './Layout.module.scss'
+import { LayoutContext } from './Context/LayoutContext'
 
 export default function Layout ({children}:any){
 
-  // store variables
-  const [burgerDisplay,setBurgerDisplay] = useState(false);
+  const [displayBurgerMenu,setDisplayBurgerMenu] = useState(false);
+  const [address,setAddress] = useState('/');
+  const [showHeader, setShowHeader] = useState(false);
   
-  // store values
-  const value = {burgerDisplay,setBurgerDisplay}
+  const value = {
+    address,
+    showHeader, 
+    displayBurgerMenu,
+    setAddress,
+    setShowHeader,
+    setDisplayBurgerMenu,
+  }
 
   return (
     <div className={styles.container}>
-      <burgerContext.Provider value={value}>
-        <Header/>
+      <LayoutContext.Provider value={value}>
+        <NavBar/>
         <Body>
           {children}
         </Body>
-      </burgerContext.Provider>
+      </LayoutContext.Provider>
     </div>
   )
 }

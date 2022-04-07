@@ -1,14 +1,14 @@
 import styles from './BurgerButton.module.css'
 
 import { FunctionComponent, useContext } from 'react'
-import { burgerContext } from '../../../../contexts/burgerContext';
+import { LayoutContext } from '../../Context/LayoutContext'
 import BurgerMenu from '../Menu/BurgerMenu';
 
-const BurgerButton:FunctionComponent = ()=> {
+const BurgerButton:FunctionComponent = () => {
   
-  const {setBurgerDisplay} = useContext(burgerContext);
+  const {displayBurgerMenu,setDisplayBurgerMenu} = useContext(LayoutContext);
   
-  const toggleBurger = () => setBurgerDisplay(current=>!current)
+  const toggleBurger = () => setDisplayBurgerMenu(current=>!current)
 
   return (
 
@@ -16,7 +16,7 @@ const BurgerButton:FunctionComponent = ()=> {
       <div className={styles.burgerLine}/>
       <div className={styles.burgerLine}/>
       <div className={styles.burgerLine}/>
-      <BurgerMenu/>
+      {displayBurgerMenu&&<BurgerMenu/>}
     </div>
 
   )
