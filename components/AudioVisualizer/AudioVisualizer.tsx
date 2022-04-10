@@ -5,14 +5,10 @@ import styles from './AudioVisualizer.module.scss'
 import Control from './Components/Control Menu/Control';
 import { GlobalContext } from './Context/GlobalContext';
 import AudioVisualizerLogic from './AudioVisualizerLogic';
-import { LayoutContext } from '../Layout/Context/LayoutContext';
-import { FunctionComponent, useContext,useEffect } from 'react';
+import { FunctionComponent } from 'react';
 
 const AudioVisualizer: FunctionComponent = () => {
   const { globalValues }  = AudioVisualizerLogic();
-  const { setAbsoluteNavBar } = useContext(LayoutContext)
-
-  useEffect(()=> setAbsoluteNavBar(false), [ setAbsoluteNavBar ])
   
   return (
     <motion.div className={styles.container} 

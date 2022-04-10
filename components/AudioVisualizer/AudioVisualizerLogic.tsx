@@ -1,8 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
+import { LayoutContext } from "../Layout/Context/LayoutContext";
 import world from "./Logic/CanvasLogic";
 import { GlobalContextType } from "./Types/GlobalTypes";
 
 export default function AudioVisualizerLogic() {
+  
+  const { setAbsoluteNavBar } = useContext(LayoutContext)
 
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null); 
@@ -14,7 +17,6 @@ export default function AudioVisualizerLogic() {
   const [audioTitle, setAudioTitle] = useState<string | null>(null);
   const [playing, setPlaying] = useState<boolean>(false);
 
-
   const globalValues:GlobalContextType = {
     containerRef,
     canvasRef,
@@ -24,6 +26,8 @@ export default function AudioVisualizerLogic() {
     audioTitle, setAudioTitle,
     playing, setPlaying,
   }
+
+  useEffect(()=> setAbsoluteNavBar(false), [ setAbsoluteNavBar ])
 
   useEffect(() => {
     console.log('Audio Visualizer on Standby.');

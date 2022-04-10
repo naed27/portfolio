@@ -1,10 +1,14 @@
 import axios from "axios";
 import { GlobalContextType, Query, YGOCard } from "../Misc/globalTypes";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useContext } from "react";
 import { initialQuery, initializeHolders } from "../Misc/initializers";
 import { fetchCardTypes } from "../SearchArea/SearchFields/Functions/Functions";
+import { LayoutContext } from "../../Layout/Context/LayoutContext";
 
 export default function CardSearcherLogic() {
+
+  
+  const { setAbsoluteNavBar } = useContext(LayoutContext)
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [noNetwork, setNoNetwork] = useState<boolean>(false);
@@ -72,6 +76,8 @@ export default function CardSearcherLogic() {
     setNumberOfCardsShownOnPage,
   }
 
+  useEffect(()=> setAbsoluteNavBar(false), [ setAbsoluteNavBar ])
+
   useEffect(()=>{
     const fetchAllCards = async()=>{
       const result: { data: { data: YGOCard[] } } | undefined | void = await axios.get( `https://db.ygoprodeck.com/api/v7/cardinfo.php` )
@@ -84,6 +90,7 @@ export default function CardSearcherLogic() {
     }
     fetchAllCards();
   },[])
+
 
   return {isLoading, noNetwork, globalValues}
 }
