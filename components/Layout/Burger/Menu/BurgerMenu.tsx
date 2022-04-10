@@ -1,8 +1,6 @@
 import styles from './BurgerMenu.module.scss';
 import Link from 'next/link'
 import { motion,AnimatePresence } from 'framer-motion';
-import { useContext, useCallback } from 'react'
-import { LayoutContext } from '../../Context/LayoutContext'
 import animation from './Animation';
 
 export default function BurgerMenu () {
@@ -19,7 +17,6 @@ export default function BurgerMenu () {
         <BurgerLink
           label = 'Home'
           href = '/'
-          hasNav = {false}
         />
         
         <BurgerLink
@@ -37,20 +34,11 @@ export default function BurgerMenu () {
   )
 }
 
-function BurgerLink ({label, href, hasNav = true}:{label: string,href: string, hasNav?: boolean}) {
+function BurgerLink ({label, href}:{label: string,href: string}) {
   
-  const {setAddress, setShowHeader} = useContext(LayoutContext);
-
-  const process = useCallback((href: string) => {
-    setAddress(href)
-    setShowHeader(hasNav)
-  },[hasNav, setAddress, setShowHeader])
-
   return (
     <Link href={href}>
-      <a onClick={()=>process(href)}>
-        {label}
-      </a>
+      <a> {label} </a>
     </Link>
   )
 }

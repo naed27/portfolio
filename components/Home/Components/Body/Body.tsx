@@ -17,7 +17,7 @@ export default function Body () {
 
       <Chest 
         label='P R O J EC T S'
-        href='/'
+        href='/projects'
       />
 
     </div>

@@ -1,15 +1,18 @@
 import animation from './Animation';
 import { motion } from 'framer-motion'
-import { FunctionComponent } from 'react'
 import Canvas from './Components/Canvas/Canvas';
 import styles from './AudioVisualizer.module.scss'
 import Control from './Components/Control Menu/Control';
 import { GlobalContext } from './Context/GlobalContext';
 import AudioVisualizerLogic from './AudioVisualizerLogic';
+import { LayoutContext } from '../Layout/Context/LayoutContext';
+import { FunctionComponent, useContext,useEffect } from 'react';
 
 const AudioVisualizer: FunctionComponent = () => {
-  
   const { globalValues }  = AudioVisualizerLogic();
+  const { setAbsoluteNavBar } = useContext(LayoutContext)
+
+  useEffect(()=> setAbsoluteNavBar(false), [ setAbsoluteNavBar ])
   
   return (
     <motion.div className={styles.container} 

@@ -2,10 +2,10 @@ import { createContext } from "react";
 
 interface LayoutContextData {
   address: string,
-  showHeader: boolean, 
+  absoluteNavBar: boolean, 
   displayBurgerMenu: boolean,
   setAddress: React.Dispatch<React.SetStateAction<string>>,
-  setShowHeader: React.Dispatch<React.SetStateAction<boolean>>,
+  setAbsoluteNavBar: React.Dispatch<React.SetStateAction<boolean>>,
   setDisplayBurgerMenu: React.Dispatch<React.SetStateAction<boolean>>,
 }
 

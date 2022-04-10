@@ -1,5 +1,5 @@
-import { getAverage, getDifference, getNeighbors } from "../../../utility/functions";
-import Bar from "../Objects/Bar";
+import { getAverage, getDifference, getNeighbors } from "../../../../utility/functions";
+import Bar from '../Objects/Bar'
 
 interface constructorParamsType{
   readonly ctx:CanvasRenderingContext2D,

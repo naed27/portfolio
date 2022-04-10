@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { toBase64 } from "../../utility/functions";
+import { toBase64 } from '../../../utility/functions'
 
 interface ListenerParams{
   setPlaying: Dispatch<SetStateAction<boolean>>

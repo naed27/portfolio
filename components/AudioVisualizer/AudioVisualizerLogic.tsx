@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import world from "./CanvasLogic";
+import world from "./Logic/CanvasLogic";
 import { GlobalContextType } from "./Types/GlobalTypes";
 
 export default function AudioVisualizerLogic() {

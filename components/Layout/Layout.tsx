@@ -8,14 +8,14 @@ export default function Layout ({children}:any){
 
   const [displayBurgerMenu,setDisplayBurgerMenu] = useState(false);
   const [address,setAddress] = useState('/');
-  const [showHeader, setShowHeader] = useState(false);
+  const [absoluteNavBar, setAbsoluteNavBar] = useState(false);
   
   const value = {
     address,
-    showHeader, 
+    absoluteNavBar, 
     displayBurgerMenu,
     setAddress,
-    setShowHeader,
+    setAbsoluteNavBar,
     setDisplayBurgerMenu,
   }
 

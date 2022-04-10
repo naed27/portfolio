@@ -7,7 +7,7 @@ import { LayoutContext } from '../Context/LayoutContext'
 
 export default function NavBar () {
   
-  const {address} = useContext(LayoutContext)
+  const {absoluteNavBar} = useContext(LayoutContext)
   
   return (
     <motion.div className={styles.container}
@@ -16,7 +16,7 @@ export default function NavBar () {
       animate='final'
       exit='exit'
 
-      style={{ position: address==='/' ? 'absolute' : 'relative' }}
+      style={{ position: absoluteNavBar ? 'absolute' : 'relative' }}
       >
 
       <div className={styles.fixed}>

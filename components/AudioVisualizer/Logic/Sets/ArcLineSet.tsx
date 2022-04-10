@@ -1,5 +1,5 @@
-import { getAverage, getDifference } from "../../../utility/functions";
-import ArcLine from "../Objects/ArcLine";
+import { getAverage, getDifference } from "../../../../utility/functions";
+import ArcLine from '../Objects/ArcLine';
 
 interface constructorParamsType{
   readonly ctx:CanvasRenderingContext2D
