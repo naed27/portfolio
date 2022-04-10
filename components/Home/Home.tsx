@@ -6,6 +6,7 @@ import animation from './Animation'
 import Footer from './Components/Footer/Footer'
 import { useContext, useEffect } from 'react'
 import { LayoutContext } from '../Layout/Context/LayoutContext'
+import Chest from './Components/Chest/Chest'
 
 export default function Home () {
   const { setAbsoluteNavBar } = useContext(LayoutContext)
@@ -19,8 +20,14 @@ export default function Home () {
       animate='final'
       exit='exit'>
 
-      <Header/>
-      <Body/>
+      <Header label='Dean'/>
+      
+      <Body>
+        <Chest label='R E S U M E' href='/' />
+        <Chest label='C O N T A C T S' href='/' />
+        <Chest label='P R O J EC T S' href='/projects' />
+      </Body>
+
       <Footer/>
       
     </motion.div>

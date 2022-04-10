@@ -1,4 +1,4 @@
-import animation from './animation';
+import Animation from '../../Animation/Animation';
 import DeckArea from '../DeckArea/DeckArea';
 import styles from './CardSearcher.module.scss';
 import NavBar from '../NavBar/Components/NavBar';
@@ -22,7 +22,7 @@ const CardSearcher = () => {
 
   return (
     <motion.div className={styles.container} 
-      variants={animation}
+      variants={Animation}
       initial='initial'
       animate='final'
       exit='exit'

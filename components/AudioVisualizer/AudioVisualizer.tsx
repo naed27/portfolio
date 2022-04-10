@@ -1,4 +1,4 @@
-import animation from './Animation';
+import animation from '../Animation/Animation';
 import { motion } from 'framer-motion'
 import Canvas from './Components/Canvas/Canvas';
 import styles from './AudioVisualizer.module.scss'
