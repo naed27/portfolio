@@ -3,14 +3,13 @@
   top:0;
   height:50px;
   width:100%;
-  background: rgb(8, 8, 8);
+  background: rgba(0, 0, 0, 1);
 }
 
 .fixed {
   position:fixed;
   height:50px;
   width:100%;
-  padding: 0 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
