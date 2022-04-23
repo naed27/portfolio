@@ -1,0 +1,22 @@
+.container{
+  position: absolute;
+  bottom:-25px;
+  height:30px;
+  width:100%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button{
+  height:100%;
+  width:auto;
+  padding:15px;
+  background-color: black;
+  color: rgb(219, 218, 218);
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 0 0 10px 10px;
+}
