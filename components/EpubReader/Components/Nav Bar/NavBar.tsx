@@ -1,9 +1,9 @@
 import styles from './NavBar.module.scss'
-import { useCallback, useContext, useRef } from 'react'
-import useOnClickOutside from '../../../../hooks/useOnClickOutside'
-import { GlobalContext } from '../../Context/GlobalContext'
-import Contents from './Components/Contents/Contents'
+import { useContext, useRef } from 'react'
 import Status from './Components/Status/Status'
+import Toggler from './Components/Toggler/Toggler'
+import { GlobalContext } from '../../Context/GlobalContext'
+import useOnClickOutside from '../../../../hooks/useOnClickOutside'
 
 export default function NavBar () {
 
@@ -27,17 +27,3 @@ export default function NavBar () {
   )
 }
 
-function Toggler () {
-
-  const {showNavBarContents,toggleNavBarContents} = useContext(GlobalContext);
-
-  const onClick = useCallback(()=> toggleNavBarContents(current => !current), [toggleNavBarContents])
-
-  return (
-    <div className={styles.togglerContainer} >
-      <div className={styles.button} onClick={onClick} >
-        {!showNavBarContents?'︾':'︽'}
-      </div>
-    </div>
-  )
-}

@@ -1,6 +1,6 @@
 import styles from './Menu.module.scss';
 import { useContext, useCallback, Dispatch, SetStateAction } from 'react';
-import { GlobalContext } from '../../../../../../Context/GlobalContext';
+import { GlobalContext } from '../../../../Context/GlobalContext';
 
 export default function Menu() {
 
@@ -24,7 +24,7 @@ interface TogglerParams{
 
 function Toggler ({setter, label}: TogglerParams) {
   
-  const {toggleMenu} = useContext(GlobalContext)
+  const {toggleNavBarContents: toggleMenu} = useContext(GlobalContext)
 
   const onClick = useCallback(()=> {
     toggleMenu(false)
