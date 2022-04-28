@@ -7,7 +7,9 @@ export default function Canvas () {
 
   return (
     <div className={styles.container}>
-      {epub.length>0&&<div dangerouslySetInnerHTML={{__html:epub[10].rawText}} />}
+      
+      {/* {epub.length>0&&epub[10].rawText} */}
+      {epub.length>10&&<div dangerouslySetInnerHTML={{__html:epub[10].rawText}} />}
     </div>
   )
 }
