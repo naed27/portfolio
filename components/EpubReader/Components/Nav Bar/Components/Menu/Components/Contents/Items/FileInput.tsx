@@ -1,11 +1,11 @@
 import { useCallback, useContext, useEffect } from 'react'
-import { changeFile } from '../../../../../../../Functions/FileHandlers';
+import { parseEpubfile } from '../../../../../../../Functions/FileHandlers';
 import { GlobalContext } from '../../../../../../../Context/GlobalContext'
 import styles from '../Contents.module.scss'
 
 export default function FileInput() {
 
-  const {setBookInfo, fileInputRef} = useContext(GlobalContext);
+  const {setBookInfo, fileInputRef, setEpub} = useContext(GlobalContext);
 
   const FileSelectedHandler = useCallback(async (e:any) => {
     if(!e.target.files[0]) return
@@ -17,12 +17,17 @@ export default function FileInput() {
     })
   },[setBookInfo])
 
+  const loadEpub = useCallback(async (e: any) => {
+    const epub = await parseEpubfile(e);
+    setEpub(epub)
+  },[setEpub])
+
   useEffect(()=>{
     const fileInputDiv = fileInputRef.current;
     if(!fileInputDiv) return
-    fileInputDiv.addEventListener('change',changeFile)  
-    return () => fileInputDiv.removeEventListener('change',changeFile)
-  },[fileInputRef])
+    fileInputDiv.addEventListener('change',loadEpub)  
+    return () => fileInputDiv.removeEventListener('change',loadEpub)
+  },[fileInputRef,loadEpub])
 
   return (
     <>

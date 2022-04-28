@@ -1,4 +1,5 @@
 import { createContext, Dispatch, SetStateAction, RefObject } from 'react';
+import { EpubItem } from '../Functions/FileHandlers';
 
 export interface BookInfoType {
   title: string | null, author: string | null
@@ -8,6 +9,9 @@ export interface ReadInfoType {
 }
 
 export interface GlobalContextType {
+
+  epub: EpubItem[],
+  setEpub: Dispatch<SetStateAction<EpubItem[]>>,
 
   fileInputRef: RefObject<HTMLInputElement>,
   readingProgressBar: RefObject<HTMLDivElement>,

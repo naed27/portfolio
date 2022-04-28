@@ -1,9 +1,24 @@
-import { toBase64 } from "../../../utility/functions";
+import axios from 'axios';
 
-export const changeFile = async (e:any)=>{
+export interface EpubItem {
+  chapterTitle: string;
+  rawText: string;
+}
+
+export const parseEpubfile = async (e:any) : Promise<EpubItem[]> =>{
   const file = e.target.files[0]
-  if(!file || file.type !== 'application/epub+zip') return
+  if(!file || file.type !== 'application/epub+zip') return []
   
-  const fileData = await toBase64(file) as string;
 
+  const route = '/api/epub/parse'
+  const config = { headers : { 'Content-Type': 'application/json' } }
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response: {data:{data:EpubItem[]}} = await axios.post(route, formData, config)
+
+  const epub = response.data.data;
+
+  return epub;
 }
