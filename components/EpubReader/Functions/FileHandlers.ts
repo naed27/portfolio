@@ -18,6 +18,8 @@ export const parseEpubfile = async (e:any) : Promise<EpubItem[]> =>{
 
   const response: {data:{data:EpubItem[]}} = await axios.post(route, formData, config)
 
+  console.log(response)
+  
   const epub = response.data.data;
 
   return epub;

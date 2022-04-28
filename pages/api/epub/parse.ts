@@ -10,6 +10,10 @@ const handler = async (
   res: NextApiResponse
 ): Promise<void> => {
 
+  const chapters: EpubItem[] = [];
+
+  if(!req) res.status(200).json({ data: chapters });
+
   const data = await new Promise((resolve, reject) => {
     const form = new IncomingForm()
     form.parse(req, (err, fields, files) => {
@@ -20,7 +24,6 @@ const handler = async (
 
   const file = data.files.file._writeStream.path
   const epub = await EPub.createAsync(file);
-  const chapters: EpubItem[] = [];
 
   for await (const {title, id} of epub.toc) {
     const chapterTitle = title ? title : ''
