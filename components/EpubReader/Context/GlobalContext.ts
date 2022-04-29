@@ -16,6 +16,9 @@ export interface GlobalContextType {
   fileInputRef: RefObject<HTMLInputElement>,
   readingProgressBar: RefObject<HTMLDivElement>,
 
+  parsingStatus: boolean, 
+  setParsingStatus: Dispatch<SetStateAction<boolean>>,
+
   bookInfo: BookInfoType | null,
   readInfo: ReadInfoType | null,
 

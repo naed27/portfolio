@@ -1,22 +1,15 @@
+import { useContext } from 'react';
 import styles from './Canvas.module.scss';
-import {useContext, useEffect, useState} from 'react'
-import { GlobalContext } from '../../Context/GlobalContext'
+import Page from './Components/Page/Page';
+import { GlobalContext } from '../../Context/GlobalContext';
+import LoadingPage from './Components/LoadingPage/LoadingPage';
 
 export default function Canvas () {
-  const {epub} = useContext(GlobalContext);
-  const [page, setPage] = useState<JSX.Element>(<></>)
-
-  useEffect(()=>{
-    const page = 
-    (epub.length<10)?
-      <></>
-      : <div dangerouslySetInnerHTML={{__html:epub[10].rawText}} />
-    setPage(page)
-  },[epub])
+  const { parsingStatus } = useContext(GlobalContext);
 
   return (
     <div className={styles.container}>
-      {page}
+      {parsingStatus? <LoadingPage/>: <Page/>}
     </div>
   )
 }

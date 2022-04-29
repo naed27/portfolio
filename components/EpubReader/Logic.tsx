@@ -7,10 +7,13 @@ export default function Logic() {
   
   const { setAbsoluteNavBar } = useContext(LayoutContext)
 
+
   const [epub, setEpub] = useState<EpubItem[]>([]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const readingProgressBar = useRef<HTMLDivElement>(null);
+  
+  const [parsingStatus, setParsingStatus] = useState<boolean>(false);
 
   const [isReading, isReadingToggler] = useState<boolean>(false);
 
@@ -31,6 +34,9 @@ export default function Logic() {
 
     fileInputRef,
     readingProgressBar,
+
+    parsingStatus, 
+    setParsingStatus,
 
     bookInfo, 
     readInfo, 

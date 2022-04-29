@@ -5,7 +5,7 @@ import styles from '../Contents.module.scss'
 
 export default function FileInput() {
 
-  const {setBookInfo, fileInputRef, setEpub} = useContext(GlobalContext);
+  const {setBookInfo, fileInputRef, setEpub , setParsingStatus} = useContext(GlobalContext);
 
   const FileSelectedHandler = useCallback(async (e:any) => {
     if(!e.target.files[0]) return
@@ -18,9 +18,11 @@ export default function FileInput() {
   },[setBookInfo])
 
   const loadEpub = useCallback(async (e: any) => {
+    setParsingStatus(true)
     const epub = await parseEpubfile(e);
     setEpub(epub)
-  },[setEpub])
+    setParsingStatus(false)
+  },[setEpub, setParsingStatus])
 
   useEffect(()=>{
     const fileInputDiv = fileInputRef.current;
