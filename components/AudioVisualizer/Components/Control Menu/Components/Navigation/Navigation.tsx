@@ -16,8 +16,8 @@ export default function Navigation () {
   return (
     <div className={styles.container}>
       
-      <input id={'fileUpload'} ref={inputRef} type={'file'} accept={'.mp3'} onChange={FileSelectedHandler} />
-      <label htmlFor="fileUpload" className={styles.audioButton}>Upload</label> 
+      <input id={'audio_visualizer_file_upload'} ref={inputRef} type={'file'} accept={'.mp3'} onChange={FileSelectedHandler} />
+      <label htmlFor="audio_visualizer_file_upload" className={styles.audioButton}>Upload</label> 
 
       <div ref={playButtonRef} className={styles.audioButton}  style={{opacity:(audioTitle === null)?0.4:1}}>
         {playing ? 'Pause' : 'Play'}
