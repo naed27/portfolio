@@ -11,13 +11,11 @@ export default function FileInput() {
 
   const loadEpub = useCallback(async (e: any) => {
     e.preventDefault();
-    if(!e.target.files[0]) return
-    if(e.target.files[0].type !== 'application/epub+zip')
-     return setBookInfo(null)
 
     console.log('Parsing Epub...')
     setParsingStatus(true)
     const epub = await parseWithAPI(e);
+    if(epub.length===0) return
     setEpub(epub)
     setBookInfo({ title: e.target.files[0].name.slice(0, -4), author: null })
     setParsingStatus(false)

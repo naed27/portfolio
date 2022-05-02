@@ -65,6 +65,7 @@ export default class AudioManager{
   }
 
   readonly changeAudio = async (e:any)=>{
+    console.log('uploaded mp3 file')
     if (e.target.files[0]) {
       if(e.target.files[0].type !== 'audio/mpeg')
         return this.clearCasette();

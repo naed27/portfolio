@@ -2,6 +2,7 @@ import EPub  from 'epub2'
 import { IncomingForm } from 'formidable'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { EpubItem } from '../../../components/EpubReader/Functions/FileHandlers';
+import Mime from 'mime'
 
 export const config = { api: { bodyParser: false } };
 
@@ -22,8 +23,10 @@ const handler = async (
     })
   }) as {fields: { [key: string]: any }, files: { [key: string]: any }}
 
-  const file = data.files.file._writeStream.path
-  const epub = await EPub.createAsync(file);
+  const mimetype = Mime.getType(data.files.file.originalFilename)
+  const newFile = {...data.files.file, mimetype}
+
+  const epub = await EPub.createAsync(newFile._writeStream.path);
 
   for await (const {title, id} of epub.toc) {
     const chapterTitle = title ? title : ''

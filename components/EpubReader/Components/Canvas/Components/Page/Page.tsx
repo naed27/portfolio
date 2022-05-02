@@ -9,9 +9,9 @@ export default function Page() {
 
   useEffect(()=>{
     const page = 
-    (epub.length<10)?
+    (epub.length<17)?
       <></>
-      : <div dangerouslySetInnerHTML={{__html:epub[10].rawText}} />
+      : <div dangerouslySetInnerHTML={{__html:epub[17].rawText}} />
     setPage(page)
   },[epub])
 
