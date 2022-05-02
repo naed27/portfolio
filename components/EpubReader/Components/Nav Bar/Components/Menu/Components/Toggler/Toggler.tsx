@@ -6,7 +6,10 @@ export default function Toggler () {
 
   const { toggleMenuContents } = useContext(GlobalContext)
 
-  const handleClick = useCallback(() => toggleMenuContents(current => !current), [toggleMenuContents])
+  const handleClick = useCallback(() => {
+    console.log('toggled menu')
+    toggleMenuContents(current => !current)
+  }, [toggleMenuContents])
 
   return (
     <div className={styles.container} onClick={handleClick}>
