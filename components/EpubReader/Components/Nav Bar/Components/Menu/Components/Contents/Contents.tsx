@@ -2,11 +2,10 @@ import { useContext, useRef } from 'react'
 import useOnClickOutside from '../../../../../../../../hooks/useOnClickOutside';
 import { GlobalContext } from '../../../../../../Context/GlobalContext';
 import styles from './Contents.module.scss'
-import FileInput from './Items/FileInput';
-import SettingsToggler from './Items/ToggleSettings';
+import EpubReceiver from './Items/EpubReceiver';
+import SettingsToggler from './Items/SettingsToggler';
 
 export default function Contents() {
-
   
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -21,7 +20,7 @@ export default function Contents() {
   return (
     <div className={styles.container} ref={menuRef}>
 
-      <FileInput/>
+      <EpubReceiver/>
       <SettingsToggler/>
       
     </div>

@@ -1,16 +1,15 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import { LayoutContext } from "../Layout/Context/LayoutContext";
-import { BookInfoType, GlobalContextType, ReadInfoType } from "./Context/GlobalContext";
-import { EpubItem } from "./Functions/FileHandlers";
+import { BookInfoType, EpubObject, GlobalContextType, ReadInfoType } from "./Context/GlobalContext";
 
 export default function Logic() {
   
   const { setAbsoluteNavBar } = useContext(LayoutContext)
 
 
-  const [epub, setEpub] = useState<EpubItem[]>([]);
+  const [epub, setEpub] = useState<EpubObject>({chapters:[], images:[]});
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const canvasRef = useRef<HTMLDivElement>(null);
   const readingProgressBar = useRef<HTMLDivElement>(null);
   
   const [parsingStatus, setParsingStatus] = useState<boolean>(false);
@@ -32,7 +31,7 @@ export default function Logic() {
     epub,
     setEpub,
 
-    fileInputRef,
+    canvasRef,
     readingProgressBar,
 
     parsingStatus, 

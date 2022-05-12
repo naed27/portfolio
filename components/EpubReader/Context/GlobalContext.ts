@@ -1,5 +1,5 @@
 import { createContext, Dispatch, SetStateAction, RefObject } from 'react';
-import { EpubItem } from '../Functions/FileHandlers';
+import { EpubChapter, EpubImage } from '../Functions/FileHandlers';
 
 export interface BookInfoType {
   title: string | null, author: string | null
@@ -8,12 +8,16 @@ export interface ReadInfoType {
   chapter: number | null, page: number | null
 }
 
+export interface EpubObject {
+  chapters: EpubChapter[], images: EpubImage[]
+}
+
 export interface GlobalContextType {
 
-  epub: EpubItem[],
-  setEpub: Dispatch<SetStateAction<EpubItem[]>>,
+  epub: EpubObject,
+  setEpub: Dispatch<SetStateAction<EpubObject>>,
 
-  fileInputRef: RefObject<HTMLInputElement>,
+  canvasRef: RefObject<HTMLDivElement>,
   readingProgressBar: RefObject<HTMLDivElement>,
 
   parsingStatus: boolean, 

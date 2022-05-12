@@ -4,7 +4,7 @@ import styles from './EpubReader.module.scss';
 import animation from '../Animation/Animation';
 import NavBar from './Components/Nav Bar/NavBar';
 import { GlobalContext } from './Context/GlobalContext';
-import Canvas from './Components/Canvas/Canvas';
+import Frame from './Components/Frame/Frame';
 
 export default function EpubReader() {
 
@@ -19,7 +19,7 @@ export default function EpubReader() {
         
       <GlobalContext.Provider value={globalValues}>
         <NavBar/>
-        <Canvas/>
+        <Frame/>
       </GlobalContext.Provider>
 
     </motion.div>

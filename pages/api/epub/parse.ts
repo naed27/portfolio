@@ -1,7 +1,7 @@
 import EPub  from 'epub2'
 import { IncomingForm } from 'formidable'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { EpubItem } from '../../../components/EpubReader/Functions/FileHandlers';
+import { EpubChapter } from '../../../components/EpubReader/Functions/FileHandlers';
 import Mime from 'mime'
 
 export const config = { api: { bodyParser: false } };
@@ -11,7 +11,7 @@ const handler = async (
   res: NextApiResponse
 ): Promise<void> => {
 
-  const chapters: EpubItem[] = [];
+  const chapters: EpubChapter[] = [];
 
   if(!req) res.status(200).json({ data: chapters });
 
@@ -28,18 +28,16 @@ const handler = async (
 
   const epub = await EPub.createAsync(newFile._writeStream.path);
 
-  for await (const {title, id} of epub.toc) {
-    const chapterTitle = title ? title : ''
-
-    const rawText = await new Promise((resolve, reject) => {
-      id && epub.getChapter(id, async (err, text)=> {  text? resolve(text): resolve('') })
-    }) as string
-
-    chapters.push({chapterTitle, rawText})
+  for await (const {title, id, } of epub.flow) {
+    chapters.push({
+      chapterTitle: title ? title : '', 
+      rawText: await new Promise((resolve) => {
+        id && epub.getChapter(id, async (err, text)=> {  text ? resolve(text) : resolve('') })
+      }),
+    })
   }
-  
-  res.status(200).json({ data: chapters });
 
+  res.status(200).json({ chapters });
 };
 
 export default handler;
