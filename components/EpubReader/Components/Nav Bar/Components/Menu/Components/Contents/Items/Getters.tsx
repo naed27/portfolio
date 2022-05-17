@@ -3,23 +3,52 @@ import epub from 'epubjs'
 import {clone} from 'lodash'
 import axios, { AxiosResponse } from 'axios';
 
-export const getEpubFiles = (file: any) => {
-  const book = epub(file)
-  const archive = clone(book.archive) as {[key: string]: any}
-  const images = archive.urlCache as {[key: string]: any}
-  return { images }
+export interface EpubChapter{
+  html: string,
+  idref: string,
+  index: string,
+  canonical: string,
+  cfiBase: string
 }
 
-export interface EpubChapter {
+export interface EpubImages{
+  [key: string]: string
+}
+
+export const getEpubFiles = async (file: any) => {
+  const book = epub(file)
+  const archive = book.archive as {[key: string]: any}
+  const images = archive.urlCache as EpubImages
+  const spine = await book.loaded.spine as {[key: string]: any}
+
+  console.log(images)
+
+  const chapters:EpubChapter[] = []
+  for await (const item of spine.spineItems) {
+    const {idref, index, canonical, cfiBase} = item
+    const contents = await item.load(book.load.bind(book))
+    chapters.push({
+      html:contents.innerHTML,
+      idref: idref as string, 
+      index: index as string, 
+      canonical: canonical as string, 
+      cfiBase: cfiBase as string
+    })
+  }
+
+  return { chapters, images }
+}
+
+export interface EpubChapter2 {
   chapterTitle: string;
   rawText: string;
 }
 
 export interface  ResponseData { 
-  chapters: EpubChapter[] 
+  chapters: EpubChapter2[] 
 }
 
-export const getEpubTexts = async (file:any) : Promise<{chapters:EpubChapter[]}> =>{
+export const getEpubTexts = async (file:any) : Promise<{chapters:EpubChapter2[]}> =>{
 
   const DEFAULT_RETURN_DATA: ResponseData = {chapters:[]}
 

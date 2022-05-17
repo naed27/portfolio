@@ -7,7 +7,6 @@ export default function Toggler () {
   const { toggleMenuContents } = useContext(GlobalContext)
 
   const handleClick = useCallback(() => {
-    console.log('toggled menu')
     toggleMenuContents(current => !current)
   }, [toggleMenuContents])
 

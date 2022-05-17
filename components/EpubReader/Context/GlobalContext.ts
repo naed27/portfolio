@@ -1,5 +1,5 @@
 import { createContext, Dispatch, SetStateAction, RefObject } from 'react';
-import { EpubChapter, EpubImage } from '../Functions/FileHandlers';
+import { EpubImages, EpubChapter } from '../Components/Nav Bar/Components/Menu/Components/Contents/Items/Getters';
 
 export interface BookInfoType {
   title: string | null, author: string | null
@@ -9,7 +9,7 @@ export interface ReadInfoType {
 }
 
 export interface EpubObject {
-  chapters: EpubChapter[], images: EpubImage[]
+  chapters: EpubChapter[], images: EpubImages
 }
 
 export interface GlobalContextType {
