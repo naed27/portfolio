@@ -1,19 +1,21 @@
-import { useCallback, useContext, useEffect } from 'react'
+import { useCallback, useContext } from 'react'
 import { GlobalContext } from '../../../../../../../Context/GlobalContext'
 import styles from '../Contents.module.scss'
 import { getEpubFiles } from './Getters';
 
 export default function EpubReceiver() {
 
-  const {canvasRef, setEpub} = useContext(GlobalContext);
+  const {setEpub, setParsingStatus} = useContext(GlobalContext);
 
   const loadEpub = useCallback(async (e: any)=>{
     e.preventDefault();
+    setParsingStatus(false)
+    console.log('Parsing...')
     const file = e.target.files[0]
     const parsedEpub = await getEpubFiles(file)
     setEpub(parsedEpub)
-    if(!canvasRef.current)return
-  },[canvasRef,setEpub])
+    console.log('Done!')
+  },[ setEpub, setParsingStatus ])
 
   return (
     <>

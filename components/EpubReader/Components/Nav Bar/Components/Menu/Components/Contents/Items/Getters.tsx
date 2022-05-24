@@ -1,56 +1,40 @@
 import Mime from 'mime'
 import epub from 'epubjs'
-import {clone} from 'lodash'
 import axios, { AxiosResponse } from 'axios';
+import { EpubChapter, WebRoots } from '../../../../../../../../../pages/api/epub/parse';
+import { generateFileKeys } from '../../../../../../../Functions/Utility';
 
-export interface EpubChapter{
-  html: string,
-  idref: string,
-  index: string,
-  canonical: string,
-  cfiBase: string
-}
-
-export interface EpubImages{
-  [key: string]: string
+export const renderEpub = async ({file, id}:{file:any, id:string}) => {
+  const book = epub(file)
+  book.renderTo(id)
 }
 
 export const getEpubFiles = async (file: any) => {
   const book = epub(file)
+  const resources = await book.loaded.resources as any
+  const assets = await resources.urls as string[]
   const archive = book.archive as {[key: string]: any}
-  const images = archive.urlCache as EpubImages
-  const spine = await book.loaded.spine as {[key: string]: any}
+  const files = await archive.urlCache as {[key: string]: any}
+  const fileKeys = generateFileKeys( assets )
 
-  console.log(images)
+  const {chapters, webRoots} = await getEpubTexts(file)
+  return { chapters, files, webRoots, fileKeys }
+}
 
-  const chapters:EpubChapter[] = []
-  for await (const item of spine.spineItems) {
-    const {idref, index, canonical, cfiBase} = item
-    const contents = await item.load(book.load.bind(book))
-    chapters.push({
-      html:contents.innerHTML,
-      idref: idref as string, 
-      index: index as string, 
-      canonical: canonical as string, 
-      cfiBase: cfiBase as string
-    })
+interface APIResponse {
+  chapters: EpubChapter[],
+  webRoots: WebRoots
+}
+
+export const getEpubTexts = async (file:any) : Promise<APIResponse> =>{
+
+  const DEFAULT_RETURN_DATA: APIResponse = {
+    chapters: [],
+    webRoots: {
+      chapter: '/chapters/',
+      image: '/images/',
+    }
   }
-
-  return { chapters, images }
-}
-
-export interface EpubChapter2 {
-  chapterTitle: string;
-  rawText: string;
-}
-
-export interface  ResponseData { 
-  chapters: EpubChapter2[] 
-}
-
-export const getEpubTexts = async (file:any) : Promise<{chapters:EpubChapter2[]}> =>{
-
-  const DEFAULT_RETURN_DATA: ResponseData = {chapters:[]}
 
   const axiosInstance = axios.create({ baseURL: window.location.origin })
 
@@ -65,11 +49,11 @@ export const getEpubTexts = async (file:any) : Promise<{chapters:EpubChapter2[]}
   formData.append('file', file);
 
   const response = await axiosInstance
-    .post<FormData, AxiosResponse<ResponseData>>(route, formData, config)
+    .post<FormData, AxiosResponse<APIResponse>>(route, formData, config)
     .catch();
 
   if(!response || response.status !== 200) 
     return DEFAULT_RETURN_DATA
 
-  return {chapters: response.data.chapters}
+  return response.data
 }

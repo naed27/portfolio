@@ -1,15 +1,19 @@
 import { createContext, Dispatch, SetStateAction, RefObject } from 'react';
-import { EpubImages, EpubChapter } from '../Components/Nav Bar/Components/Menu/Components/Contents/Items/Getters';
+import { EpubChapter, WebRoots } from '../../../pages/api/epub/parse';
 
 export interface BookInfoType {
   title: string | null, author: string | null
 }
+
 export interface ReadInfoType {
   chapter: number | null, page: number | null
 }
 
 export interface EpubObject {
-  chapters: EpubChapter[], images: EpubImages
+  webRoots: WebRoots,
+  chapters: EpubChapter[], 
+  files: {[key:string]: string},
+  fileKeys: {[key:string]: string}
 }
 
 export interface GlobalContextType {
@@ -19,6 +23,9 @@ export interface GlobalContextType {
 
   canvasRef: RefObject<HTMLDivElement>,
   readingProgressBar: RefObject<HTMLDivElement>,
+
+  canvasSize: {width: number, height: number},
+  setCanvasSize: Dispatch<SetStateAction<{width: number, height: number}>>,
 
   parsingStatus: boolean, 
   setParsingStatus: Dispatch<SetStateAction<boolean>>,
