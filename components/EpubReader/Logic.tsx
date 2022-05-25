@@ -6,8 +6,7 @@ export default function Logic() {
   
   const { setAbsoluteNavBar } = useContext(LayoutContext)
 
-
-  const [epub, setEpub] = useState<EpubObject>({chapters:[], images:{}});
+  const [epub, setEpub] = useState<EpubObject>({chapters:[], files:{}, webRoots:{chapter:'',image:''}, fileKeys: {}});
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const readingProgressBar = useRef<HTMLDivElement>(null);
@@ -15,8 +14,6 @@ export default function Logic() {
   const [canvasSize, setCanvasSize] = useState<{width: number, height: number}>({width: 0, height: 0});
   
   const [parsingStatus, setParsingStatus] = useState<boolean>(false);
-
-  const [isReading, isReadingToggler] = useState<boolean>(false);
 
   const [bookInfo, setBookInfo] = useState<BookInfoType | null>(null);
   const [readInfo, setReadInfo] = useState<ReadInfoType | null>(null);

@@ -9,7 +9,7 @@ export default function Canvas() {
   const {dangerousJSX} = useManualRender()
 
   return(
-    <div id={'main_canvas_001'} className={styles.container} style={{width:`${canvasSize.width}px`, height:`${canvasSize.height}px`}}>
+    <div className={styles.container} style={{width:`${canvasSize.width}px`, height:`${canvasSize.height}px`}}>
       {dangerousJSX}
     </div>
   )

@@ -1,6 +1,6 @@
-import { MutableRefObject, RefObject, useContext, useEffect, useRef } from 'react';
 import styles from './Frame.module.scss';
 import Canvas from './Components/Canvas/Canvas';
+import { useContext, useEffect, useRef } from 'react';
 import { GlobalContext } from '../../Context/GlobalContext';
 import LoadingPage from './Components/LoadingPage/LoadingPage';
 

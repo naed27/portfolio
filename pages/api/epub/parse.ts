@@ -58,7 +58,6 @@ const handler = async (
       id && epub.getChapter(id, async (err, text)=> {  text ? resolve(text) : resolve('') })
     }) as string
 
-
     chapters.push({
       id,
       href,
