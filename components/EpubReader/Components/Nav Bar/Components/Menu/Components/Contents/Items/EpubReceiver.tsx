@@ -9,12 +9,13 @@ export default function EpubReceiver() {
 
   const loadEpub = useCallback(async (e: any)=>{
     e.preventDefault();
-    setParsingStatus(false)
+    setParsingStatus(true)
     console.log('Parsing...')
     const file = e.target.files[0]
     const parsedEpub = await getEpubFiles(file)
     setEpub(parsedEpub)
-    console.log('Done!')
+    setParsingStatus(false)
+    console.log('Parsing Complete.')
   },[ setEpub, setParsingStatus ])
 
   return (

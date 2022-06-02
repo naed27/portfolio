@@ -18,6 +18,11 @@ export interface WebRoots {
   image: string,
 }
 
+export interface ExtractEpubTextResponse {
+  chapters: EpubChapter[]
+  webRoots: WebRoots
+}
+
 export const config = { api: { bodyParser: false } };
 
 const handler = async (

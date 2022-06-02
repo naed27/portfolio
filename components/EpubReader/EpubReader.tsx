@@ -5,6 +5,7 @@ import animation from '../Animation/Animation';
 import NavBar from './Components/Nav Bar/NavBar';
 import { GlobalContext } from './Context/GlobalContext';
 import Frame from './Components/Frame/Frame';
+import PageController from './Components/PageController/PageController';
 
 export default function EpubReader() {
 
@@ -18,8 +19,10 @@ export default function EpubReader() {
       exit='exit'>
         
       <GlobalContext.Provider value={globalValues}>
-        <NavBar/>
-        <Frame/>
+        <PageController>
+          <NavBar/>
+          <Frame/>
+        </PageController>
       </GlobalContext.Provider>
 
     </motion.div>

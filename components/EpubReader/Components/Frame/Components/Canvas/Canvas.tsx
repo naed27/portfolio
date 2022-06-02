@@ -1,16 +1,38 @@
-import { useContext } from 'react'
+import { useContext, useMemo, useEffect } from 'react'
 import { GlobalContext } from '../../../../Context/GlobalContext'
 import styles from './Canvas.module.scss'
-import useManualRender from './Hooks/ManualRender'
+import PrepareContent from './Content Manager/PrepareContent'
 
 export default function Canvas() {
 
-  const {canvasSize} = useContext(GlobalContext)
-  const {dangerousJSX} = useManualRender()
+  const {canvasSize, canvasRef, currentPage} = useContext(GlobalContext)
+
+  const {chaptersJSX, styleElements} = PrepareContent()
+
+  const canvasStyle = useMemo(()=>({
+    width:`${canvasSize.width}px`,
+    height:`${canvasSize.height}px`
+  }),[canvasSize])
+
+  useEffect(()=>{
+    if(canvasRef.current===null) return
+    canvasRef.current.scrollTop = 0
+    canvasRef.current.scrollLeft = 0
+  },[currentPage, canvasRef])
 
   return(
-    <div className={styles.container} style={{width:`${canvasSize.width}px`, height:`${canvasSize.height}px`}}>
-      {dangerousJSX}
-    </div>
+    <> 
+      <div ref={canvasRef} 
+      className={styles.container} 
+      style={canvasStyle}
+      >
+        {styleElements.map((link)=>link)}
+        {(()=>{
+          if (chaptersJSX.length>0)
+            return chaptersJSX[currentPage]
+          return null
+        })()}
+      </div>
+    </>
   )
 }

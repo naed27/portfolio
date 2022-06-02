@@ -1,8 +1,7 @@
 import Mime from 'mime'
 import epub from 'epubjs'
 import axios, { AxiosResponse } from 'axios';
-import { EpubChapter, WebRoots } from '../../../../../../../../../pages/api/epub/parse';
-import { generateFileKeys } from '../../../../../../../Functions/Utility';
+import { ExtractEpubTextResponse } from '../../../../../../../../../pages/api/epub/parse';
 
 export const renderEpub = async ({file, id}:{file:any, id:string}) => {
   const book = epub(file)
@@ -11,29 +10,17 @@ export const renderEpub = async ({file, id}:{file:any, id:string}) => {
 
 export const getEpubFiles = async (file: any) => {
   const book = epub(file)
-  const resources = await book.loaded.resources as any
-  const assets = await resources.urls as string[]
-  const archive = book.archive as {[key: string]: any}
-  const files = await archive.urlCache as {[key: string]: any}
-  const fileKeys = generateFileKeys( assets )
-
-  const {chapters, webRoots} = await getEpubTexts(file)
-  return { chapters, files, webRoots, fileKeys }
+  const resources = await book.loaded.resources
+  const { chapters } = await requestEpubTexts(file)
+  return { chapters, resources }
 }
 
-interface APIResponse {
-  chapters: EpubChapter[],
-  webRoots: WebRoots
-}
 
-export const getEpubTexts = async (file:any) : Promise<APIResponse> =>{
+export const requestEpubTexts = async (file:any) : Promise<ExtractEpubTextResponse> =>{
 
-  const DEFAULT_RETURN_DATA: APIResponse = {
-    chapters: [],
-    webRoots: {
-      chapter: '/chapters/',
-      image: '/images/',
-    }
+  const DEFAULT_RETURN_DATA: ExtractEpubTextResponse = {
+    chapters:[],
+    webRoots:{ chapter:'', image:'' }
   }
 
   const axiosInstance = axios.create({ baseURL: window.location.origin })
@@ -49,7 +36,7 @@ export const getEpubTexts = async (file:any) : Promise<APIResponse> =>{
   formData.append('file', file);
 
   const response = await axiosInstance
-    .post<FormData, AxiosResponse<APIResponse>>(route, formData, config)
+    .post<FormData, AxiosResponse<ExtractEpubTextResponse>>(route, formData, config)
     .catch();
 
   if(!response || response.status !== 200) 

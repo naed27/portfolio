@@ -1,39 +1,8 @@
-export const sortAlphabetically=( words:string[])=>{
-
-  for(let i=1;i<words.length;i++){
-    let word1 = words[i];
-    let lim;
-    let limword;
-    comparer:for(let j=i-1;j>=0;j--){
-      let word2=words[j];
-      if(word1.length<word2.length){
-        lim = word1.length;
-        limword = word1;
-      }else{
-        lim = word2.length;
-        limword = word2;
-      }
-      for(let k=0;k<lim;k++){
-        if(word1[k]<word2[k]){
-          words[j]=word1;
-          words[i]=word2;
-          i--;
-          break;
-        }else if(word1[k]==word2[k]){
-          if(k==lim-1&&limword==word1){
-            words[j]=word1;
-            words[i]=word2;
-            i--;
-          }
-        }else if(word1[k]>word2[k]){
-          break comparer;
-        }
-      }
-    }
-  }
-  return words;
+export const map2DArray = <T>(array:T[][]) => {
+  return array.reduce((acc, cur) => {
+    return acc.concat(cur);
+  }, []);
 }
-
 
 export const randomIntBetween = (min:number, max:number) => 
   Math.floor(Math.random() * (max - min + 1) + min)
