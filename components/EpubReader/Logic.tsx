@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef, useContext } from "react";
-import { LayoutContext } from "../Layout/Context/LayoutContext";
-import { BookInfoType, CanvasPreferences, CanvasSize, EpubObject, GlobalContextType, ReadInfoType } from "./Context/GlobalContext";
+import { useState, useEffect, useRef, useContext } from 'react';
+import { LayoutContext } from '../Layout/Context/LayoutContext';
+import { BookInfoType, CanvasPreferences, CanvasSize, EpubObject, GlobalContextType, Page, RawEpub, ReadInfoType } from "./Types/Types";
 
 const DEFAULT_PREFERENCES = {
   padding: 20,
@@ -12,16 +12,17 @@ const DEFAULT_PREFERENCES = {
 }
 
 const DEFAULT_CANVAS_SIZE = {
-  width:0,
-  height:0,
+  width:`${0}px`,
+  height:`${0}px`,
 }
 
 export default function Logic() {
   
   const { setAbsoluteNavBar } = useContext(LayoutContext)
 
-  const [epub, setEpub] = useState<EpubObject>({chapters:[], resources:{}})
+  const [epub, setEpub] = useState<EpubObject>({sections:[], styles: {}, images: {}})
 
+  const sizerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLDivElement>(null)
   const readingProgressBar = useRef<HTMLDivElement>(null)
   
@@ -33,8 +34,14 @@ export default function Logic() {
   const [bookInfo, setBookInfo] = useState<BookInfoType | null>(null)
   const [readInfo, setReadInfo] = useState<ReadInfoType | null>(null)
   
+  const [pages, setPages] = useState<Page[]>([]);
   const [maxPage, setMaxPage] = useState(0)
   const [currentPage, setCurrentPage] = useState(0)
+
+  const [sectionLength, setSectionLength] = useState(0)
+  const [finalJSX, setFinalJSX] = useState<JSX.Element[]>([])
+
+  const [reprintFlag, setReprintFlag] = useState(false)
 
   const [showChapters, toggleChapters] = useState(false)
   const [showBookInfo, toggleBookInfo] = useState(false)
@@ -48,6 +55,7 @@ export default function Logic() {
     epub,
     setEpub,
 
+    sizerRef,
     canvasRef,
     readingProgressBar,
     
@@ -64,10 +72,20 @@ export default function Logic() {
     setBookInfo,
     setReadInfo,
 
+    pages, 
+    setPages,
     maxPage, 
     setMaxPage,
     currentPage, 
     setCurrentPage,
+
+    sectionLength,
+    setSectionLength,
+    finalJSX,
+    setFinalJSX,
+    
+    reprintFlag, 
+    setReprintFlag,
 
     showChapters, 
     showBookInfo, 

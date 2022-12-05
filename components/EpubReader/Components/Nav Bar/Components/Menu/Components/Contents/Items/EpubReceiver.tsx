@@ -1,7 +1,7 @@
+import { extractEpubLocally } from './Getters';
+import styles from '../Contents.module.scss'
 import { useCallback, useContext } from 'react'
 import { GlobalContext } from '../../../../../../../Context/GlobalContext'
-import styles from '../Contents.module.scss'
-import { getEpubFiles } from './Getters';
 
 export default function EpubReceiver() {
 
@@ -9,13 +9,14 @@ export default function EpubReceiver() {
 
   const loadEpub = useCallback(async (e: any)=>{
     e.preventDefault();
+
+    console.log('Extracting Epub...')
     setParsingStatus(true)
-    console.log('Parsing...')
-    const file = e.target.files[0]
-    const parsedEpub = await getEpubFiles(file)
-    setEpub(parsedEpub)
+
+    setEpub(await extractEpubLocally(e.target.files[0]))
+
     setParsingStatus(false)
-    console.log('Parsing Complete.')
+    console.log('Extraction Complete.')
   },[ setEpub, setParsingStatus ])
 
   return (

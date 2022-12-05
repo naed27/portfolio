@@ -1,8 +1,27 @@
+
+export const getLastItemOf = <T>(array: T[]):T | null => {
+
+  if(array.length === 0) 
+  return null
+
+  return array[array.length-1]
+}
+
 export const map2DArray = <T>(array:T[][]) => {
   return array.reduce((acc, cur) => {
     return acc.concat(cur);
   }, []);
 }
+
+export const isWhitespace = (str?: string | number | null) => {
+  if (str === null || str === undefined || typeof str === 'number')
+    return false
+  if (!str.replace(/\s/g, '').length) 
+    return true
+  return false
+} 
+
+
 
 export const randomIntBetween = (min:number, max:number) => 
   Math.floor(Math.random() * (max - min + 1) + min)

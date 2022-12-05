@@ -1,46 +1,55 @@
-import Mime from 'mime'
-import epub from 'epubjs'
-import axios, { AxiosResponse } from 'axios';
-import { ExtractEpubTextResponse } from '../../../../../../../../../pages/api/epub/parse';
+import epub, { Book } from 'epubjs'
+import { parse } from 'node-html-parser';
+import { KeyValuePairs } from '../../../../../../../Types/Types';
+import { getExactFileName } from '../../../../../../../Functions/Functions';
+import { correctNode } from '../../../../../../Display/Components/Canvas/Helpers/Helpers';
 
-export const renderEpub = async ({file, id}:{file:any, id:string}) => {
-  const book = epub(file)
-  book.renderTo(id)
+
+export const extractEpubLocally = async (file: any) => {
+  const book = epub(file);
+
+  const rawSections = await getEpubSections(book)
+  const {images, styles} = await getEpubResources(book)
+  const sections = cleanEpubHTML(rawSections, images)
+
+  return {sections, images, styles}
 }
 
-export const getEpubFiles = async (file: any) => {
-  const book = epub(file)
-  const resources = await book.loaded.resources
-  const { chapters } = await requestEpubTexts(file)
-  return { chapters, resources }
-}
+//------------------- Sub-Functions
 
-
-export const requestEpubTexts = async (file:any) : Promise<ExtractEpubTextResponse> =>{
-
-  const DEFAULT_RETURN_DATA: ExtractEpubTextResponse = {
-    chapters:[],
-    webRoots:{ chapter:'', image:'' }
+const getEpubSections = async (book: Book) => {
+  const { spineItems }  = await book.loaded.spine as KeyValuePairs
+  const result = []
+  for(let i=0; i<spineItems.length; i++){
+    const {url, idref} = spineItems[i]
+    const htmlString = await book.archive.getText(url) 
+    result.push({ id: idref as string, htmlString })
   }
+  return result
+}
 
-  const axiosInstance = axios.create({ baseURL: window.location.origin })
+const getEpubResources = async (book: Book) => {
+  const resources = await book.loaded.resources as KeyValuePairs
+  const result = {styles:{} as KeyValuePairs, images:{} as KeyValuePairs}
+  const { assets, replacementUrls } = resources
+  for (let i = 0; i < assets.length; i++) {
+    const url = replacementUrls[i];
+    const {href: longHref, type} = assets[i];
+    const href: string = getExactFileName(longHref)
+    switch(type){
+      case 'text/css':  result.styles[href] = url; break;
+      case 'image/jpeg':  result.images[href] = url; break;
+      default: break;
+    }
+  }
+  return result
+}
 
-  const mime = Mime.getType(file.name)
-  if(mime !== 'application/epub+zip') 
-    return DEFAULT_RETURN_DATA
-
-  const route = '/api/epub/parse'
-  const config = { headers : { 'Content-Type': mime } }
-
-  const formData = new FormData();
-  formData.append('file', file);
-
-  const response = await axiosInstance
-    .post<FormData, AxiosResponse<ExtractEpubTextResponse>>(route, formData, config)
-    .catch();
-
-  if(!response || response.status !== 200) 
-    return DEFAULT_RETURN_DATA
-
-  return response.data
+const cleanEpubHTML = (sections: { id: string, htmlString: string }[], images: KeyValuePairs) => {
+  for (let i = 0; i < sections.length; i++) {
+    const node = parse(sections[i].htmlString)
+    const parsedNode = correctNode({node, images})
+    sections[i].htmlString = parsedNode
+  }
+  return sections
 }

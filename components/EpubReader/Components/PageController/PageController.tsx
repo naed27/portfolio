@@ -25,9 +25,7 @@ export default function PageController ({children}:any) {
   return (
   <>
     <div className={styles.leftButton} onClick={leftHandler}/>
-
       {children}
-    
     <div className={styles.rightButton} onClick={rightHandler}/>
   </>
   )
