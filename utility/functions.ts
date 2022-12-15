@@ -1,4 +1,9 @@
 
+export const getIntersections = <T>(baseArray:T[], topArray:T[]): T[] => {
+  return baseArray.filter(x => topArray.includes(x));
+}
+
+
 export const getLastItemOf = <T>(array: T[]):T | null => {
 
   if(array.length === 0) 
@@ -20,8 +25,6 @@ export const isWhitespace = (str?: string | number | null) => {
     return true
   return false
 } 
-
-
 
 export const randomIntBetween = (min:number, max:number) => 
   Math.floor(Math.random() * (max - min + 1) + min)
@@ -85,6 +88,10 @@ export const getDifference = (n1:number,n2:number) => Math.abs(n1-n2)
 
 export const pushIfUnique = (array: any[], element: any) => 
   !array.includes(element) && array.push(element)
+
+export const removeBlanksFromArray = <T>(array: T[]): T[] => 
+  array.filter(item=>item!=null||item!=undefined)
+
 
 export const delay = async (milliseconds:number) => new Promise(res=>setTimeout(res, milliseconds))
 

@@ -1,4 +1,4 @@
-import { pushIfUnique } from "../../../../../utility/functions";
+import { pushIfUnique, removeBlanksFromArray } from "../../../../../utility/functions";
 import { sortStrings, containsKeyword, sortNumbers } from "../../../Misc/globalFunctions";
 import { YGOCard } from "../../../Misc/globalTypes";
 
@@ -29,12 +29,12 @@ export const fetchCardTypes = (mainCards:YGOCard[])=>{
   });
 
   return {
-    primaryTypes:primaryTypes.sort(sortStrings),
-    races:races.sort(sortStrings),
-    monsterTypes:monsterTypes.sort(sortStrings),
-    spellTypes:spellTypes.sort(sortStrings),
-    trapTypes:trapTypes.sort(sortStrings),
-    attributes:attributes.sort(sortStrings),
-    levels:levels.sort(sortNumbers),
+    primaryTypes:removeBlanksFromArray(primaryTypes).sort(sortStrings),
+    races:removeBlanksFromArray(races).sort(sortStrings),
+    monsterTypes:removeBlanksFromArray(monsterTypes).sort(sortStrings),
+    spellTypes:removeBlanksFromArray(spellTypes).sort(sortStrings),
+    trapTypes:removeBlanksFromArray(trapTypes).sort(sortStrings),
+    attributes:removeBlanksFromArray(attributes).sort(sortStrings),
+    levels:removeBlanksFromArray(levels).sort(sortNumbers),
   }
 }

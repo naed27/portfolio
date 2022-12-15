@@ -7,17 +7,7 @@ const HiddenSizer = () => {
   const { sizerRef } = useContext(GlobalContext);
 
   return (
-    <div 
-      ref={sizerRef}
-      style={{
-        visibility:'hidden',
-        position:'absolute',
-        top:'0',
-        left:'0',
-        height:'auto'
-      }}
-    >
-    </div>
+    <div ref={sizerRef}/>
   )
 
 }

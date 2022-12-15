@@ -38,8 +38,6 @@ function Menu ({
   const menuItems  = useMemo(()=>items,[items]);
   const menuTitle = useMemo(()=>title,[title]);
 
- 
-
   const mouseInsideMenu = () => setHoldMenu(true)
   const mouseOutsideMenu = () => setHoldMenu(false)
   const buttonClickHandler = () => !holdMenu&&setShowMenu(current=>!current);

@@ -13,13 +13,20 @@ export const Paginate = ({focusedElement, canvas, sizer}: Props) => {
 
   const sections = focusedElement.children
 
-  if(sections.length===0) return
-
+  if(sections.length===0) return []
 
   const pageTreeManager = new PageTreeManager({canvas,sections,sizer})
 
   pageTreeManager.cutSections()
   pageTreeManager.paginate()
+
+  return [
+    {
+      sectionId: 1,
+      shards: [],
+      parent: 'asd'
+    }
+  ]
 }
 
 

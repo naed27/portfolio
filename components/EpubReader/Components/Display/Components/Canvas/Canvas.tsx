@@ -36,12 +36,16 @@ const Canvas = () => {
       style={canvasSize}
       className={styles.container}>
       <EpubStyleJSX styles={epubData.styles}/>
-      <HiddenSizer/>
+      {/* {(pages.length===0) && <DangerousHtml epubData={epubData}/>} */}
+
       {(pages.length===0)?
         <DangerousHtml epubData={epubData}/>
       :
         <FinalPrint pages={pages}/>
       }
+      
+      <HiddenSizer/>
+
     </div>
   )
 }

@@ -4,6 +4,7 @@ import { uniqueId } from 'lodash'
 import { getLastItemOf } from "../../../../../../../../utility/functions"
 
 export interface ShardParent {
+  id: string,
   height: number,
   element: HTMLElement
 }
@@ -58,12 +59,12 @@ export default class PageTreeManager {
   pageShardCache: HTMLElement[] = []
 
   pageNode: Node | null = null
-  parentsCache: ShardParent[] = []
+  previousParents: ShardParent[] = []
 
   previousShard?: PageShard
   currentShard?: PageShard
 
-  pageNumber = -1;
+  pageNumber = 0;
 
   sizer: HTMLElement
 
@@ -95,8 +96,9 @@ export default class PageTreeManager {
     if(children.length === 0) 
       return this.scoopSlice(props)
     
-    element.id = uniqueId(`${section}_${depth}_`)
-    const parent = {element, height:calcHeightOffset(element)}
+    const id = uniqueId(`${section}_${depth}_`)
+    element.id = id
+    const parent = {id, element, height:calcHeightOffset(element)}
     const newParents = [...parents, parent]
 
     for (let i = 0; i < children.length; i++) 
@@ -128,51 +130,65 @@ export default class PageTreeManager {
   paginate = () => {    
     const sections = this.epubSections
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
 
+      this.addPageToSizer()
+      
       const { shards } = sections[i]
 
       for (let j = 0; j < shards.length; j++) {
 
-        this.connectParents(shards[j])
+        this.connect(shards[j])
 
       }
     }
 
-    console.log(this.epubSections)
     console.log(this.sizer)
   }
 
-  connectParents = (shard: PageShard) => {
+  connect = (shard: PageShard) => {
 
-    const shardParents = shard.parents
-    const parentsCache = this.parentsCache
+    const currentParents = shard.parents
+    const previousParents = this.previousParents
 
-    const cacheParentTail = getLastItemOf(parentsCache) 
-    const shardParentTail = getLastItemOf(shardParents) 
-    const cacheParentId = cacheParentTail ? cacheParentTail.element.id : 'null'
-    const shardParentId = shardParentTail ? shardParentTail.element.id : 'null'
+    const intersections = getParentsIntersection(previousParents, currentParents)
+    const differences = getParentsDifferences(currentParents, intersections)
+    const shardFinal = mergeShardWithParents(shard, differences)
 
-    //if theyre siblings
-    if(shardParentId === cacheParentId) return
+    if(intersections.length===0){
+      const lastParentElement = 
+        document.getElementById(`page_${this.pageNumber}`) || 
+        this.sizer
+      lastParentElement.appendChild(shardFinal)
 
-    //if theyre not siblings
-    this.sizer.appendChild(shard.element.cloneNode(false))
-    
-    this.parentsCache = shardParents
+    }else{
 
-    
-    const ele = document.getElementById(`${shardParentId}`)
-    console.log(ele)
+      const lastParentID = intersections[intersections.length-1].id
+      const lastParentElement = 
+        document.getElementById(`${lastParentID}_clone`) ||
+        document.getElementById(`page_${this.pageNumber}`) || 
+        this.sizer
 
+      lastParentElement.appendChild(shardFinal)
+    }
+
+    this.previousParents = currentParents
   }
 
+  checkSizer = () => {
+    
+  }
   
- 
+  addPageToSizer = () => {
+    this.pageNumber++;
+    const pageDivElement = document.createElement('div')
+    pageDivElement.id = `page_${this.pageNumber}`
+    this.sizer.appendChild(pageDivElement)
+  }
+
   undoShard = () => {}
   commitShard = () => {}
 
-  
   setHeightCache = (parents:ParentNode[]) => {
     this.heightCache = parents
     .reduce((total, { heightOffset }) => total + heightOffset, 0)
@@ -189,7 +205,7 @@ export default class PageTreeManager {
     this.pageShardCache = []
   }
 
-  comitPageCache = () => {
+  commitPageCache = () => {
     if(this.pageShardCache.length===0) return
 
 
@@ -211,6 +227,29 @@ export default class PageTreeManager {
 
 }
 
+
+// -----
+
+const getParentsIntersection = (baseArray:ShardParent[], topArray:ShardParent[]): ShardParent[] => {
+  return baseArray.filter(({id:baseId}) => topArray.map(({id})=>id).includes(baseId));
+}
+
+const getParentsDifferences = (baseArray:ShardParent[], topArray:ShardParent[]): ShardParent[] => {
+  return baseArray.filter(({id:baseId}) => !topArray.map(({id})=>id).includes(baseId));
+}
+
+const mergeShardWithParents = (shard: PageShard, parents: ShardParent[]) => {
+  let holder = shard.element.cloneNode(true) as HTMLElement
+  if(parents.length>1){
+    for (let i = parents.length-1; i > -1; i--) {
+      const parent = parents[i].element.cloneNode(false) as HTMLElement
+      parent.id = `${parents[i].id}_clone`
+      parent.append(holder)
+      holder = parent
+    }
+  }
+  return holder
+}
 
 // ------ element height scale calculators
 

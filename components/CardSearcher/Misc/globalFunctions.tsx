@@ -41,6 +41,7 @@ export const isWithinRange = (input:number|undefined,range:{min:number,max:numbe
 export const capitalizeFirstLetter = (str:string) => str.charAt(0).toUpperCase() + str.slice(1)
 
 export const capitalizeProperly = (str:string|number|undefined) =>{
+  if(str === null) return 'null'
   if(str === undefined) return 'undefined'
   const string  = str.toString().toLowerCase();
   const initials = string.split('.').slice(0,-1)
