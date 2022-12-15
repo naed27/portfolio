@@ -1,5 +1,5 @@
 import styles from './ViewCardArea.module.css'
-import CardImage from './Components/CardImage'
+import ImageViewer from './Components/ImageViewer'
 import Switches from './Components/Switches'
 import Details from './Components/Details';
 import Name from './Components/Name'
@@ -29,7 +29,7 @@ function ViewCardArea({card}:{card:YGOCard}) {
     <div className={styles.backdrop}>
       <div className={styles.container} ref={modalRef}>
         <Name card={card}/>
-        <CardImage card={card}/>
+        <ImageViewer card={card}/>
         {(()=>{
           if(showDeckBuilder===false)
             return <Details card={card}/>

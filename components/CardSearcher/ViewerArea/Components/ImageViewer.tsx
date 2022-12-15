@@ -1,8 +1,9 @@
 import { YGOCard } from "../../Misc/globalTypes"
 import Image from 'next/image'
 import styles from '../Styles/CardImage.module.scss'
-import { Dispatch, SetStateAction, useCallback, useContext } from "react";
+import { Dispatch, SetStateAction, useCallback, useContext, memo } from "react";
 import { GlobalContext } from "../../Misc/globalContext";
+import ImagePreview from "./ImagePreview";
 
 interface Props{
   setSelectedCard:Dispatch<SetStateAction<YGOCard | null>>,
@@ -13,7 +14,7 @@ interface Props{
   showImages?:boolean,
 }
 
-function CardImage({card}:{card:YGOCard}) {
+function ImageViewer({card}:{card:YGOCard}) {
 
   const {
     showImages, 
@@ -46,17 +47,11 @@ function CardImage({card}:{card:YGOCard}) {
   return (
     <div className={styles.container}>
       <div className={styles.leftButton} onClick={()=>leftButtonHandler(searchIndex)}>{`<`}</div>
-      {showImages&&(<Image 
-          src={`${card.card_images[0].image_url}`} 
-          alt='card image'
-          layout='fill'
-          objectFit='contain'
-          unoptimized
-      />)}
+      <ImagePreview card={card} showImages={showImages}/>
       <div className={styles.rightButton} onClick={()=>rightButtonHandler(searchIndex)}>{`>`}</div>
     </div>
   )
 }
 
 
-export default CardImage
+export default memo(ImageViewer)
