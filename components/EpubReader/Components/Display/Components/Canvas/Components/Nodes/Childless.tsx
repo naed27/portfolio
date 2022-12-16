@@ -20,11 +20,14 @@ const  Childless = (props: Props) => {
   if(TagName === 'image' || TagName === 'img')
     return <EpubImage node={ node }/>
 
+  if(TagName === undefined || TagName === null){
+    if(hasNullText(rawText))
+      return <></>
+    return <>{rawText}</>
+  }
+
   if(hasNullText(rawText))
     return <TagName  {...attributes}/>
-
-  if(TagName === undefined || TagName === null)
-    return <>{rawText}</>
 
   if(TagName === 'p' || TagName === 'td')
     return <TagName {...attributes}>{rawText}</TagName>
