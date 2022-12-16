@@ -23,8 +23,6 @@ export default function Home () {
       <Header label='Dean'/>
       
       <Body>
-        <Chest label='R E S U M E' href='/' />
-        <Chest label='C O N T A C T S' href='/' />
         <Chest label='P R O J EC T S' href='/projects' />
       </Body>
 

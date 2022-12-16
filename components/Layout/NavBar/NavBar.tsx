@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import animation from './Animation'
 import { useContext } from 'react'
 import { LayoutContext } from '../Context/LayoutContext'
+import HomeButton from '../Buttons/Home/HomeButton'
 
 export default function NavBar () {
   
@@ -20,7 +21,7 @@ export default function NavBar () {
       >
 
       <div className={styles.fixed}>
-        <BurgerButton/>
+        <HomeButton/>
       </div>
 
     </motion.div> 
