@@ -10,19 +10,15 @@ export default function FinalPrepare () {
   const parseSectionPages = useCallback((pages: AdvancedEpubNode[][])=>{
     
     if( epub === null) return []
-    const { images } = epub
 
     return pages.map((page)=>
       <>
         {page.map((nodeRefTree,i)=>{
           return (
             <Node 
-              depth={1}
-              images={images}
-              sectionIndex={i}
-              epubNode={nodeRefTree}
               key={`epub_section_${i}`}
-              nodeId={`epub_section_${i}`} 
+              id={`epub_section_${i}`} 
+              node={nodeRefTree.node}
             />
           )
         })}
