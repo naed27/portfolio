@@ -1,6 +1,5 @@
 import { YGOCard } from "../../Misc/globalTypes"
-import Image from 'next/image'
-import styles from '../Styles/CardImage.module.scss'
+import styles from '../Styles/ImageViewer.module.scss'
 import { Dispatch, SetStateAction, useCallback, useContext, memo } from "react";
 import { GlobalContext } from "../../Misc/globalContext";
 import ImagePreview from "./ImagePreview";
