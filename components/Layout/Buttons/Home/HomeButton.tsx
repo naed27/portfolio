@@ -1,12 +1,8 @@
-import { useContext } from 'react';
 import styles from './HomeButton.module.scss';
-import { LayoutContext } from '../../Context/LayoutContext';
 import Link from 'next/link'
 
 
 export default function HomeButton () {
-  
-  const { } = useContext(LayoutContext)
   
   return (
 
