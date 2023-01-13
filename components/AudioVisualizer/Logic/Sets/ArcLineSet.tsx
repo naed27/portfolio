@@ -1,22 +1,24 @@
 import { getAverage, getDifference } from "../../../../utility/functions";
+import AudioManager from "../AudioManager";
 import ArcLine from '../Objects/ArcLine';
 
 interface constructorParamsType{
   readonly ctx:CanvasRenderingContext2D
-  readonly frequencyLength: number
+  readonly audioManager: AudioManager
 }
 
 export default class ArcLineSet{
 
   readonly ctx: CanvasRenderingContext2D;
   readonly BASE_RADIUS: number = 90;
-  readonly offset = (20) / 100; // (start at 20% of total frequencies) / (end at 80% of total frequencies)
+  readonly offset = 20 / 100; // (start at 20% of total frequencies) / (end at 80% of total frequencies)
   readonly sizeOfSet: number = 0;
   readonly minimumFrequencyStrength = 0;
 
   arcLineStore: ArcLine [] = [];
 
-  constructor({ ctx, frequencyLength }: constructorParamsType){
+  constructor({ ctx, audioManager }: constructorParamsType){
+    const { frequencyLength } = audioManager
     this.ctx = ctx;
     const offset = Math.floor(frequencyLength * this.offset) 
     this.sizeOfSet = (frequencyLength - (offset*2))*2;

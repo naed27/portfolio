@@ -6,6 +6,7 @@ export interface GlobalContextType{
   readonly canvasRef?: RefObject<HTMLCanvasElement>
   
   readonly playButtonRef?: RefObject<HTMLDivElement>
+  readonly progressBarRef?: RefObject<HTMLDivElement>
   readonly progressLineRef?: RefObject<HTMLDivElement>
 
   readonly playing?: boolean

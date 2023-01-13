@@ -3,7 +3,7 @@ import { toBase64 } from '../../../utility/functions'
 
 interface ListenerParams{
   setPlaying: Dispatch<SetStateAction<boolean>>
-  progressLine: HTMLDivElement
+  progressBar: HTMLDivElement
 }
 
 export default class AudioManager{
@@ -14,7 +14,7 @@ export default class AudioManager{
   isPlaying: boolean = false;
   audioIsEmpty: boolean = true;
   
-  readonly progressLine: HTMLDivElement;
+  readonly progressBar: HTMLDivElement;
   readonly isPlayingStatus: Dispatch<SetStateAction<boolean>>;
 
   readonly baseBinCount: number = 256;
@@ -27,9 +27,9 @@ export default class AudioManager{
   audioAnalyser: AnalyserNode | null = null;
   audioSource: MediaElementAudioSourceNode | null = null;
 
-  constructor({ setPlaying: isPlayingStatus, progressLine }:ListenerParams){
+  constructor({ setPlaying: isPlayingStatus, progressBar }:ListenerParams){
     this.isPlayingStatus = isPlayingStatus
-    this.progressLine = progressLine
+    this.progressBar = progressBar
   }
 
   readonly clearCasette = () =>{
@@ -38,7 +38,7 @@ export default class AudioManager{
     this.audioIsEmpty = true;
     this.isPlaying = false;
     this.isPlayingStatus(false)
-    this.progressLine.style.width=`0%`
+    this.progressBar.style.width=`0%`
     return console.log('empty audio'); 
   }
 
@@ -62,6 +62,18 @@ export default class AudioManager{
   readonly endAudio = () =>{
     this.isPlaying = false;
     this.isPlayingStatus(false)
+  }
+
+  readonly setPlaytime = (e: any)=>{
+    if(this.audio.src==='') return
+    const {offsetWidth: LineWidth} = e.target as HTMLDivElement
+    const point = e.layerX
+    const percentage = ((point / LineWidth)*100)
+    this.progressBar.style.width=`${percentage}%`
+    
+    const {duration} = this.audio
+    const rawPercentage = percentage/100
+    this.audio.currentTime = duration*rawPercentage
   }
 
   readonly changeAudio = async (e:any)=>{

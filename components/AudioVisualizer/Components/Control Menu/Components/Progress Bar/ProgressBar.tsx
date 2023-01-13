@@ -4,11 +4,12 @@ import styles from './ProgressBar.module.scss'
 
 export default function ProgressBar () {
   
-  const { progressLineRef } = useContext(GlobalContext)
+  const { progressBarRef, progressLineRef } = useContext(GlobalContext)
 
   return (
     <div className={styles.progressContainer}>
-      <div ref={progressLineRef} className={styles.progressBar}></div>
+      <div ref={progressBarRef} className={styles.progressBar}></div>
+      <div ref={progressLineRef} className={styles.progressLine}></div>
     </div>
   )
 }
