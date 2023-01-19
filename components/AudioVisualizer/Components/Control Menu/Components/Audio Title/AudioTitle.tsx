@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from 'react';
+import { useCallback, useContext, useEffect, useRef } from 'react';
 import { GlobalContext } from '../../../../Context/GlobalContext';
 import styles from './AudioTitle.module.scss'
 
@@ -8,7 +8,7 @@ export default function AudioTitle () {
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
 
-  useEffect(()=>{
+  const fitTitle = useCallback(() => {
     if(!containerRef.current||!textRef.current) return
     const text = textRef.current
     const container = containerRef.current
@@ -20,7 +20,14 @@ export default function AudioTitle () {
       text.classList.remove(styles.animate)
       container.style.justifyContent = 'center'
     }
-  },[audioTitle])
+  },[])
+
+  useEffect(()=>{
+    fitTitle()
+    window.addEventListener('resize',fitTitle)
+    
+    return () => window.removeEventListener('resize',fitTitle)
+  },[fitTitle])
   
   return (
     <div ref={containerRef} className={styles.container}>
