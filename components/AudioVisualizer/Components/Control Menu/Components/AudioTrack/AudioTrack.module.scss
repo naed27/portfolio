@@ -2,6 +2,8 @@
 $thumbColor: darkcyan;
 $trackColor: rgb(0, 82, 82);
 
+$thumbColorOnHover: rgb(0, 175, 175);
+
 .audioTrackContainer{
   position: relative;
   width:80%;
@@ -29,6 +31,7 @@ $trackColor: rgb(0, 82, 82);
     width: 0%;
     height:100%;
     background-color: $thumbColor;
+    box-shadow: none;
 
     .audioTrackSliderCircleContainer{
 
@@ -37,6 +40,7 @@ $trackColor: rgb(0, 82, 82);
       top:0;
       width: 20px;
       height: 20px;
+      box-shadow: none;
 
       .audioTrackSliderCircle{
         width:100%;
@@ -45,7 +49,12 @@ $trackColor: rgb(0, 82, 82);
         margin-top: -40%;
         margin-left: 50%;
         border-radius: 50%;
-        background-color: $thumbColor
+        box-shadow: none;
+        background-color: $thumbColor;
+
+        &:hover{
+          background-color: $thumbColorOnHover;
+        }
       
       }
 
