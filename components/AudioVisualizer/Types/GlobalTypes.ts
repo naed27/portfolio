@@ -16,9 +16,9 @@ export interface GlobalContextType{
   readonly audioTrackSliderProgressRef?: RefObject<HTMLDivElement>
   readonly audioTrackSliderContainerRef?: RefObject<HTMLDivElement>
 
-  readonly audioTitle: string | null
+  readonly audioTitle?: string | null
   readonly audioPlayingStatus?: boolean
 
-  readonly setAudioTitle: Dispatch<SetStateAction<string | null>>
+  readonly setAudioTitle?: Dispatch<SetStateAction<string | null>>
   readonly setAudioPlayingStatus?: Dispatch<SetStateAction<boolean>>
 }

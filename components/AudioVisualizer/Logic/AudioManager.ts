@@ -133,7 +133,7 @@ export default class AudioManager{
 
   readonly reviveTrackSlider = (e:any) => {
     if(this.audioIsEmpty) return
-    
+
     if(this.trackSliderIsAlive===false){
       this.trackSliderIsAlive = true
       this.customSetTrackSlider(e)
@@ -159,7 +159,6 @@ export default class AudioManager{
     if (e.target.files[0]) {
       if(e.target.files[0].type !== 'audio/mpeg')
         return this.clearCasette();
-      console.log('MP3 file uploaded.')
       this.setAudioTitle(e.target.files[0].name.slice(0, -4))
       this.resetPlay()
       const fileData = await toBase64(e.target.files[0]) as string;
