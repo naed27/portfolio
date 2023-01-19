@@ -1,21 +1,39 @@
-import { Dispatch, SetStateAction } from "react";
-import { toBase64 } from '../../../utility/functions'
+import { Dispatch, SetStateAction } from 'react';
+import { parseTime, toBase64 } from '../../../utility/functions';
 
-interface ListenerParams{
-  setPlaying: Dispatch<SetStateAction<boolean>>
-  progressBar: HTMLDivElement
+interface ConstructorProps{
+  audioDurationElement: HTMLDivElement,
+  audioCurrentTimeElement: HTMLDivElement,
+  audioTrackSliderPointElement: HTMLDivElement,
+  audioTrackSliderProgressElement: HTMLDivElement,
+  audioTrackSliderContainerElement: HTMLDivElement,
+
+  setAudioTitle: Dispatch<SetStateAction<string | null>>
+  setAudioPlayingStatus: Dispatch<SetStateAction<boolean>>
 }
 
 export default class AudioManager{
 
-  readonly audio: HTMLAudioElement = new Audio();
+  audio: HTMLAudioElement = new Audio()
 
   start: boolean = false;
   isPlaying: boolean = false;
   audioIsEmpty: boolean = true;
-  
-  readonly progressBar: HTMLDivElement;
-  readonly isPlayingStatus: Dispatch<SetStateAction<boolean>>;
+  clickingAudioTrack: boolean = false;
+
+  audioTitle: string | null = null;
+
+  audioDurationElement: HTMLDivElement
+  audioCurrentTimeElement: HTMLDivElement
+  audioTrackContainerElement: HTMLDivElement
+  audioTrackSliderPointElement: HTMLDivElement
+  audioTrackSliderProgressElement: HTMLDivElement
+  audioTrackSliderContainerElement: HTMLDivElement
+
+  trackSliderIsAlive: boolean = false;
+
+  readonly setAudioTitle: Dispatch<SetStateAction<string | null>>
+  readonly setAudioPlayingStatus: Dispatch<SetStateAction<boolean>>
 
   readonly baseBinCount: number = 256;
   readonly binCountPercentage: number = (70) / 100;
@@ -27,19 +45,38 @@ export default class AudioManager{
   audioAnalyser: AnalyserNode | null = null;
   audioSource: MediaElementAudioSourceNode | null = null;
 
-  constructor({ setPlaying: isPlayingStatus, progressBar }:ListenerParams){
-    this.isPlayingStatus = isPlayingStatus
-    this.progressBar = progressBar
+  constructor ({
+    audioDurationElement,
+    audioCurrentTimeElement,
+    audioTrackSliderPointElement,
+    audioTrackSliderProgressElement,
+    audioTrackSliderContainerElement,
+    setAudioTitle, 
+    setAudioPlayingStatus
+  }: ConstructorProps) {
+    
+    this.audioDurationElement = audioDurationElement
+    this.audioCurrentTimeElement = audioCurrentTimeElement
+    this.audioTrackSliderPointElement = audioTrackSliderPointElement
+    this.audioTrackSliderProgressElement = audioTrackSliderProgressElement
+    this.audioTrackSliderContainerElement = audioTrackSliderContainerElement
+    this.audioTrackContainerElement = audioTrackSliderContainerElement.offsetParent as HTMLDivElement
+
+    this.setAudioTitle = setAudioTitle
+    this.setAudioPlayingStatus = setAudioPlayingStatus
+  }
+
+  readonly resetPlay = () => {
+    this.audio.pause();
+    this.audio.currentTime = 0
+    this.setPlayingStatus(false)
   }
 
   readonly clearCasette = () =>{
-    this.audio.pause();
+    this.resetPlay();
     this.audio.src = '';
     this.audioIsEmpty = true;
-    this.isPlaying = false;
-    this.isPlayingStatus(false)
-    this.progressBar.style.width=`0%`
-    return console.log('empty audio'); 
+    return console.log('empty audio');
   }
 
   readonly playPauseAudio = () => {  
@@ -47,45 +84,89 @@ export default class AudioManager{
       return console.log('empty audio'); 
 
     if(this.isPlaying){ 
-      this.isPlaying = false;
-      this.isPlayingStatus(false)
+      this.setPlayingStatus(false)
       this.audio.pause();
       return 
     }
 
-    this.isPlaying = true;
-    this.isPlayingStatus(true)
+    this.setPlayingStatus(true)
     this.audio.play();
     return 
   }
 
   readonly endAudio = () =>{
-    this.isPlaying = false;
-    this.isPlayingStatus(false)
+    this.setPlayingStatus(false)
   }
 
-  readonly setPlaytime = (e: any)=>{
-    if(this.audio.src==='') return
-    const {offsetWidth: LineWidth} = e.target as HTMLDivElement
-    const point = e.layerX
-    const percentage = ((point / LineWidth)*100)
-    this.progressBar.style.width=`${percentage}%`
+
+
+  // --------------------------- Progress Tracker
+
+  readonly updateTrackTime = () =>{
+    if(this.trackSliderIsAlive === true) return
     
-    const {duration} = this.audio
-    const rawPercentage = percentage/100
-    this.audio.currentTime = duration*rawPercentage
+    const {duration, currentTime} = this.audio
+
+    if(this.audioIsEmpty||isNaN(duration)||isNaN(currentTime))return
+    
+    this.audioDurationElement.dataset.timevalue = parseTime(duration)
+    this.audioCurrentTimeElement.dataset.timevalue = parseTime(currentTime)
+    this.audioTrackSliderProgressElement.style.width = `${(currentTime/duration)*100}%`
+
+    if(currentTime===duration) this.resetPlay()
+    
   }
 
+  readonly customSetTrackSlider = (e: any) => {
+    if(this.audioIsEmpty) return
+
+    const rawPoint = e.clientX;
+    const { offsetLeft: sliderLeft, offsetWidth:sliderWidth } = this.audioTrackSliderContainerElement
+    const point = rawPoint - sliderLeft
+    const percentage = (point/sliderWidth)
+    if(percentage < 0 || percentage > 1) return
+    const currentTime = this.audio.duration * percentage
+    this.audioCurrentTimeElement.dataset.timevalue = parseTime(currentTime)
+    this.audioTrackSliderProgressElement.style.width = `${percentage*100}%`
+    
+  }
+
+  readonly reviveTrackSlider = (e:any) => {
+    if(this.audioIsEmpty) return
+    
+    if(this.trackSliderIsAlive===false){
+      this.trackSliderIsAlive = true
+      this.customSetTrackSlider(e)
+    }
+    document.addEventListener('mousemove',this.customSetTrackSlider)
+    document.addEventListener('mouseup',this.killTrackSlider)
+  }
+
+  readonly killTrackSlider = () => {
+    if(this.audioIsEmpty) return
+    if(!this.trackSliderIsAlive) return
+
+    document.removeEventListener('mousemove',this.customSetTrackSlider)
+    document.removeEventListener('mouseup',this.killTrackSlider)
+    const timePercetage = Number(this.audioTrackSliderProgressElement.style.width.slice(0, -1))/100
+    this.audio.currentTime = timePercetage * this.audio.duration
+    this.trackSliderIsAlive = false
+  }
+
+  // --------------------------- Change Audio
+ 
   readonly changeAudio = async (e:any)=>{
-    console.log('uploaded mp3 file')
     if (e.target.files[0]) {
       if(e.target.files[0].type !== 'audio/mpeg')
         return this.clearCasette();
+      console.log('MP3 file uploaded.')
+      this.setAudioTitle(e.target.files[0].name.slice(0, -4))
+      this.resetPlay()
       const fileData = await toBase64(e.target.files[0]) as string;
-      this.audioIsEmpty = false;
       this.audio.src = fileData;
-      this.isPlaying = false;
-      this.isPlayingStatus(false)
+      this.audioIsEmpty = false;
+
+      // one-time run only
       if(!this.start){
         this.audioContext = new AudioContext();
         this.audioAnalyser = this.audioContext.createAnalyser();
@@ -97,7 +178,17 @@ export default class AudioManager{
         this.frequencyArray = new Uint8Array(this.bufferLength);
         this.start=true
       }
+
     }
   }
 
+
+
+  // ----------------------------- Setters and Getters
+
+  readonly setPlayingStatus = (a:boolean) => {
+    this.isPlaying = a
+    this.setAudioPlayingStatus(a)
+  }
+  
 }

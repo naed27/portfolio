@@ -1,22 +1,28 @@
-import { useState, useEffect, useRef, useContext } from "react";
-import { LayoutContext } from "../Layout/Context/LayoutContext";
 import world from "./Logic/CanvasLogic";
 import { GlobalContextType } from "./Types/GlobalTypes";
+import { LayoutContext } from "../Layout/Context/LayoutContext";
+import { useState, useEffect, useRef, useContext } from "react";
 
 export default function AudioVisualizerLogic() {
   
   const { setAbsoluteNavBar } = useContext(LayoutContext)
 
+  const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null); 
-  const inputRef = useRef<HTMLInputElement>(null);
   
   const playButtonRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const progressLineRef = useRef<HTMLDivElement>(null);
-  
-  const [audioTitle, setAudioTitle] = useState<string | null>(null);
-  const [playing, setPlaying] = useState<boolean>(false);
+
+  const audioDurationRef = useRef<HTMLDivElement>(null);
+  const audioCurrentTimeRef = useRef<HTMLDivElement>(null);
+  const audioTrackSliderPointRef = useRef<HTMLDivElement>(null);
+  const audioTrackSliderProgressRef = useRef<HTMLDivElement>(null);
+  const audioTrackSliderContainerRef = useRef<HTMLDivElement>(null);
+
+  const [audioTitle, setAudioTitle] = useState<string|null>(null);
+  const [audioPlayingStatus, setAudioPlayingStatus] = useState<boolean>(false);
 
   const globalValues:GlobalContextType = {
     inputRef,
@@ -25,8 +31,13 @@ export default function AudioVisualizerLogic() {
     playButtonRef,
     progressBarRef, 
     progressLineRef,
-    playing, setPlaying,
+    audioDurationRef,
+    audioCurrentTimeRef,
+    audioTrackSliderPointRef,
+    audioTrackSliderProgressRef,
+    audioTrackSliderContainerRef,
     audioTitle, setAudioTitle,
+    audioPlayingStatus, setAudioPlayingStatus,
   }
 
   useEffect(()=> setAbsoluteNavBar(false), [ setAbsoluteNavBar ])
@@ -38,9 +49,12 @@ export default function AudioVisualizerLogic() {
       canvasRef,
       containerRef,
       playButtonRef,
-      progressBarRef,
-      progressLineRef,
-      setPlaying,
+      audioDurationRef,
+      audioCurrentTimeRef,
+      audioTrackSliderPointRef,
+      audioTrackSliderProgressRef,
+      audioTrackSliderContainerRef,
+      setAudioPlayingStatus, setAudioTitle,
     });
     return ()=> cleaners && cleaners()
   },[])

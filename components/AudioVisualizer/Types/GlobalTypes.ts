@@ -1,3 +1,4 @@
+import AudioManager from '../Logic/AudioManager'
 import { Dispatch, RefObject, SetStateAction } from 'react'
 
 export interface GlobalContextType{
@@ -9,9 +10,15 @@ export interface GlobalContextType{
   readonly progressBarRef?: RefObject<HTMLDivElement>
   readonly progressLineRef?: RefObject<HTMLDivElement>
 
-  readonly playing?: boolean
-  readonly audioTitle?: string | null
+  readonly audioDurationRef?: RefObject<HTMLDivElement>
+  readonly audioCurrentTimeRef?: RefObject<HTMLDivElement>
+  readonly audioTrackSliderPointRef?: RefObject<HTMLDivElement>
+  readonly audioTrackSliderProgressRef?: RefObject<HTMLDivElement>
+  readonly audioTrackSliderContainerRef?: RefObject<HTMLDivElement>
 
-  readonly setPlaying?: Dispatch<SetStateAction<boolean>>
-  readonly setAudioTitle?: Dispatch<SetStateAction<string | null>>
+  readonly audioTitle: string | null
+  readonly audioPlayingStatus?: boolean
+
+  readonly setAudioTitle: Dispatch<SetStateAction<string | null>>
+  readonly setAudioPlayingStatus?: Dispatch<SetStateAction<boolean>>
 }

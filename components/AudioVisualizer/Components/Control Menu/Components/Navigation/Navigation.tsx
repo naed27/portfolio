@@ -4,23 +4,16 @@ import styles from './Navigation.module.scss'
 
 export default function Navigation () {
   
-  const { setAudioTitle, inputRef, playButtonRef, playing, audioTitle } = useContext(GlobalContext);
-
-  const FileSelectedHandler = async (e:any) => {
-    if(!e.target.files[0] || !setAudioTitle) return
-    if(e.target.files[0].type !== 'audio/mpeg')
-      return setAudioTitle(null)
-    return setAudioTitle(e.target.files[0].name.slice(0, -4))
-  }
+  const { inputRef, playButtonRef, audioPlayingStatus, audioTitle } = useContext(GlobalContext);
       
   return (
     <div className={styles.container}>
       
-      <input id={'audio_visualizer_file_upload'} ref={inputRef} type={'file'} accept={'.mp3'} onChange={FileSelectedHandler} />
+      <input id={'audio_visualizer_file_upload'} ref={inputRef} type={'file'} accept={'.mp3'} />
       <label htmlFor="audio_visualizer_file_upload" className={styles.audioButton}>Upload</label> 
 
       <div ref={playButtonRef} className={styles.audioButton}  style={{opacity:(audioTitle === null)?0.4:1}}>
-        {playing ? 'Pause' : 'Play'}
+        {audioPlayingStatus ? 'Pause' : 'Play'}
       </div>
       
     </div>

@@ -1,8 +1,14 @@
 
+export const parseTime = (timeInSeconds: number) => {
+  const minutes = Math.floor(timeInSeconds / 60);
+  const seconds = Math.floor(timeInSeconds % 60);
+  const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+  return `${minutes}:${returnedSeconds}`;
+}
+
 export const getIntersections = <T>(baseArray:T[], topArray:T[]): T[] => {
   return baseArray.filter(x => topArray.includes(x));
 }
-
 
 export const getLastItemOf = <T>(array: T[]):T | null => {
 
