@@ -40,7 +40,7 @@ class Arc{
     ctx,
     x=ctx.canvas.width/2,
     y=ctx.canvas.height/2,
-    radius=20,
+    radius=50,
     startAngle = 0,
     endAngle = Math.PI*2,
     color='darkcyan'
@@ -90,7 +90,7 @@ class Arc{
     const y = this.ctx.canvas.height/2
     const startAngle = previous_startAngle
     const endAngle = previous_endAngle
-    const impact = averageFrequency*0.015;
+    const impact = averageFrequency*0.05;
     const radius = this.BASE_RADIUS+impact;
 
     let color = previous_color

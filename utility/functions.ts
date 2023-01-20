@@ -1,3 +1,8 @@
+export function randomNumberBetween({min=0, max}: {min?: number, max: number}) {  
+  return Math.floor(
+    Math.random() * (max - min) + min
+  )
+}
 
 export const parseTime = (timeInSeconds: number) => {
   const minutes = Math.floor(timeInSeconds / 60);
@@ -50,7 +55,7 @@ export const smoothenNumbers = ({ array, wingSpan } : { array:number[], wingSpan
   const arraySlice = array.slice(-leftWing)
   arraySlice.push(...array.slice(0, rightWing))
 
-  for (let i = 0; i <= arrayLength; i++) {
+  for (let i = 0; i < arrayLength; i++) {
     const averaged = getAverage(arraySlice)
     result.push(averaged)
     arraySlice.shift();
@@ -61,12 +66,11 @@ export const smoothenNumbers = ({ array, wingSpan } : { array:number[], wingSpan
 }
 
 export const getAverage = (array:number[]) =>{
-  if(array.length===0)
-    return 0;
-  let result = 0;
+  if(array.length===0) return 0;
+  let sum = 0;
   for (let i = 0; i < array.length; i++)
-    result += array[i];
-  return result
+    sum += array[i];
+  return sum/array.length
 }
 
 export const getNeighbors = (numberArray:number[],index:number,numOfNeighbors:number)=>{

@@ -1,4 +1,4 @@
-import { getAverage, getDifference } from "../../../../utility/functions";
+import { getAverage, getDifference, smoothenNumbers } from "../../../../utility/functions";
 import AudioManager from "../AudioManager";
 import ArcLine from '../Objects/ArcLine';
 
@@ -10,10 +10,10 @@ interface constructorParamsType{
 export default class ArcLineSet{
 
   readonly ctx: CanvasRenderingContext2D;
-  readonly BASE_RADIUS: number = 90;
+  readonly BASE_RADIUS: number = 50;
   readonly offset = 20 / 100; // (start at 20% of total frequencies) / (end at 80% of total frequencies)
   readonly sizeOfSet: number = 0;
-  readonly minimumFrequencyStrength = 0;
+  readonly minimumFrequencyStrength = 7;
 
   arcLineStore: ArcLine [] = [];
 
@@ -62,7 +62,11 @@ export default class ArcLineSet{
     }
     const res = rightside.concat(leftside.reverse());
     const rotation = Math.floor(res.length*0.75);
-    return [...res.slice(rotation,res.length),...res.slice(0,rotation)];
+    const smoothened = smoothenNumbers({
+      array:[...res.slice(rotation,res.length),...res.slice(0,rotation)],
+      wingSpan:7
+    })
+    return smoothenNumbers({array: smoothened, wingSpan: 5})
   }
 
 

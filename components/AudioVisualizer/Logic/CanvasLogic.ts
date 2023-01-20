@@ -1,6 +1,7 @@
 import { Dispatch, RefObject, SetStateAction } from 'react';
 import AudioManager from './AudioManager';
 import ArcLineSet from './Sets/ArcLineSet';
+import Bars from './Sets/Bars';
 
 interface WorldProps{
   inputRef:RefObject<HTMLInputElement>,
@@ -58,7 +59,8 @@ export default function world ({
 
   window.addEventListener('resize',()=>resizeCanvas({ctx,container,canvas}))
 
-  const arcLines = new ArcLineSet({ ctx, audioManager })
+  const bars = new Bars({ ctx })
+  const arcLines = new ArcLineSet ({ ctx, audioManager })
 
   const{ 
     changeAudio, 
@@ -71,7 +73,7 @@ export default function world ({
 
   let animationFrameId: number | undefined;
 
-  animate({ ctx, arcLines, audioManager, animationFrameId });
+  animate({ ctx, bars, arcLines, audioManager, animationFrameId });
 
   inputHolderElement.addEventListener('change', changeAudio)  
   playButtonElement.addEventListener('click', playPauseAudio)
@@ -136,6 +138,7 @@ const resizeCanvas = ({ctx,canvas,container}: ResizeCanvasProps) => {
 // ------------- Animate Function
 
 interface AnimateProps {
+  bars: Bars,
   arcLines: ArcLineSet,
   animationFrameId?: number,
   audioManager: AudioManager, 
@@ -144,16 +147,18 @@ interface AnimateProps {
 
 const animate = (props: AnimateProps) => {
 
-  let { ctx, arcLines, audioManager, animationFrameId } = props
+  let { ctx, bars, audioManager, animationFrameId, arcLines } = props
 
   clearCanvas(ctx)
   
   const { audioAnalyser, frequencyArray, frequencyLength, updateTrackTime } = audioManager;
   if(audioAnalyser && frequencyArray){
     audioAnalyser.getByteFrequencyData(frequencyArray)
+    bars.draw(frequencyArray);
     arcLines.draw(frequencyArray);
     updateTrackTime()
   }else{
+    bars.draw(new Array(frequencyLength).fill(0));
     arcLines.draw(new Array(frequencyLength).fill(0));
   }
   

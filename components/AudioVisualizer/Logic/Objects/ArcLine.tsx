@@ -78,12 +78,12 @@ class ArcLine{
 
     const startX = centerX + Math.cos(barWidth * i) * ((this.BASE_RADIUS) + lineWidth);
     const startY = centerY + Math.sin(barWidth * i) * ((this.BASE_RADIUS) + lineWidth);
-    const endX = centerX + Math.cos(barWidth * i) * ((this.BASE_RADIUS) - (finalHeight*0));
-    const endY = centerY + Math.sin(barWidth * i) * ((this.BASE_RADIUS) - (finalHeight*0));
+    const endX = centerX + Math.cos(barWidth * i) * ((this.BASE_RADIUS) - (finalHeight*6));
+    const endY = centerY + Math.sin(barWidth * i) * ((this.BASE_RADIUS) - (finalHeight*6));
     const color = previous_color;
 
-    const endX2 = centerX + Math.cos(barWidth * i) * ((this.BASE_RADIUS) + (finalHeight*20));
-    const endY2 = centerY + Math.sin(barWidth * i) * ((this.BASE_RADIUS) + (finalHeight*20));
+    const endX2 = centerX + Math.cos(barWidth * i) * ((this.BASE_RADIUS) + (finalHeight*3));
+    const endY2 = centerY + Math.sin(barWidth * i) * ((this.BASE_RADIUS) + (finalHeight*3));
 
     return this.current_state={
       startX:startX,

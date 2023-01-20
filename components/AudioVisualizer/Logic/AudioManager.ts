@@ -35,7 +35,7 @@ export default class AudioManager{
   readonly setAudioTitle: Dispatch<SetStateAction<string | null>>
   readonly setAudioPlayingStatus: Dispatch<SetStateAction<boolean>>
 
-  readonly baseBinCount: number = 256;
+  readonly baseBinCount: number = 512;
   readonly binCountPercentage: number = (70) / 100;
   readonly frequencyLength: number = Math.floor((this.baseBinCount/2) * this.binCountPercentage);
 
