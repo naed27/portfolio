@@ -10,7 +10,7 @@ export default function Navigation () {
     <div className={styles.container}>
       
       <input id={'audio_visualizer_file_upload'} ref={inputRef} type={'file'} accept={'.mp3'} />
-      <label htmlFor="audio_visualizer_file_upload" className={styles.audioButton}>Upload</label> 
+      <label htmlFor="audio_visualizer_file_upload" className={styles.audioButton}>Upload MP3</label> 
 
       <div ref={playButtonRef} className={styles.audioButton}  style={{opacity:(audioTitle === null)?0.4:1}}>
         {audioPlayingStatus ? 'Pause' : 'Play'}

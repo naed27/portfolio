@@ -1,4 +1,5 @@
 import { Dispatch, RefObject, SetStateAction } from 'react';
+import { delay } from '../../../utility/functions';
 import AudioManager from './AudioManager';
 import ArcLineSet from './Sets/ArcLineSet';
 import Bars from './Sets/Bars';
@@ -41,10 +42,21 @@ export default function world ({
   const audioTrackSliderPointElement = audioTrackSliderPointRef.current as HTMLInputElement
   const audioTrackSliderProgressElement = audioTrackSliderProgressRef.current as HTMLDivElement
   const audioTrackSliderContainerElement = audioTrackSliderContainerRef.current as HTMLDivElement
-  
-  canvas.width=container.offsetWidth;
-  canvas.height=container.offsetHeight;
+
+  if(
+      canvas === null 
+  ||  container === null 
+  ||  playButtonElement=== null
+  ||  inputHolderElement === null
+  ||  audioDurationElement === null
+  ||  audioCurrentTimeElement === null
+  ||  audioTrackSliderPointElement === null
+  ||  audioTrackSliderProgressElement === null
+  ||  audioTrackSliderContainerElement === null
+    ) return ()=>{}
+
   const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
+  resizeCanvas({ctx,container,canvas})
 
   const audioManager = new AudioManager({
     audioDurationElement,
@@ -79,6 +91,7 @@ export default function world ({
   playButtonElement.addEventListener('click', playPauseAudio)
   audioTrackSliderPointElement.addEventListener('mousedown',reviveTrackSlider)
   audioTrackSliderContainerElement.addEventListener('mousedown',reviveTrackSlider)
+
 
   return () => {
     clearCasette();
@@ -127,9 +140,8 @@ interface ResizeCanvasProps {
   ctx: CanvasRenderingContext2D,
 }
 
-const resizeCanvas = ({ctx,canvas,container}: ResizeCanvasProps) => {
-  canvas.width=container.offsetWidth;
-  canvas.height=container.offsetHeight;
+const resizeCanvas = async ({ctx,canvas,container}: ResizeCanvasProps) => {
+  await delay(1)
   ctx.canvas.width=container.offsetWidth;
   ctx.canvas.height=container.offsetHeight;
 }

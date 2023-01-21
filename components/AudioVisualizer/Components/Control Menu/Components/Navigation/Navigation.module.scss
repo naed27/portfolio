@@ -7,17 +7,16 @@
 }
 
 .audioButton{
-  width: 70px;
+  width: auto;
   height: 40px;
   color:darkcyan;
   margin: 5px;
-  padding:10px;
+  padding:12px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  padding:20px;
-  border-radius: 10%;
+  border-radius: 5px;
   border:2px solid darkcyan;
   user-select: none;
 }

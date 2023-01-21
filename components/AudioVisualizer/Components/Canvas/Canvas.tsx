@@ -7,8 +7,10 @@ export default function Canvas () {
   const { containerRef, canvasRef } = useContext(GlobalContext);
   
   return (
-  <div ref={containerRef} className={styles.container}>
-    <canvas ref={canvasRef} className={styles.canvas}/>
+  <div className={styles.container}>
+    <div ref={containerRef}  className={styles.canvasContainer}>
+      <canvas ref={canvasRef} className={styles.canvas}/>
+    </div>
   </div>
   )
 }
