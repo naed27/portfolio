@@ -1,11 +1,11 @@
 import styles from '../Styles/Field.module.scss'
-import { ChangeEvent, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { GlobalContext } from '../../../Misc/globalContext';
-import { Searcher } from '../../../Hooks/SearchTools';
-import FieldCover from '../../../../../utility/FieldCover/FieldCover';
-import TextCover from '../../../../../utility/TextCover/TextCover';
+import { Searcher } from '../../../Hooks/SearchTools'
+import { GlobalContext } from '../../../Misc/globalContext'
+import TextCover from '../../../../../utility/TextCover/TextCover'
+import FieldCover from '../../../../../utility/FieldCover/FieldCover'
+import { ChangeEvent, useCallback, useContext, useState } from 'react'
 
-function Atk ({searcher}: {searcher:Searcher}){
+export default function Atk ({searcher}: {searcher:Searcher}){
   
   const {query} = useContext(GlobalContext);
   const search = useCallback(searcher,[searcher]);
@@ -75,5 +75,3 @@ function Atk ({searcher}: {searcher:Searcher}){
     </div>  
   )
 }
-
-export default Atk

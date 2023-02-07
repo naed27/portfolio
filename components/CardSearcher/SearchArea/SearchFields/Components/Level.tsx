@@ -1,12 +1,12 @@
+import Menu from './Menu'
+import { useContext, useCallback } from 'react'
 import styles from '../Styles/Field.module.scss'
-import { Searcher } from '../../../Hooks/SearchTools';
-import { useContext, useCallback, useState, useMemo } from 'react';
-import Menu from './Menu';
-import { GlobalContext } from '../../../Misc/globalContext';
-import FieldCover from '../../../../../utility/FieldCover/FieldCover';
-import TextCover from '../../../../../utility/TextCover/TextCover';
+import { Searcher } from '../../../Hooks/SearchTools'
+import { GlobalContext } from '../../../Misc/globalContext'
+import FieldCover from '../../../../../utility/FieldCover/FieldCover'
+import TextCover from '../../../../../utility/TextCover/TextCover'
 
-function Level ({searcher}: {searcher:Searcher}){
+export default function Level ({searcher}: {searcher:Searcher}){
   
   const search = useCallback(searcher,[searcher]);
 
@@ -19,16 +19,15 @@ function Level ({searcher}: {searcher:Searcher}){
 
   const maxLevelHandler = (level:number)=>search({level:{max:level,min:query.level.min}})
 
-  const showCoverCondition = useMemo(()=> query.type!=='Monster',[query.type])
 
   return (
     <div className={styles.container}>
-      <TextCover className={styles.label} showCover={showCoverCondition}>
+      <TextCover className={styles.label} showCover={query.type!=='Monster'}>
         {`Level`}
       </TextCover>
       <div className={styles.wrapper}>
 
-        <FieldCover className={styles.fieldWrapper} showCover={showCoverCondition}>
+        <FieldCover className={styles.fieldWrapper} showCover={query.type!=='Monster'}>
           <Menu
             className={styles.button}
             title={'races'}
@@ -37,11 +36,11 @@ function Level ({searcher}: {searcher:Searcher}){
             itemHandler={minLevelHandler}/>
         </FieldCover>
 
-        <TextCover className={styles.separator} showCover={showCoverCondition}>
+        <TextCover className={styles.separator} showCover={query.type!=='Monster'}>
           {`<`}
         </TextCover>
 
-        <FieldCover className={styles.fieldWrapper} showCover={showCoverCondition}>
+        <FieldCover className={styles.fieldWrapper} showCover={query.type!=='Monster'}>
           <Menu
             className={styles.button}
             title={'races'}
@@ -54,5 +53,3 @@ function Level ({searcher}: {searcher:Searcher}){
     </div>  
   )
 }
-
-export default Level

@@ -1,9 +1,9 @@
 import styles from '../Styles/Field.module.scss'
-import { Searcher } from '../../../Hooks/SearchTools';
-import { ChangeEvent, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { GlobalContext } from '../../../Misc/globalContext';
-import FieldCover from '../../../../../utility/FieldCover/FieldCover';
-import TextCover from '../../../../../utility/TextCover/TextCover';
+import { Searcher } from '../../../Hooks/SearchTools'
+import { GlobalContext } from '../../../Misc/globalContext'
+import TextCover from '../../../../../utility/TextCover/TextCover'
+import FieldCover from '../../../../../utility/FieldCover/FieldCover'
+import { ChangeEvent, useCallback, useContext,useState } from 'react'
 
 export default function Def ({searcher}: {searcher:Searcher}){
   

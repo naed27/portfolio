@@ -1,14 +1,12 @@
+import Menu from './Menu'
+import { useCallback, useContext } from 'react'
 import styles from '../Styles/Field.module.scss'
-import { useCallback, useContext, useMemo } from 'react';
-import Menu from './Menu';
-import { Searcher } from '../../../Hooks/SearchTools';
-import { GlobalContext } from '../../../Misc/globalContext';
-import FieldCover from '../../../../../utility/FieldCover/FieldCover';
-import TextCover from '../../../../../utility/TextCover/TextCover';
+import { Searcher } from '../../../Hooks/SearchTools'
+import { GlobalContext } from '../../../Misc/globalContext'
+import FieldCover from '../../../../../utility/FieldCover/FieldCover'
+import TextCover from '../../../../../utility/TextCover/TextCover'
 
-
-
-function SubType ({searcher}: {searcher:Searcher}){
+export default function SubType ({searcher}: {searcher:Searcher}){
 
   const search = useCallback(searcher,[searcher]);
   
@@ -23,16 +21,15 @@ function SubType ({searcher}: {searcher:Searcher}){
 
   const attrHandler = (input:string)=>search({attribute:input});
 
-  const showCoverCondition = useMemo(()=> query.type!=='Monster',[query.type])
 
   return (
       <div className={styles.container}>
-         <TextCover className={styles.label} showCover={showCoverCondition}>
+         <TextCover className={styles.label} showCover={query.type!=='Monster'}>
           {`Sub-Type`}
         </TextCover>
           <div className={styles.wrapper}>
 
-            <FieldCover className={styles.fieldWrapper} showCover={showCoverCondition}>
+            <FieldCover className={styles.fieldWrapper} showCover={query.type!=='Monster'}>
               <Menu
                 className={styles.button}
                 title={'races'}
@@ -43,7 +40,7 @@ function SubType ({searcher}: {searcher:Searcher}){
            
             <div className={styles.separator}></div>
 
-            <FieldCover className={styles.fieldWrapper} showCover={showCoverCondition}>
+            <FieldCover className={styles.fieldWrapper} showCover={query.type!=='Monster'}>
               <Menu
                 className={styles.button}
                 title={'attributes'}
@@ -57,4 +54,3 @@ function SubType ({searcher}: {searcher:Searcher}){
   )
 }
 
-export default SubType
