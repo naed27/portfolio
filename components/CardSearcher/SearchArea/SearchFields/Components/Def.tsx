@@ -16,7 +16,7 @@ export default function Def ({searcher}: {searcher:Searcher}){
   const minDefHandler = (e:ChangeEvent<HTMLInputElement>)=>{
     const input = e.target.value==='' ? -1 : Number(e.target.value)
     if(isNaN(input) && e.target.value !== '') return
-    if(input < 0 || input > 100000000000) return
+    if(input > 100000000000) return
 
     setMinPlaceHolder(`${input}`)
     if(typingTimeout)clearTimeout(typingTimeout)
@@ -26,7 +26,7 @@ export default function Def ({searcher}: {searcher:Searcher}){
   const maxDefHandler = (e:ChangeEvent<HTMLInputElement>)=>{
     const input = e.target.value==='' ? -1 : Number(e.target.value)
     if(isNaN(input) && e.target.value !== '') return
-    if(input < 0 || input > 100000000000) return
+    if(input > 100000000000) return
 
     setMaxPlaceHolder(`${input}`)
     if(typingTimeout)clearTimeout(typingTimeout)
