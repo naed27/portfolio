@@ -17,6 +17,7 @@ export default function Atk ({searcher}: {searcher:Searcher}){
   const minAtkHandler = (e:ChangeEvent<HTMLInputElement>)=>{
     const input = e.target.value==='' ? -1 : Number(e.target.value)
     if(isNaN(input) && e.target.value !== '') return
+    if(input < 0 || input > 100000000000) return
 
     setMinPlaceHolder(`${input}`)
     if(typingTimeout)clearTimeout(typingTimeout)
@@ -26,7 +27,8 @@ export default function Atk ({searcher}: {searcher:Searcher}){
   const maxAtkHandler = (e:ChangeEvent<HTMLInputElement>)=>{
     const input = e.target.value==='' ? -1 : Number(e.target.value)
     if(isNaN(input) && e.target.value !== '') return
-
+    if(input < 0 || input > 100000000000) return
+    
     setMaxPlaceHolder(`${input}`)
     if(typingTimeout)clearTimeout(typingTimeout)
     setTypingTimeout(setTimeout(()=>search({atk:{max:input,min:query.atk.min}}), 300));
