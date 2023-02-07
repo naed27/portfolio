@@ -11,7 +11,7 @@ const SearchArea = () => {
       variants = { animation }
       initial = 'initial'
       animate = 'final'
-      exit = 'exit' >
+      exit = 'exit'>
       <MainFilter/>
       <Table/>
       <PageButtons/>
