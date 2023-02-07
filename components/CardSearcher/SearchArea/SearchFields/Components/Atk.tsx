@@ -15,14 +15,18 @@ function Atk ({searcher}: {searcher:Searcher}){
   const {query} = useContext(GlobalContext);
 
   const minAtkHandler = (e:ChangeEvent<HTMLInputElement>)=>{
-    const input = e.target.value.length===0?-1:parseInt(e.target.value)
+    const input = e.target.value==='' ? -1 : Number(e.target.value)
+    if(isNaN(input)) return
+    
     if(typingTimeout)clearTimeout(typingTimeout)
     setTypingTimeout(setTimeout(()=>search({atk:{min:input,max:query.atk.max}}), 300));
     setMinPlaceHolder(e.target.value)
   }
 
   const maxAtkHandler = (e:ChangeEvent<HTMLInputElement>)=>{
-    const input = e.target.value.length===0?-1:parseInt(e.target.value)
+    const input = e.target.value==='' ? -1 : Number(e.target.value)
+    if(isNaN(input)) return
+
     if(typingTimeout)clearTimeout(typingTimeout)
     setTypingTimeout(setTimeout(()=>search({atk:{max:input,min:query.atk.min}}), 300));
     setMaxPlaceHolder(e.target.value)
