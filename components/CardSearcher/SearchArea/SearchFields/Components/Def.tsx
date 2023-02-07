@@ -15,7 +15,8 @@ export default function Def ({searcher}: {searcher:Searcher}){
   const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout|null>(null);
 
   const minDefHandler = (e:ChangeEvent<HTMLInputElement>)=>{
-    const input = parseInt(e.target.value)
+    const input = e.target.value==='' ? -1 : Number(e.target.value)
+    if(isNaN(input)) return
 
     if(typingTimeout)clearTimeout(typingTimeout)
     setTypingTimeout(setTimeout(()=>search({def:{min:input,max:query.def.max}}), 300));
@@ -23,7 +24,8 @@ export default function Def ({searcher}: {searcher:Searcher}){
   }
 
   const maxDefHandler = (e:ChangeEvent<HTMLInputElement>)=>{
-    const input = parseInt(e.target.value)
+    const input = e.target.value==='' ? -1 : Number(e.target.value)
+    if(isNaN(input)) return
 
     if(typingTimeout)clearTimeout(typingTimeout)
     setTypingTimeout(setTimeout(()=>search({def:{max:input,min:query.def.min}}), 300));
