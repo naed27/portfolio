@@ -8,6 +8,7 @@ import Region from './Components/Region';
 import Continent from './Components/Continent';
 import Timezone from './Components/Timezone';
 import Population from './Components/Population';
+import Reset from './Components/Reset';
 
 
 export default function AdvancedFilter (){
@@ -24,6 +25,7 @@ export default function AdvancedFilter (){
         <Timezone searcher={searcher}/>
         <Continent searcher={searcher}/>
         <Population searcher={searcher}/>
+        <Reset searcher={searcher}/>
     </Modal>
   )
 }
