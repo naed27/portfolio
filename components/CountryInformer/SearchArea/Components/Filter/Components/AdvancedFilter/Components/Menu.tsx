@@ -1,8 +1,8 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import useOnClickOutside from '../../../../../hooks/useOnClickOutside';
-import ScrollableDiv from '../../../../../utility/CustomScrollDiv/ScrollableDiv';
-import { capitalizeProperly, isString } from '../../../Misc/globalFunctions';
-import styles from '../Styles/Menu.module.scss'
+import useOnClickOutside from '../../../../../../../../hooks/useOnClickOutside';
+import ScrollableDiv from '../../../../../../../../utility/CustomScrollDiv/ScrollableDiv';
+import { capitalizeProperly, isString } from '../../../../../../Utility/functions';
+import styles from './Styles/Field.module.scss'
 
 interface MenuProps {
   className?: string;

@@ -114,4 +114,17 @@ export interface GlobalContextType{
   readonly setSelectedCountry: Dispatch<SetStateAction<Country | null>>,
   readonly showMoreFilters: boolean
   readonly setShowMoreFilters: Dispatch<SetStateAction<boolean>>,
+  readonly sortMode: SortMode,
+  readonly setSortMode:  Dispatch<SetStateAction<SortMode>>,
+  readonly countryClassifications: CountryClassifications,
+}
+
+export type SortMode = 'Population' | 'Name' | 'Timezone'
+
+export interface CountryClassifications{
+ 
+  regionClassifications:string[],
+  timezoneClassifications:string[],
+  continentsClassifications:string[],
+
 }

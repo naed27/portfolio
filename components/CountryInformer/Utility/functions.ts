@@ -1,5 +1,15 @@
+import { Country } from "../Types/types";
+
+export const sortByPopulation = (countries: Country[]) => {
+  return countries.sort(({population:p1},{population:p2})=>p2-p1)
+}
+
+export const sortByName = (countries: Country[]) => {
+  return countries.sort(({name:{common:n1}},{name:{common:n2}})=>sortStrings(n1,n2))
+}
+
 export const isEmpty = (str: string) => {
-    return !str || 0 === str.length;
+  return !str || 0 === str.length;
 }
 
 export const sortStrings = (a:string,b:string)=>{
