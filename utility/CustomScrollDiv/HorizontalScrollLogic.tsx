@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { HorizontalScrollProps } from './Context';
 
 export default function HorizontalScrollLogic(Props:HorizontalScrollProps) {

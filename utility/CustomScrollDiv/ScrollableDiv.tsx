@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {RefObject, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {ContextProps, HorizontalScrollProps, ScrollContext, VerticalScrollProps} from './Context';
 import HorizontalScroll from './HorizontalScroll';
 import HorizontalScrollLogic from './HorizontalScrollLogic';
@@ -35,14 +35,16 @@ interface Props{
   dependencies?:any[]|null,
   scrollY?:ScrollProps,
   scrollX?:ScrollProps,
+  customRef?: RefObject<HTMLDivElement>,
   onClick?:() => any
   onMouseEnter?:() => any
   onMouseLeave?:() => any
   onStartScrollMouseClick?:() => any 
   onEndScrollMouseClick?:() => any
+  onScroll?:() => any
 }
 
-export default function ScrollableDiv ({
+const ScrollableDiv = ({
   children,
   className = '',
   dependencies = null,
@@ -53,7 +55,9 @@ export default function ScrollableDiv ({
   onMouseLeave = () => {},
   onStartScrollMouseClick = () => {},
   onEndScrollMouseClick = () => {},
-}:Props) {
+  onScroll = () => {},
+  customRef: divRef,
+}:Props) => {
   
   const scroll = useMemo(() => {
     const X = {...DEFAULT_SCROLL_VALUES.XY, ...scrollX};
@@ -61,7 +65,8 @@ export default function ScrollableDiv ({
     return {X,Y};
   },[scrollY,scrollX]);
   
-  const scrollableDivRef = useRef<HTMLDivElement>(null);
+  const defaultRef = useRef<HTMLDivElement>(null);
+  const scrollableDivRef = useMemo(()=>divRef || defaultRef,[divRef])
 
   const [isVerticalDragging, setVerticalDragging] = useState(false);
   const [verticalScrollThumbStart, setVerticalScrollThumbStart] = useState(0);
@@ -152,6 +157,7 @@ export default function ScrollableDiv ({
 
  
   const handleScroll = useCallback((position:string|undefined = 'normal') => {
+    if (scrollableDivRef === null) return
     if (!scrollableDivRef.current) return;
     const scrollableDiv = scrollableDivRef.current;
     if(position === 'reset')scrollableDiv.scrollTo(0,0)
@@ -168,13 +174,15 @@ export default function ScrollableDiv ({
     if (!isVerticalDragging && !isHorizontalDragging) return
     event.preventDefault();
     event.stopPropagation();
-    if (isVerticalDragging)return verticalSync( event.clientY+verticalScrollOffset,verticalScrollBasePoint );
-    if (isHorizontalDragging)return horizontalSync( event.clientX+horizontalScrollOffset,horizontalScrollBasePoint );
+    if (isVerticalDragging) verticalSync( event.clientY+verticalScrollOffset,verticalScrollBasePoint );
+    if (isHorizontalDragging) horizontalSync( event.clientX+horizontalScrollOffset,horizontalScrollBasePoint );
+    onScroll();
 
-  },[ isVerticalDragging, 
-    isHorizontalDragging,
+  },[ onScroll, 
       verticalSync, 
       horizontalSync, 
+      isVerticalDragging, 
+      isHorizontalDragging,
       verticalScrollOffset, 
       horizontalScrollOffset,
       verticalScrollBasePoint,
@@ -216,6 +224,7 @@ export default function ScrollableDiv ({
     handleScroll,
     calcVerticalThumbSize,
     calcHorizontalThumbSize,
+    scrollableDivRef,
   ]);
 
   useEffect(()=>{
@@ -291,3 +300,6 @@ export default function ScrollableDiv ({
     </div>
   )
 }
+
+
+export default ScrollableDiv
