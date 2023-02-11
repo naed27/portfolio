@@ -1,3 +1,10 @@
+.invisible{
+  position:relative;
+  height: 0px;
+  flex-basis: 300px;
+  flex-grow: 1;
+}
+
 .container{
   position:relative;
   height: 120px;

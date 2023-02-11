@@ -10,7 +10,6 @@ export default function Table () {
 
   const { searchedCountries, sortMode } = useContext(GlobalContext);
   const [JSXTable,setJSXTable] = useState<JSX.Element[]>([]);
-  const tableRef = useRef<HTMLDivElement>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
 
   const sortBy = useCallback((countries: Country [], sortMode?: SortMode)=>{
@@ -18,30 +17,23 @@ export default function Table () {
     return sortByPopulation(countries)
   },[])
 
-  const pool = useMemo(()=>{
-    return sortBy(searchedCountries,sortMode)
-  },[searchedCountries,sortBy,sortMode]);
+  const pool = useMemo(()=>sortBy(searchedCountries,sortMode),[searchedCountries,sortBy,sortMode]);
+
+  const invisibles = useMemo(()=>{
+    const invis = []
+    for (let i = 0; i < 4; i++) 
+      invis.push(<Card invisibleChild={true} key={`tableInvi_${i}`}/>)
+    return invis
+  },[])
 
   const render = useCallback((pool:Country[])=>{
     return [
       ...pool.map((country,i)=>(
         <Card country={country} key={`tableItem_${i}_${country.area}`}/>
       )),
+      ...invisibles
     ]
-  },[])
-
-  const onScrollHandler = useCallback(()=>{
-    if(!tableRef.current) return
-    if(!wrapperRef.current) return
-    const table = tableRef.current
-    const wrapper = wrapperRef.current
-
-    const wrapperRange = wrapper.offsetHeight-table.offsetHeight
-    const tablePoint = table.scrollTop
-    const percentage = tablePoint/wrapperRange*100
-    // console.log(percentage)
-  },[])
-
+  },[invisibles])
 
   useEffect(()=>{
     const table = render(pool)
@@ -50,7 +42,7 @@ export default function Table () {
 
   return (
     <div className={styles.section} >
-      <ScrollableDiv onScroll={onScrollHandler} customRef={tableRef} className={styles.container} dependencies={JSXTable} scrollY={{thumbColor:'white'}}>
+      <ScrollableDiv className={styles.container} dependencies={JSXTable} scrollY={{thumbColor:'white'}}>
         <div ref={wrapperRef} className={styles.wrapper}>
           {JSXTable}
         </div>

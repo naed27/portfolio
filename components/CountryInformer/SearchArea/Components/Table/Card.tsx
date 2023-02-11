@@ -23,35 +23,28 @@ const Card = ({ country, invisibleChild = false }:Props) => {
     setSelectedCountry(country);
   },[ country, setSelectedCountry, viewLock])
 
-  const isViewedHandler = useCallback((entries:IntersectionObserverEntry[], observer: IntersectionObserver) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        if (entry.intersectionRatio >= 0.01) {
-          setShowCard(true)
-        }
-      }
-    });
-  },[])
-
   useEffect(()=>{
     if(!cardRef.current) return
-
-    const observer = new IntersectionObserver(isViewedHandler);
-  
+    const observer = new IntersectionObserver(([entry]) => entry.isIntersecting && setShowCard(true));
     observer.observe(cardRef.current);
-  },[isViewedHandler])
+  },[])
 
   
+  if(invisibleChild)
+    return <div className={styles.invisible}></div>
+
   if(!country)
     return null
-
+  
   return (
     <ScrollableDiv customRef={cardRef} className={styles.container} onClick={viewCard} scrollX={{ scrollBorderRadius:`20px`, trackPadding:0.8 }}>
-        {showCard&&<div className={styles.details} >
-          <div className={styles.text}>
-            {country.name.common}
+        {showCard&&
+          <div className={styles.details}>
+            <div className={styles.text}>
+              {country.name.common}
+            </div>
           </div>
-        </div>}
+        }
     </ScrollableDiv>
   );
 
