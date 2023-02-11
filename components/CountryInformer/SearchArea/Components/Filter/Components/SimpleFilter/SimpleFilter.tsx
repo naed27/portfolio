@@ -3,6 +3,11 @@ import { GlobalContext } from '../../../../../Context/context';
 import { Searcher } from '../../../../Hooks/useSearcher';
 import styles from './SimpleFilter.module.scss'
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+
+
+
 export default function SimpleFilter ({searcher}:{searcher: Searcher}) {
 
   const {query} = useContext(GlobalContext);
@@ -24,6 +29,13 @@ export default function SimpleFilter ({searcher}:{searcher: Searcher}) {
 
   return (
     <div className={styles.container}>
+      
+      
+      <FontAwesomeIcon 
+        icon={faSearch} 
+        className={styles.searchLogo}
+      ></FontAwesomeIcon>
+      
       <input 
         className={styles.input} 
         type='text' 
@@ -32,6 +44,7 @@ export default function SimpleFilter ({searcher}:{searcher: Searcher}) {
         value={placeHolder}
         placeholder='Search by Name'
       />
+
     </div>
   )
 

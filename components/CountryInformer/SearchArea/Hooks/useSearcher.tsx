@@ -41,6 +41,7 @@ export default function useSearcher () {
     
     !isEmpty( input.name ) && (result = filterByName ( input.name, result ))
     !isEmpty( input.region ) && (result = filterByRegion ( input.region, result ))
+    !isEmpty( input.timezone ) && (result = filterByTimezone ( input.timezone, result ))
     !isEmpty( input.continent ) && (result = filterByContinent ( input.continent, result ))
 
     isPositive( input.population.min ) && (result = filterByMinPop ( input.population.min, result ));
@@ -59,6 +60,7 @@ const filterByMinPop = (min: number, result:Country[]) => result.filter( c => is
 const filterByMaxPop = (max: number, result:Country[]) => result.filter( c => isLesserAndEqual(c.population, max))
 const filterByRegion = (region: string, result:Country[]) => result.filter( c => areExactlySame( c.region, region ))
 const filterByContinent = (continent: string, result:Country[]) => result.filter( c => c.continents.includes(continent))
+const filterByTimezone = (timezone: string, result:Country[]) => result.filter( c => c.timezones.includes(timezone))
 
 
 

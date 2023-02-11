@@ -8,10 +8,9 @@ export default function Continent ({searcher}: {searcher: Searcher}) {
   
   const search = useCallback(searcher,[searcher]);
   const {query, countryClassifications} = useContext(GlobalContext);
-  const {continentsClassifications } =  countryClassifications;
-  const continents = useMemo(()=>continentsClassifications,[continentsClassifications])
+  const continents = useMemo(()=>countryClassifications.continentsClassifications,[countryClassifications])
   
-  const filterContinent = useCallback((input:string)=> search({continent:input}),[search]);
+  const filterByContinent = useCallback((input:string)=> search({continent:input}),[search]);
 
   return (
     <div className={styles.container} >
@@ -22,7 +21,7 @@ export default function Continent ({searcher}: {searcher: Searcher}) {
           title={'Continents'}
           placeholder={query.continent} 
           items={continents} 
-          itemHandler={filterContinent}/>
+          itemHandler={filterByContinent}/>
       </div>
     </div>  
   )

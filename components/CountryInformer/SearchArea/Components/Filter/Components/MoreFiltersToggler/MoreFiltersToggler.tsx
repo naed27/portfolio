@@ -1,6 +1,9 @@
-import { useContext } from 'react';
-import { GlobalContext } from '../../../../../Context/context';
+import { useContext } from 'react'
 import styles from './MoreFiltersToggler.module.scss'
+import { GlobalContext } from '../../../../../Context/context'
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
 
 export default function MoreFiltersToggler () {
 
@@ -10,7 +13,14 @@ export default function MoreFiltersToggler () {
 
   return (
     <div className={styles.container} onClick={onClickHandler}>
-      {`More Filters >>`}
+
+      <FontAwesomeIcon 
+        icon={faFilter} 
+        className={styles.filterLogo}
+      ></FontAwesomeIcon>
+      
+      {` \n More Filters`}
+
     </div>
   )
 

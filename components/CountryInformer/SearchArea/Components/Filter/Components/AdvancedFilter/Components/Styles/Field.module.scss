@@ -31,7 +31,6 @@
 .wrapper{
   flex:6;
   height:100%;
-  color:white;
   display: flex;
   align-items: center;
   position: relative;
@@ -40,15 +39,15 @@
 .input{
   width:100%;
   height:100%;
-  background-color: black;
   font-size: 14px;
   color:rgb(255, 255, 255);
-  border: 1.5px solid rgb(112, 112, 112);
+  border: 1.5px solid #0C4271;
+  background-color: #F9DFDC;
   padding-left: 5px;
   outline: none; 
   
   &:focus{
-    border: 1.5px solid white;
+    border: 1.5px solid #0C4271;
   }
 
 }
@@ -68,15 +67,14 @@
   user-select: none;
   width:100%;
   height:100%;
-  background-color: black;
   color:white;
-  border: 1.5px solid gray;
+  border: 1.5px solid #0C4271;
   display: flex;
   align-items: center;
   padding-left: 5px;
 
   &:focus{
-    border: 1.5px solid white;
+    border: 1.5px solid #0C4271;
   }
 
 }
@@ -85,9 +83,8 @@
   user-select: none;
   width:100%;
   height:40px;
-  background-color: black;
   color:white;
-  border: 1.5px solid gray;
+  border: 1.5px solid #0C4271;
   display: flex;
   align-items: center;
   position: relative;

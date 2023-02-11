@@ -1,8 +1,7 @@
 import axios from "axios";
-import { useState, useEffect, useMemo, useContext, useCallback } from "react";
+import { useState, useEffect, useMemo, useContext } from "react";
 import { LayoutContext } from "../../Layout/Context/LayoutContext";
 import { Country, GlobalContextType, Query, SortMode } from "../Types/types";
-import { sortByName, sortByPopulation } from "../Utility/functions";
 import { fetchClassifications, initialQuery } from "../Utility/initializers";
 
 
@@ -34,11 +33,6 @@ export default function CountryInformerLogic() {
     countryClassifications,
   }
 
-  const sortBy = useCallback((countries: Country [], sortMode?: SortMode)=>{
-    if(sortMode === 'Name') return sortByName(countries)
-    return sortByPopulation(countries)
-  },[])
-
   useEffect(()=> setAbsoluteNavBar(false), [ setAbsoluteNavBar ])
 
   useEffect(()=>{
@@ -46,14 +40,14 @@ export default function CountryInformerLogic() {
       const result: { data: Country[] } | undefined | void = await axios.get( `https://restcountries.com/v3.1/all` )
       .catch(()=>console.log('Fetch failed.'))
       if(!result) return setNoNetwork(true)
-      const countries: Country[] = sortBy(result.data);
+      const countries: Country[] = result.data
       setSearchedCountries(countries);
       setCountries(countries)
       setIsLoading(false);
       console.log(countries)
     }
     fetchAllCards();
-  },[sortBy])
+  },[])
 
 
   return {isLoading, noNetwork, globalValues}

@@ -10,6 +10,9 @@
     "test": "jest --watchAll --verbose --coverage"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.3.0",
+    "@fortawesome/free-solid-svg-icons": "^6.3.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "axios": "^0.22.0",
     "compression": "^1.7.4",
     "decompress": "^4.2.1",
