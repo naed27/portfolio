@@ -1,5 +1,25 @@
 import { Country } from "../Types/types";
 
+export const stringifyQuantity = (quantity: number) => {
+  if(isNaN(quantity)) return ''
+
+  let result = ''
+  let counter = 0;
+  const stringed = `${quantity}`
+
+  for (let i = stringed.length-1; i >= 0; i--) {
+    if(counter!==3){
+      result += stringed[i]
+    }else{
+      result+=`,${stringed[i]}`
+      counter = 0;
+    }
+    counter++;
+  }
+
+  return result.split('').reverse(). join('');
+}
+
 export const sortByPopulation = (countries: Country[]) => {
   return countries.sort(({population:p1},{population:p2})=>p2-p1)
 }

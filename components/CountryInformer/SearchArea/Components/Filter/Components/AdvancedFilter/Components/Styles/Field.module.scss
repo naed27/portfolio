@@ -1,3 +1,6 @@
+
+$fieldBorder: gray;
+
 .container{
   width:100%;
   display: flex;
@@ -41,13 +44,13 @@
   height:100%;
   font-size: 14px;
   color:rgb(255, 255, 255);
-  border: 1.5px solid #0C4271;
-  background-color: #F9DFDC;
+  border: 1.5px solid $fieldBorder;
+  background-color: #000;
   padding-left: 5px;
   outline: none; 
   
   &:focus{
-    border: 1.5px solid #0C4271;
+    border: 1.5px solid rgb(168, 168, 168);
   }
 
 }
@@ -68,7 +71,7 @@
   width:100%;
   height:100%;
   color:white;
-  border: 1.5px solid #0C4271;
+  border: 1.5px solid $fieldBorder;
   display: flex;
   align-items: center;
   padding-left: 5px;
@@ -84,7 +87,7 @@
   width:100%;
   height:40px;
   color:white;
-  border: 1.5px solid #0C4271;
+  border: 1.5px solid $fieldBorder;
   display: flex;
   align-items: center;
   position: relative;
@@ -120,7 +123,7 @@
   margin-left: -1.5px;
   width:calc(100% + 3.0px);
   height:auto;
-  border: 1.5px solid gray;
+  border: 1.5px solid $fieldBorder;
   border-top: 0px;
   display: flex;
   flex-direction: column;
@@ -148,7 +151,7 @@
   height: 100%;
   width:25px;
   background-color: rgba(0,0,0,0.9);
-  border-left:1.5px solid gray;
+  border-left:1.5px solid $fieldBorder;
   display:flex;
   justify-content: center;
   align-items: center;

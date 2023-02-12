@@ -7,51 +7,91 @@
 
 .container{
   position:relative;
-  height: 120px;
+  height: 140px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: #434D51;
+  background-color: #000;
   color:#fff;
   overflow :auto;
   cursor: pointer;
-  border-radius: 5px;
   flex-basis: 300px;
   flex-grow: 1;
+  border: 1px solid rgb(129, 129, 129);
 
   &:hover{
-    background-color: rgb(221, 211, 210);
+    background-color: #1f1f1f;
   }
 }
 
-.details{
+.info{
   position: absolute;
   top: 0;
   left: 0;
   height:100%;
   width: auto;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
 }
 
-.text{
-  position: relative;
-  width: auto;
-  height:100%;
-  display:flex;
-  align-items: center;
-  white-space: nowrap;
-  font-size: 17px;
-  font-weight: 250;
-
+.infoHeader{
+  height: auto;
   font-family: Georgia, serif;
-  font-size: 18px;
   letter-spacing: 1px;
   word-spacing: 1px;
   color: #fff;
   font-weight: normal;
   text-decoration: none;
   font-style: normal;
+  font-variant: small-caps;
+  text-transform: none;
+  z-index: 2;
+}
+
+.infoBody{
+  font-family: Verdana, Geneva, sans-serif;
+  letter-spacing: 0px;
+  word-spacing: 0px;
+  color: #fff;
+  font-weight: normal;
+  text-decoration: rgb(68, 68, 68);
+  font-style: normal;
   font-variant: normal;
   text-transform: none;
+  height: auto;
+  z-index: 2;
+}
+
+.countryName{
+  position: relative;
+  width: auto;
+  display:flex;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 22px;
+  font-weight: 250;
+}
+
+.countryRegion{
+  position: relative;
+  width: auto;
+  display:flex;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 15px;
+  font-weight: 250;
+}
+
+.countryImage{
+  position: absolute;
+  opacity: 0.25;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
 }
 
