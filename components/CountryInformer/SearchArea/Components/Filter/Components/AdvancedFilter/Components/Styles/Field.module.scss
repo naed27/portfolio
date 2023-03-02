@@ -1,5 +1,6 @@
 
-$fieldBorder: gray;
+$inputFieldColor: #000;
+$fieldBorder: rgb(175, 175, 175);
 
 .container{
   width:100%;
@@ -45,12 +46,16 @@ $fieldBorder: gray;
   font-size: 14px;
   color:rgb(255, 255, 255);
   border: 1.5px solid $fieldBorder;
-  background-color: #000;
+  background-color: $inputFieldColor;
   padding-left: 5px;
   outline: none; 
+
+  &:hover{
+    border: 1.5px solid white;
+  }
   
   &:focus{
-    border: 1.5px solid rgb(168, 168, 168);
+    border: 1.5px solid white;
   }
 
 }
@@ -75,9 +80,14 @@ $fieldBorder: gray;
   display: flex;
   align-items: center;
   padding-left: 5px;
-
+  background-color: $inputFieldColor;
+  
+  &:hover{
+    border: 1.5px solid white;
+  }
+  
   &:focus{
-    border: 1.5px solid #0C4271;
+    border: 1.5px solid white;
   }
 
 }
@@ -94,6 +104,7 @@ $fieldBorder: gray;
   display:flex;
   justify-content: center;
   align-items:center;
+  background-color: $inputFieldColor;
 
   &:hover{
     background-color: rgb(14, 14, 14);
@@ -109,6 +120,7 @@ $fieldBorder: gray;
 .minipad{
   padding-left: 10px;
   padding-right: 10px;
+  color: white;
 }
 
 
@@ -127,7 +139,7 @@ $fieldBorder: gray;
   border-top: 0px;
   display: flex;
   flex-direction: column;
-  background-color: black;
+  background-color: $inputFieldColor;
   max-height: 100px;
   overflow-y: auto;
   z-index: 2;
@@ -155,4 +167,5 @@ $fieldBorder: gray;
   display:flex;
   justify-content: center;
   align-items: center;
+  color: $fieldBorder
 }

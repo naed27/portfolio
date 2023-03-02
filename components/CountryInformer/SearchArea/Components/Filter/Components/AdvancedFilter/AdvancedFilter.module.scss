@@ -1,5 +1,5 @@
 .container{
-  max-width:700px;
+  max-width:500px;
   width:100%;
   height:auto;
   display: flex;
@@ -9,6 +9,7 @@
   position:relative;
   padding:20px;
   user-select: none;
-  background: black;
   border:1.5px solid gray;
+  background-color: black;
+  border-radius: 10px;
 }

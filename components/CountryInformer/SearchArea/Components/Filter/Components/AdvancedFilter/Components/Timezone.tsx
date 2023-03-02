@@ -1,10 +1,12 @@
 import styles from './Styles/Field.module.scss'
 import { Searcher } from '../../../../../Hooks/useSearcher';
 import { GlobalContext } from '../../../../../../Context/context';
-import { useCallback, useContext, useMemo } from 'react'
+import { memo, useCallback, useContext, useMemo } from 'react'
 import Menu from './Menu';
 
-export default function Timezone ({searcher}: {searcher: Searcher}) {
+export default memo(Timezone)
+
+function Timezone ({searcher}: {searcher: Searcher}) {
   
   const search = useCallback(searcher,[searcher]);
   const {query, countryClassifications} = useContext(GlobalContext);

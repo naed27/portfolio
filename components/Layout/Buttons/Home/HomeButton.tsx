@@ -1,6 +1,7 @@
 import styles from './HomeButton.module.scss';
 import Link from 'next/link'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 export default function HomeButton () {
   
@@ -8,9 +9,7 @@ export default function HomeButton () {
 
       <Link href={'/'}>
         <a className={styles.container}> 
-          <div className={styles.homeButton}>
-          <div className={styles.base}></div>
-          </div>
+          <FontAwesomeIcon icon={faHome} className={styles.homeButton}/>
         </a>
       </Link>
 

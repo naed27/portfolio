@@ -1,10 +1,13 @@
 import styles from './Styles/Field.module.scss'
-import { useCallback, useContext, } from 'react'
+import { memo, useCallback, useContext, } from 'react'
 import { Searcher } from '../../../../../Hooks/useSearcher';
 import { GlobalContext } from '../../../../../../Context/context';
 import { initialQuery } from '../../../../../../Utility/initializers';
 
-export default function Reset ({searcher}: {searcher: Searcher}) {
+
+export default memo(Reset)
+
+function Reset ({searcher}: {searcher: Searcher}) {
   
   const search = useCallback(searcher,[searcher]);
   const { setShowMoreFilters } = useContext(GlobalContext);

@@ -1,17 +1,16 @@
 import styles from './Styles/Field.module.scss'
 import { Searcher } from '../../../../../Hooks/useSearcher';
 import { GlobalContext } from '../../../../../../Context/context';
-import { useCallback, useContext, useMemo } from 'react'
+import { memo, useCallback, useContext, useMemo } from 'react'
 import Menu from './Menu';
 
-export default function Region ({searcher}: {searcher: Searcher}) {
+function Region ({searcher}: {searcher: Searcher}) {
   
   const search = useCallback(searcher,[searcher]);
   const {query, countryClassifications} = useContext(GlobalContext);
   const regions = useMemo(()=>countryClassifications.regionClassifications,[countryClassifications])
   
   const filterByRegion = useCallback((input:string)=> search({region:input}),[search]);
-
 
   return (
     <div className={styles.container} >
@@ -27,5 +26,7 @@ export default function Region ({searcher}: {searcher: Searcher}) {
     </div>  
   )
 }
+
+export default memo(Region)
 
 

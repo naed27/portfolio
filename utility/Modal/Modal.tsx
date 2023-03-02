@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
 import styles from './Modal.module.scss'
 
@@ -15,8 +15,9 @@ export default function Modal ({
 }:Props) {
 
   const modalRef = useRef<HTMLDivElement>(null);
-  
-  useOnClickOutside(modalRef, onClickOutside);
+  const onClickHandler = useCallback(onClickOutside,[onClickOutside])
+
+  useOnClickOutside(modalRef, onClickHandler);
 
   return (
     <div className={styles.backdrop}>

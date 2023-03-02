@@ -35,8 +35,10 @@ const Card = ({ country, invisibleChild = false }:Props) => {
 
   useEffect(()=>{
     if(!cardRef.current) return
-    const observer = new IntersectionObserver(([entry]) => entry.isIntersecting && setShowCard(true));
+    const observer = new IntersectionObserver(([entry]) => entry.isIntersecting ? setShowCard(true) : setShowCard(false));
     observer.observe(cardRef.current);
+
+    return ()=> observer.disconnect()
   },[])
 
   

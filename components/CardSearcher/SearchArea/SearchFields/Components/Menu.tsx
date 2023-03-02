@@ -34,9 +34,9 @@ function Menu ({
   const [holdMenu,setHoldMenu] = useState(false);
   const buttonRef = useRef<HTMLDivElement>(null);
   const handler = useCallback(()=> setShowMenu(false),[]) 
-  useOnClickOutside(buttonRef, () => handler);
+  useOnClickOutside(buttonRef, handler);
 
-  const menuItems  = useMemo(()=>items,[items]);
+  const menuItems = useMemo(()=>items,[items]);
   const menuTitle = useMemo(()=>title,[title]);
 
   const mouseInsideMenu = () => setHoldMenu(true)
@@ -84,13 +84,14 @@ function Menu ({
   if(!showOnlyWhen)return null;
 
   return (
-    <div className={className} onClick={buttonClickHandler} ref={buttonRef}>
+    <div className={className} onClick={buttonClickHandler}>
       <div className={styles.downLogo}>
         {showMenu?'∧':'v'}
       </div>
       {displayPlaceHolder()}
       {(showMenu&&items.length>0)?
       <ScrollableDiv 
+        customRef={buttonRef}
         className={styles.menu} 
         scrollY={{trackBorder:`1px solid gray`}} 
         onMouseEnter={mouseInsideMenu}

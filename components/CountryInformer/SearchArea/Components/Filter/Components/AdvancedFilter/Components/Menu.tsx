@@ -1,8 +1,10 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { memo, useCallback, useMemo, useRef, useState } from 'react';
 import useOnClickOutside from '../../../../../../../../hooks/useOnClickOutside';
 import ScrollableDiv from '../../../../../../../../utility/CustomScrollDiv/ScrollableDiv';
 import { capitalizeProperly, isString } from '../../../../../../Utility/functions';
 import styles from './Styles/Field.module.scss'
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 interface MenuProps {
   className?: string;
@@ -32,11 +34,13 @@ function Menu ({
 
   const [showMenu,setShowMenu] = useState(false);
   const [holdMenu,setHoldMenu] = useState(false);
-  const buttonRef = useRef<HTMLDivElement>(null);
-  const handler = useCallback(()=> setShowMenu(false),[]) 
-  useOnClickOutside(buttonRef, () => handler);
 
-  const menuItems  = useMemo(()=>items,[items]);
+  const buttonRef = useRef<HTMLDivElement>(null);
+  const handler = useCallback(()=> setShowMenu((current)=>false),[]) 
+
+  useOnClickOutside(buttonRef, handler);
+
+  const menuItems = useMemo(()=>items,[items]);
   const menuTitle = useMemo(()=>title,[title]);
 
   const mouseInsideMenu = () => setHoldMenu(true)
@@ -84,13 +88,18 @@ function Menu ({
   if(!showOnlyWhen)return null;
 
   return (
-    <div className={className} onClick={buttonClickHandler} ref={buttonRef}>
+    <div className={className} onClick={buttonClickHandler}>
       <div className={styles.downLogo}>
-        {showMenu?'∧':'v'}
+        {showMenu?(
+          <FontAwesomeIcon icon={faChevronUp} />
+        ):(
+          <FontAwesomeIcon icon={faChevronDown} />
+        )}
       </div>
       {displayPlaceHolder()}
       {(showMenu&&items.length>0)?
       <ScrollableDiv 
+        customRef={buttonRef}
         className={styles.menu} 
         scrollY={{trackBorder:`1px solid gray`}} 
         onMouseEnter={mouseInsideMenu}
@@ -107,4 +116,4 @@ function Menu ({
   );
 }
 
-export default Menu
+export default memo(Menu)

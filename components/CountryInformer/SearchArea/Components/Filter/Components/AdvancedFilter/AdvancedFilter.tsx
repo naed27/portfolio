@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react';
+import { memo, useCallback, useContext } from 'react';
 import Modal from '../../../../../../../utility/Modal/Modal';
 import { GlobalContext } from '../../../../../Context/context';
 import useSearcher from '../../../../Hooks/useSearcher';
@@ -10,23 +10,23 @@ import Timezone from './Components/Timezone';
 import Population from './Components/Population';
 import Reset from './Components/Reset';
 
-
-export default function AdvancedFilter (){
+const AdvancedFilter = () => {
   
   const {search} = useSearcher();
   const searcher = useCallback(search,[search]);
   const { setShowMoreFilters } = useContext(GlobalContext);
-  const onClickOutside = () => setShowMoreFilters(false)
+  const onClickOutside = useCallback(() => setShowMoreFilters(false),[setShowMoreFilters])
 
   return (
     <Modal className={styles.container} onClickOutside={onClickOutside}>
-        <Name searcher={searcher}/>
-        <Region searcher={searcher}/>
-        <Timezone searcher={searcher}/>
-        <Continent searcher={searcher}/>
-        <Population searcher={searcher}/>
-        <Reset searcher={searcher}/>
+      <Name searcher={searcher}/>
+      <Region searcher={searcher}/>
+      <Timezone searcher={searcher}/>
+      <Continent searcher={searcher}/>
+      <Population searcher={searcher}/>
+      <Reset searcher={searcher}/>
     </Modal>
   )
 }
 
+export default memo(AdvancedFilter)

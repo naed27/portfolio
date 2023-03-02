@@ -1,9 +1,11 @@
 import styles from './Styles/Field.module.scss'
 import { Searcher } from '../../../../../Hooks/useSearcher';
 import { GlobalContext } from '../../../../../../Context/context';
-import { ChangeEvent, useCallback, useContext, useState } from 'react'
+import { ChangeEvent, memo, useCallback, useContext, useState } from 'react'
 
-export default function Population ({searcher}: {searcher: Searcher}) {
+export default memo(Population)
+
+function Population ({searcher}: {searcher: Searcher}) {
   
   const {query} = useContext(GlobalContext);
 

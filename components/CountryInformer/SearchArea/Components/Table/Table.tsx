@@ -6,11 +6,16 @@ import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'r
 import ScrollableDiv from '../../../../../utility/CustomScrollDiv/ScrollableDiv';
 import { sortByName, sortByPopulation } from '../../../Utility/functions';
 
+const ITEM_GAP = 20;
+const CARD_WIDTH = 300;
+const TABLE_PADDING = 10;
+
 export default function Table () {
 
   const { searchedCountries, sortMode } = useContext(GlobalContext);
   const [JSXTable,setJSXTable] = useState<JSX.Element[]>([]);
-  const wrapperRef = useRef<HTMLDivElement>(null)
+  const [itemsPerRow, setItemsPerRow] = useState(0);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const sortBy = useCallback((countries: Country [], sortMode?: SortMode)=>{
     if(sortMode === 'Name') return sortByName(countries)
@@ -26,9 +31,9 @@ export default function Table () {
     return invis
   },[])
 
-  const render = useCallback((pool:Country[])=>{
+  const render = useCallback((pool:Country[], itemsPerRow: number)=>{
     return [
-      ...pool.map((country,i)=>(
+      ...pool.splice(0,(itemsPerRow*5)).map((country,i)=>(
         <Card country={country} key={`tableItem_${i}_${country.area}`}/>
       )),
       ...invisibles
@@ -36,9 +41,22 @@ export default function Table () {
   },[invisibles])
 
   useEffect(()=>{
-    const table = render(pool)
+    const wender = () => {
+      if(!wrapperRef.current) return
+      const wrapper = wrapperRef.current
+      const allowableWidth = wrapper.offsetWidth-(TABLE_PADDING*2);
+      const cardsPerRow = getCardsPerRow({allowableWidth, cardWidth:CARD_WIDTH, itemGap:ITEM_GAP})
+      setItemsPerRow(cardsPerRow)
+    }
+    wender();
+    window.addEventListener('resize',wender)
+    return () => window.removeEventListener('resize',wender)
+  },[])
+
+  useEffect(()=>{
+    const table = render(pool,itemsPerRow)
     setJSXTable(table)
-  },[ pool, render,])
+  },[ pool, render, itemsPerRow])
 
   return (
     <div className={styles.section} >
@@ -50,4 +68,22 @@ export default function Table () {
     </div>
   )
 
+}
+
+
+const getCardsPerRow = ({
+  allowableWidth,
+  cardWidth,
+  itemGap,
+}:{
+  allowableWidth: number,
+  cardWidth: number,
+  itemGap: number,
+}) =>{
+  if(allowableWidth<CARD_WIDTH) return 1
+  const cardsPerRow = Math.floor(allowableWidth/cardWidth)
+  const gapped = (cardWidth*cardsPerRow) + (itemGap*(cardsPerRow-1))
+  if (gapped<=allowableWidth)
+    return cardsPerRow
+  return cardsPerRow-1
 }

@@ -1,9 +1,9 @@
 import styles from './Styles/Field.module.scss'
-import { ChangeEvent, useCallback, useContext, useState, useEffect } from 'react'
+import { ChangeEvent, useCallback, useContext, useState, useEffect, memo } from 'react'
 import { GlobalContext } from '../../../../../../Context/context';
 import { Searcher } from '../../../../../Hooks/useSearcher';
 
-function Name ({searcher}: {searcher: Searcher}) {
+const Name = ({searcher}: {searcher: Searcher}) => {
   
   const {query} = useContext(GlobalContext);
   const search = useCallback(searcher,[searcher]);
@@ -38,4 +38,4 @@ function Name ({searcher}: {searcher: Searcher}) {
   )
 }
 
-export default Name
+export default memo(Name)
