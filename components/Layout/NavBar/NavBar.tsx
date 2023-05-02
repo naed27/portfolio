@@ -1,5 +1,4 @@
 import styles from './NavBar.module.scss'
-import BurgerButton from '../Burger/Button/BurgerButton'
 import { motion } from 'framer-motion'
 import animation from './Animation'
 import { useContext } from 'react'
