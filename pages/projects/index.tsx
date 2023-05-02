@@ -1,5 +1,5 @@
-import Index from '../../components/Indexes/Projects/Index'
+import ProjectsMenu from '../../components/ProjectsMenu/ProjectsMenu'
 
 export default function ProjectsPage () {
-  return <Index/>
+  return <ProjectsMenu/>
 }

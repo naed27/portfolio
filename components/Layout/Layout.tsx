@@ -6,23 +6,20 @@ import { LayoutContext } from './Context/LayoutContext'
 
 export default function Layout ({children}:any){
 
-  const [displayBurgerMenu,setDisplayBurgerMenu] = useState(false);
-  const [address,setAddress] = useState('/');
+  const [showNavBar,setShowNavBar] = useState(true);
   const [absoluteNavBar, setAbsoluteNavBar] = useState(false);
   
   const value = {
-    address,
+    showNavBar,
     absoluteNavBar, 
-    displayBurgerMenu,
-    setAddress,
-    setAbsoluteNavBar,
-    setDisplayBurgerMenu,
+    setShowNavBar,
+    setAbsoluteNavBar
   }
 
   return (
     <div className={styles.container}>
       <LayoutContext.Provider value={value}>
-        <NavBar/>
+        {showNavBar&&<NavBar/>}
         <Body>
           {children}
         </Body>
