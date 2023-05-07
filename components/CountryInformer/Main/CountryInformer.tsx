@@ -7,6 +7,7 @@ import CountryInformerLogic from './CountryInformerLogic'
 import NoNetwork from './Components/No Network Page/NoNetwork'
 import LoadingPage from './Components/Loading Page/LoadingPage'
 import AdvancedFilter from '../SearchArea/Components/Filter/Components/AdvancedFilter/AdvancedFilter'
+import ViewCardArea from '../ViewerArea/ViewerArea'
 
 
 export default function CountryInformer () {
@@ -26,10 +27,13 @@ return (
     exit='exit'
   >
     <GlobalContext.Provider value={globalValues}>
-
       <SearchArea/>
-      {showMoreFilters && <AdvancedFilter/>}
 
+      <AnimatePresence exitBeforeEnter>
+        {selectedCountry && <ViewCardArea country={selectedCountry} key={`view_area`}/> }
+      </AnimatePresence>
+      
+      {showMoreFilters && <AdvancedFilter/>}
     </GlobalContext.Provider>
   </motion.div>
   

@@ -44,7 +44,6 @@ export default function CountryInformerLogic() {
       setSearchedCountries(countries);
       setCountries(countries)
       setIsLoading(false);
-      console.log(countries)
     }
     fetchAllCards();
   },[])

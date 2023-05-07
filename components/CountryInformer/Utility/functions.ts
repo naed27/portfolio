@@ -1,5 +1,16 @@
 import { Country } from "../Types/types";
 
+export const sameCountryArraySignature = (array1: Country[], array2: Country[]) => {
+  if(array1.length === 0 || array2.length === 0) return true
+
+  const lowestLength = ((array1.length<array2.length) ? array1.length : array2.length)-1;
+
+  const hasSameFirstElement = array1[0].area == array2[0].area;
+  const hasSameLastElement = array1[lowestLength].area == array2[lowestLength].area;
+
+  return hasSameFirstElement && hasSameLastElement;
+}
+ 
 export const stringifyQuantity = (quantity: number) => {
   if(isNaN(quantity)) return ''
 
@@ -184,4 +195,34 @@ export const hasSameLetters = (word1:string|undefined,word2:string|undefined) =>
   if(word1===undefined || word2===undefined)return false;
   if(word1.toLowerCase()===word2.toLowerCase())return true
   return false;
+}
+
+export const calcHeight = (element: HTMLElement) => {
+  const elementHeight = element.offsetHeight || element.clientHeight || 0
+  const elementCSS = window.getComputedStyle(element)
+  const elementMargins = parseFloat(elementCSS.marginTop || '0') + parseFloat(elementCSS.marginBottom || '0')
+  const elementTotalHeight = elementHeight + elementMargins
+  return elementTotalHeight
+}
+
+export const calcHeightOffset = (element: HTMLElement) =>{
+  const elementCSS = window.getComputedStyle(element)
+
+  return (
+    parseFloat(elementCSS.borderTop || '0') +
+    parseFloat(elementCSS.borderBottom || '0')+
+    parseFloat(elementCSS.paddingTop || '0') +
+    parseFloat(elementCSS.paddingBottom || '0')
+  )
+}
+
+export const calcWidthOffset = (element: HTMLElement) =>{
+  const elementCSS = window.getComputedStyle(element)
+
+  return (
+    parseFloat(elementCSS.borderRight || '0') +
+    parseFloat(elementCSS.borderLeft || '0')+
+    parseFloat(elementCSS.paddingRight || '0') +
+    parseFloat(elementCSS.paddingLeft || '0')
+  )
 }
