@@ -6,7 +6,7 @@ import Animation from "../../Animation/Animation";
 export default function Portal() {
 
   const openPageInNewTab = useCallback((gameName: string)=> {
-    window.open(`${window.location.origin}/games/${gameName}`, "_blank");
+    window.open(`${window.location.hostname}/games/${gameName}`, "_blank");
   },[])
 
   return (

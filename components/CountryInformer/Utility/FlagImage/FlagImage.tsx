@@ -34,14 +34,13 @@ export default function FlagImage ({ country, container, originalSize = false }:
 
   return (
     <div style={(originalSize) ? 
-      {position: 'relative'} : 
+      {position: 'relative', width: 'auto', height: 'auto', overflow: 'hidden'} : 
       {position: 'relative', width: dimensions.width, height: dimensions.height, overflow: 'hidden'}}>
       {'image'}
       <Image 
-        className={styles.image}
         src={`${country.flags.png}`} 
         alt={`${country.name.common}'s_flag`}
-        layout='fill'
+        layout={'fill'}
         objectFit={originalSize ? 'initial' : 'cover'}
         unoptimized
       />

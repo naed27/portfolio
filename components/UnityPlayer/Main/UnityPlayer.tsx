@@ -3,27 +3,20 @@ import { motion } from "framer-motion";
 import styles from "./UnityPlayer.module.scss";
 import Animation from "../../Animation/Animation";
 import { LayoutContext } from "../../Layout/Context/LayoutContext";
-import { Unity, useUnityContext } from "react-unity-webgl";
 
 interface Props {
-  dataUrl: string,
-  codeUrl: string,
-  loaderUrl: string,
-  frameworkUrl: string,
+  indexURL: string
 }
 
 const UNITY_PLAYER_ASPECT_RATIO = 5/3;
 
-export default function UnityPlayer ({loaderUrl, dataUrl, frameworkUrl, codeUrl}: Props) {
+export default function UnityPlayer ({indexURL}: Props) {
 
   const { setShowNavBar }  = useContext(LayoutContext);
   const containerRef = useRef<HTMLDivElement|null>(null);
   const [canvasHeight,setCanvasHeight] = useState(0);
   const [loadCanvas,setLoadCanvas] = useState(false);
   const [loadLock,setLoadLock] = useState(false);
-
-  const { unityProvider, isLoaded, loadingProgression }
-     = useUnityContext({ dataUrl, codeUrl, loaderUrl, frameworkUrl });
   
   useEffect(()=>setShowNavBar(false), [setShowNavBar])
 
@@ -68,19 +61,33 @@ export default function UnityPlayer ({loaderUrl, dataUrl, frameworkUrl, codeUrl}
         exit="exit"
         ref={containerRef}
       >
-        {!isLoaded && (
-          <p>Loading Application... {Math.round(loadingProgression * 100)}%</p>
-        )}
-
-        <Unity
-          className={styles.canvas}
-          unityProvider={unityProvider}
-          style={{ 
-              visibility: isLoaded ? "visible" : "hidden",
-              height: loadCanvas ? `${canvasHeight}px`:`0px`
+        
+        <iframe 
+          allowFullScreen={true}
+          allowTransparency={true}
+          allow={
+            `autoplay; 
+            fullscreen *; 
+            geolocation; 
+            microphone; 
+            camera; 
+            midi; 
+            monetization; 
+            xr-spatial-tracking; gamepad; 
+            gyroscope; 
+            accelerometer; 
+            xr; 
+            cross-origin-isolated`
+          }
+          className={styles.iframe}
+          src={indexURL} 
+          title={`Phantasmora`} 
+          style={{
+            
+            height: loadCanvas ? `${canvasHeight}px`:`0px`
           }}
         />
-        
+              
         {loadLock&&<div>{`Your current screen size can't run the game`}</div>}
 
       </motion.div>
