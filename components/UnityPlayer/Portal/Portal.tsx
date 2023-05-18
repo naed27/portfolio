@@ -6,7 +6,7 @@ import Animation from "../../Animation/Animation";
 export default function Portal() {
 
   const openPageInNewTab = useCallback((gameName: string)=> {
-    window.open(`${window.location.hostname}/games/${gameName}`, "_blank");
+    window.open(`${window.location.pathname}/${gameName}`, "_blank");
   },[])
 
   return (
@@ -17,9 +17,7 @@ export default function Portal() {
       animate="final"
       exit="exit"
     >
-    
-        <div className={styles.item} onClick={()=>openPageInNewTab('phantasmora')}> PHANTASMORA </div>
-
+      <div className={styles.item} onClick={()=>openPageInNewTab('phantasmora')}> PHANTASMORA </div>
     </motion.div>
   );
 }
