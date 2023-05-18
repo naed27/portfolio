@@ -15,7 +15,7 @@ function EpubImage ({ node } : Props) {
   if(tagName==='image')
     return ( <image xlinkHref={url} {...attributes}/> )
   
-  return ( <img {...attributes} /> )
+  return ( <img alt={'book_image'} {...attributes} /> )
 }
 
 export default EpubImage

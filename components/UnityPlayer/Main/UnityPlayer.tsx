@@ -64,7 +64,6 @@ export default function UnityPlayer ({indexURL}: Props) {
         
         <iframe 
           allowFullScreen={true}
-          allowTransparency={true}
           allow={
             `autoplay; 
             fullscreen *; 
