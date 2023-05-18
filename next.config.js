@@ -12,8 +12,4 @@ module.exports = {
 
     return config;
   },
-  sassOptions: {
-    fiber: false,
-    includePaths: [path.join(__dirname, 'styles')],
-  },
 }
