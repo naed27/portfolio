@@ -36,7 +36,7 @@ const InfoSheet = ({country}:Props) => {
         <InfoCard title={`Region`} value={info.region}/>
         <InfoCard title={`Languages`} value={info.languages}/>
         <InfoCard title={`Currency`} value={info.currency}/>
-        <InfoCard title={`Demonym(♂️)`} value={info.demonym_male}/>
+        <InfoCard title={`Demonym`} value={info.demonym_male}/>
         <InfoCard title={`Timezones`} value={info.timezones}/>
       </div>
     </div>
