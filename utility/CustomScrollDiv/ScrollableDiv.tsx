@@ -41,6 +41,8 @@ interface Props{
     vertical?: RefObject<HTMLDivElement>,
     horizontal?: RefObject<HTMLDivElement>
   },
+  animationY?: {}
+  animationX?: {}
   onClick?:() => any,
   onMouseEnter?:() => any,
   onMouseLeave?:() => any,
@@ -63,7 +65,9 @@ const ScrollableDiv = ({
   onEndScrollMouseClick = () => {},
   onScroll = () => {},
   customRef: divRef,
-  thumbRef = {vertical: undefined, horizontal: undefined}
+  thumbRef = {vertical: undefined, horizontal: undefined},
+  animationY = {},
+  animationX = {},
 }:Props) => {
   
   const scroll = useMemo(() => {
@@ -314,6 +318,7 @@ const ScrollableDiv = ({
       
       <ScrollContext.Provider value={contextValues}>
         <VerticalScroll
+          animation={animationY}
           thumbRef={verticalThumbRef}
           onMouseDownCapture={()=>onStartScrollMouseClick()}
           onMouseUpCapture={()=>onEndScrollMouseClick()}
@@ -321,6 +326,7 @@ const ScrollableDiv = ({
         />
 
         <HorizontalScroll 
+          animation={animationX}
           thumbRef={horizontalThumbRef}
           onMouseDown={(e)=>hScrollMouseDownHandler(e)}
         />

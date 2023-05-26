@@ -1,13 +1,16 @@
 .container{
     position: relative;
     height: auto;
+    max-height: 428px;
     flex-basis: 300px;
-    flex-grow: 1;
-    border: 1px solid gray;
+    width: auto;
     display: flex;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
+    justify-content: center;
     flex-direction: column;
     font-family: 'Yu Gothic UI';
     letter-spacing: 1px;
     gap: 5px;
+    overflow-y: auto;
+    user-select: text;
 }

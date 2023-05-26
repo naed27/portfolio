@@ -22,6 +22,7 @@ export default function ProjectsMenu () {
       <Header label='Projects'/>
       <Body>
         <Chest label='Yu-Gi-Oh Card Searcher' href='/projects/card-searcher' />
+        <Chest label='Country Informer' href='/projects/country-informer' />
         <Chest label='Audio Visualizer' href='/projects/audio-visualizer' />
       </Body>
       <Footer/>

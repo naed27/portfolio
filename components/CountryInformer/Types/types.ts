@@ -14,6 +14,7 @@ export interface Country{
   capital: string[],
   altSpellings: string[],
   region: string,
+  subregion: string,
   languages: Languages,
   translations: Translations,
   latlng: LatitudLongitude,

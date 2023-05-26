@@ -2,9 +2,14 @@
     position: relative;
     width: 100%;
     max-width: 300px;
-    height: auto;
+    height: 250px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid gray;
+    border: 0px;
+}
+
+.hidden{
+    position: absolute;
+    opacity: 0;
 }

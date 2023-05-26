@@ -1,8 +1,10 @@
+export const sortAlphabetically = (arr: string[]) => arr.sort((a, b) => a.localeCompare(b));
 
-export const capitalizeWords = (string: string) => {
-  return string.replace(/\b\w/g, (match) => match.toUpperCase());
+export const reverseSortAlphabetically = (arr: string[]) => {
+  return arr.sort((a, b) => b.localeCompare(a));
 }
 
+export const capitalizeWords = (string: string) => string.replace(/\b\w/g, (match) => match.toUpperCase())
 
 export const objectKeyValuesToArray = (obj:{[key:string]: string}) =>{
   const arr = [];
@@ -12,9 +14,7 @@ export const objectKeyValuesToArray = (obj:{[key:string]: string}) =>{
   return arr;
 }
 
-export const arrayValuesToString = <T>(arr: T[]) => {
-  return arr.join(', ');
-}
+export const arrayValuesToString = <T>(arr: T[]) => arr.join(', ')
 
 export const randomNumberBetween = ({min=0, max}: {min?: number, max: number}) => {  
   return Math.floor(

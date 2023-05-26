@@ -1,8 +1,10 @@
 import styles from './ScrollStyles.module.scss';
-import { useContext,useCallback, RefObject, useEffect } from 'react';
+import { useContext,useCallback, RefObject } from 'react';
 import { ScrollContext } from './Context'
+import { motion } from 'framer-motion'
 
 interface Props{
+  animation?: {} 
   thumbRef: RefObject<HTMLDivElement>,
   onMouseDown?: (e: any) => any,
   onMouseUp?: (e: any) => any,
@@ -15,7 +17,8 @@ export default function VerticalScroll ({
   onMouseUp = () => null,
   onMouseDownCapture = () => null,
   onMouseUpCapture = () => null,
-  thumbRef
+  thumbRef,
+  animation = {}
 }:Props) {
 
   const mouseDownHandler = useCallback((event: React.MouseEvent<HTMLElement>)=>{
@@ -43,7 +46,11 @@ export default function VerticalScroll ({
       &&!isVerticalDragging )return null
 
   return (
-    <div 
+    <motion.div 
+      variants={animation}
+      initial='initial'
+      animate='final'
+      exit='exit'
       className={styles.verticalScrollWrapper}
       style={{width:`${scroll.Y.thumbThickness}px`}} 
     >
@@ -75,6 +82,6 @@ export default function VerticalScroll ({
         ></div>
         <div className={styles.verticalScrollGlassCover}></div>
       </div>
-    </div>
+    </motion.div>
   )
 }

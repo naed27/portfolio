@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { memo, useCallback, useMemo, useRef, useState } from 'react';
-import useOnClickOutside from '../../../../../../../../hooks/useOnClickOutside';
-import ScrollableDiv from '../../../../../../../../utility/CustomScrollDiv/ScrollableDiv';
-import { capitalizeProperly, isString } from '../../../../../../Utility/functions';
-import styles from './Styles/Field.module.scss'
+import useOnClickOutside from '../../hooks/useOnClickOutside';
+import ScrollableDiv from '../CustomScrollDiv/ScrollableDiv';
+import { capitalizeProperly, isString } from '../../components/CountryInformer/Utility/functions';
+import styles from './Menu.module.scss'
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 interface MenuProps {

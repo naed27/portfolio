@@ -1,8 +1,10 @@
 import styles from './ScrollStyles.module.scss';
 import { useContext, useCallback, RefObject,  } from 'react';
 import { ScrollContext } from './Context'
+import { motion } from 'framer-motion'
 
 interface Props{
+  animation?: {} 
   thumbRef: RefObject<HTMLDivElement>,
   onMouseDown?: (e: any) => any;
   onMouseUp?: (e: any) => any;
@@ -15,7 +17,8 @@ export default function HorizontalScroll ({
   onMouseUp = () => null,
   onMouseDownCapture = () => null,
   onMouseUpCapture = () => null,
-  thumbRef
+  thumbRef,
+  animation = {}
 }:Props) {
 
   const mouseDownHandler = useCallback((event: React.MouseEvent<HTMLElement>)=>{
@@ -40,7 +43,11 @@ export default function HorizontalScroll ({
       {showHorizontalScrollBar&&(
         ( scroll.X.onHoverOnly===false||
           scroll.X.onHoverOnly&&isHoveringOnContainer)&&(
-          <div 
+          <motion.div 
+            variants={animation}
+            initial='initial'
+            animate='final'
+            exit='exit'
             className={styles.horizontalScrollWrapper}
             style={{height:`${scroll.X.thumbThickness}px`}} 
           >
@@ -72,7 +79,7 @@ export default function HorizontalScroll ({
               ></div>
               <div className={styles.horizontalScrollGlassCover}></div>
             </div>
-          </div>
+          </motion.div>
         )
       )}
     </>
