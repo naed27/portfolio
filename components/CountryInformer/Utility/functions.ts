@@ -226,3 +226,10 @@ export const calcWidthOffset = (element: HTMLElement) =>{
     parseFloat(elementCSS.paddingLeft || '0')
   )
 }
+
+export const getTopPadding = (element: HTMLElement) =>
+  parseFloat(window.getComputedStyle(element).paddingTop || '0')
+
+  
+export const getBottomPadding = (element: HTMLElement) =>
+  parseFloat(window.getComputedStyle(element).paddingBottom || '0')

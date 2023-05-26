@@ -33,21 +33,27 @@ interface Props{
   children: React.ReactNode;
   className?: string;
   dependencies?:any[]|null,
+  trackDependencies?:any[]|null,
   scrollY?:ScrollProps,
   scrollX?:ScrollProps,
   customRef?: RefObject<HTMLDivElement>,
-  onClick?:() => any
-  onMouseEnter?:() => any
-  onMouseLeave?:() => any
-  onStartScrollMouseClick?:() => any 
-  onEndScrollMouseClick?:() => any
-  onScroll?:() => any
+  thumbRef?:{
+    vertical?: RefObject<HTMLDivElement>,
+    horizontal?: RefObject<HTMLDivElement>
+  },
+  onClick?:() => any,
+  onMouseEnter?:() => any,
+  onMouseLeave?:() => any,
+  onStartScrollMouseClick?:() => any,
+  onEndScrollMouseClick?:() => any,
+  onScroll?:() => any,
 }
 
 const ScrollableDiv = ({
   children,
   className = '',
   dependencies = null,
+  trackDependencies,
   scrollY = DEFAULT_SCROLL_VALUES.XY,
   scrollX = DEFAULT_SCROLL_VALUES.XY,
   onClick = () => {},
@@ -57,6 +63,7 @@ const ScrollableDiv = ({
   onEndScrollMouseClick = () => {},
   onScroll = () => {},
   customRef: divRef,
+  thumbRef = {vertical: undefined, horizontal: undefined}
 }:Props) => {
   
   const scroll = useMemo(() => {
@@ -65,8 +72,12 @@ const ScrollableDiv = ({
     return {X,Y};
   },[scrollY,scrollX]);
   
-  const defaultRef = useRef<HTMLDivElement>(null);
-  const scrollableDivRef = useMemo(()=>divRef || defaultRef,[divRef])
+  const defaultContainerRef = useRef<HTMLDivElement>(null);
+  const defaultVThumbRef = useRef<HTMLDivElement>(null);
+  const defaultHThumbRef = useRef<HTMLDivElement>(null);
+  const containerRef = useMemo(()=> divRef || defaultContainerRef, [divRef])
+  const verticalThumbRef = useMemo(()=> thumbRef.vertical || defaultVThumbRef, [thumbRef])
+  const horizontalThumbRef = useMemo(()=> thumbRef.horizontal || defaultHThumbRef, [thumbRef])
 
   const [isVerticalDragging, setVerticalDragging] = useState(false);
   const [verticalScrollThumbStart, setVerticalScrollThumbStart] = useState(0);
@@ -85,7 +96,7 @@ const ScrollableDiv = ({
   const [isHoveringOnContainer,setHoveringOnContainer] = useState(false);
 
   const verticalScrollProps:VerticalScrollProps = useMemo(()=>({
-    scroll,scrollableDivRef,
+    scroll,scrollableDivRef: containerRef,
     showHorizontalScrollBar,
     verticalScrollThumbLength,
     setVerticalDragging,
@@ -94,7 +105,7 @@ const ScrollableDiv = ({
     setVerticalScrollBasePoint,
     setVerticalScrollThumbLength,
   }),[
-    scroll,scrollableDivRef,
+    scroll,containerRef,
     showHorizontalScrollBar,
     verticalScrollThumbLength,
     setVerticalDragging,
@@ -105,7 +116,7 @@ const ScrollableDiv = ({
   ]);
 
   const horizontalScrollProps:HorizontalScrollProps = useMemo(()=>({
-    scroll,scrollableDivRef,
+    scroll,scrollableDivRef: containerRef,
     showVerticalScrollBar,
     horizontalScrollThumbLength,
     setHorizontalDragging,
@@ -114,7 +125,7 @@ const ScrollableDiv = ({
     setHorizontalScrollBasePoint,
     setHorizontalScrollThumbLength,
   }),[
-    scroll,scrollableDivRef,
+    scroll,containerRef,
     showVerticalScrollBar,
     horizontalScrollThumbLength,
     setHorizontalDragging,
@@ -157,9 +168,9 @@ const ScrollableDiv = ({
 
  
   const handleScroll = useCallback((position:string|undefined = 'normal') => {
-    if (scrollableDivRef === null) return
-    if (!scrollableDivRef.current) return;
-    const scrollableDiv = scrollableDivRef.current;
+    if (containerRef === null) return
+    if (!containerRef.current) return;
+    const scrollableDiv = containerRef.current;
     if(position === 'reset')scrollableDiv.scrollTo(0,0)
 
     const { scrollTop, scrollHeight, offsetHeight } = scrollableDiv;
@@ -168,7 +179,7 @@ const ScrollableDiv = ({
     const newLeft = (scrollLeft / scrollWidth) * offsetWidth;
     setVerticalScrollThumbStart(newTop);
     setHorizontalScrollThumbStart(newLeft);
-  }, [ scrollableDivRef ]);
+  }, [ containerRef ]);
 
   const handleDocumentMouseMove = useCallback((event:any) => {
     if (!isVerticalDragging && !isHorizontalDragging) return
@@ -193,19 +204,28 @@ const ScrollableDiv = ({
     event.preventDefault();
     
     if (isVerticalDragging){
+      verticalThumbRef.current&&verticalThumbRef.current.setAttribute('data-mousedown', 'false');
       !isHoveringOnContainer&&onMouseLeave()
       return setVerticalDragging(false)
     }
     if (isHorizontalDragging){
+      horizontalThumbRef.current&&horizontalThumbRef.current.setAttribute('data-mousedown', 'false');
       !isHoveringOnContainer&&onMouseLeave()
       return setHorizontalDragging(false)
     }
-  },[isVerticalDragging, isHorizontalDragging,onMouseLeave,isHoveringOnContainer]);
+  },[
+    onMouseLeave,
+    verticalThumbRef, 
+    isVerticalDragging, 
+    horizontalThumbRef,
+    isHorizontalDragging,
+    isHoveringOnContainer, 
+  ]);
 
 
   useEffect(() => {
-    if (!scrollableDivRef.current) return;
-    const scrollableDiv = scrollableDivRef.current;
+    if (!containerRef.current) return;
+    const scrollableDiv = containerRef.current;
     const calculateScrolls = ()=>{
       calcVerticalThumbSize();
       calcHorizontalThumbSize();
@@ -224,7 +244,7 @@ const ScrollableDiv = ({
     handleScroll,
     calcVerticalThumbSize,
     calcHorizontalThumbSize,
-    scrollableDivRef,
+    containerRef,
   ]);
 
   useEffect(()=>{
@@ -232,6 +252,13 @@ const ScrollableDiv = ({
   },[
     dependencies,
     handleScroll
+  ])
+
+  useEffect(()=>{
+    handleScroll();
+  },[
+    trackDependencies,
+    handleScroll,
   ])
 
   useEffect(() => {
@@ -270,7 +297,6 @@ const ScrollableDiv = ({
     if(!isVerticalDragging&&!isHorizontalDragging){
       onMouseLeave()
     }
-
   }, [isHoveringOnContainer, onMouseLeave, isVerticalDragging,isHorizontalDragging]);
 
   return (
@@ -282,18 +308,20 @@ const ScrollableDiv = ({
       onClick={onClick}
     >
 
-      <div className={className} ref={scrollableDivRef} style={{margin:`0`, position:`relative`}}>
+      <div className={className} ref={containerRef} style={{margin:`0`, position:`relative`}}>
         {children}
       </div>
       
       <ScrollContext.Provider value={contextValues}>
-        <VerticalScroll 
+        <VerticalScroll
+          thumbRef={verticalThumbRef}
           onMouseDownCapture={()=>onStartScrollMouseClick()}
           onMouseUpCapture={()=>onEndScrollMouseClick()}
           onMouseDown={(e)=>vScrollMouseDownHandler(e)}
         />
 
         <HorizontalScroll 
+          thumbRef={horizontalThumbRef}
           onMouseDown={(e)=>hScrollMouseDownHandler(e)}
         />
       </ScrollContext.Provider>

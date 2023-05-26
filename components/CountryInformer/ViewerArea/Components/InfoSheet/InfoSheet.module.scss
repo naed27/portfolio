@@ -1,0 +1,13 @@
+.container{
+    position: relative;
+    height: auto;
+    flex-basis: 300px;
+    flex-grow: 1;
+    border: 1px solid gray;
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+    font-family: 'Yu Gothic UI';
+    letter-spacing: 1px;
+    gap: 5px;
+}

@@ -2,15 +2,17 @@ import Card from './Card';
 import styles from './Table.module.scss'
 import { Country, SortMode } from '../../../Types/types';
 import { GlobalContext } from '../../../Context/context';
-import LazyLoader from '../../../../../utility/LazyLoader/LazyLoader';
-import { sortByName, sortByPopulation } from '../../../Utility/functions';
+import LazyLoaderVertical from '../../../../../utility/LazyLoader/LazyLoaderVertical';
+import { getBottomPadding, getTopPadding, sortByName, sortByPopulation } from '../../../Utility/functions';
 import ScrollableDiv from '../../../../../utility/CustomScrollDiv/ScrollableDiv';
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { delay } from '../../../../../utility/functions';
 
 const ITEM_GAP = 20;
 const CARD_WIDTH = 300;
-const ROW_DISPLAY_MULTIPLIER = 8; // page will break if this goes below 8 (due to observer'S root margin)
-const MAX_LAZYLOAD_MULTIPLIER = 4;
+const CARD_HEIGHT = 140;
+const ROW_DISPLAY_MULTIPLIER = 8; // page will break if this goes below 8 (due to observer's root margin)
+const MAX_NEW_ITEMS_TO_SHOW_MULTIPLIER = 4;
 const WRAPPER_WIDTH_PADDING = 10;
 
 export default function Table () {
@@ -18,7 +20,10 @@ export default function Table () {
   const { searchedCountries, sortMode } = useContext(GlobalContext);
   const scrollDivRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const observerRef = useRef<HTMLDivElement>(null);
+  const lazyLoaderRef = useRef<HTMLDivElement>(null);
+  const verticalThumbRef = useRef<HTMLDivElement>(null);
+  const topObserverRef = useRef<HTMLDivElement>(null);
+  const bottomObserverRef = useRef<HTMLDivElement>(null);
   const [itemsPerRow, setItemsPerRow] = useState(0);
   const [{startIndex, sliceOffset}, setSliceIndex] = useState({startIndex:0, sliceOffset:0});
 
@@ -35,42 +40,29 @@ export default function Table () {
   const invisibleChildren = useMemo(() => 
     Array.from({length:4},(_, i) => <div className={styles.invisible} key={`invChild_${i}`}/>), []);
 
-  const topObserverCallback = useCallback(()=>{
-    setSliceIndex(({startIndex}) => {
-      const futureIndex = startIndex - (itemsPerRow*MAX_LAZYLOAD_MULTIPLIER)
-      const newIndex = futureIndex < 0 ? 0 : futureIndex
-      return {startIndex: newIndex, sliceOffset:0}
+  const scrollTrackUpdater = useCallback(({ newIndex, itemsPerRow }:{ newIndex: number, itemsPerRow: number })=>{
+    if(lazyLoaderRef.current && topObserverRef.current && bottomObserverRef.current){
+      const previousContainerHeight = lazyLoaderRef.current.offsetHeight;
+      const rowsGone = newIndex/itemsPerRow
+      const displayHeight = ROW_DISPLAY_MULTIPLIER*(CARD_HEIGHT+ITEM_GAP)+20;
+      const newTopPadding = (rowsGone*(CARD_HEIGHT+ITEM_GAP)); 
+      topObserverRef.current.style.height = `${newTopPadding}px`;
+      const newBottomPaddingEstimation = (previousContainerHeight)-(displayHeight+newTopPadding);
+      const newBottomPadding = newBottomPaddingEstimation < 0 ? 0: newBottomPaddingEstimation;
+      bottomObserverRef.current.style.height = `${newBottomPadding}px`;
+    }
+  },[])
+
+  const observerCallback = useCallback(async ()=>{
+    setSliceIndex(() => {
+      const currentSrollPos = scrollDivRef.current ? scrollDivRef.current.scrollTop: 0;
+      const observerFrame = (currentSrollPos <= 100) ? currentSrollPos : currentSrollPos - 100;
+      const cardHeight = CARD_HEIGHT + ITEM_GAP;
+      const newIndex = Math.floor(observerFrame/cardHeight)*itemsPerRow;
+      scrollTrackUpdater({newIndex, itemsPerRow})
+      return {startIndex: newIndex, sliceOffset: 0}
     })
-  },[itemsPerRow])
-
-  const bottomObserverCallback = useCallback(()=>{
-    setSliceIndex(({startIndex}) => {
-
-      let newIndex = 0;
-      let offset = 0;
-
-      const lengthOfLazyLoad = (itemsPerRow*MAX_LAZYLOAD_MULTIPLIER)
-      const lengthOfDislayedItems = (itemsPerRow*ROW_DISPLAY_MULTIPLIER)
-      
-      const maximumCacheSize = pool.length
-      const currentCacheSize = startIndex + lengthOfDislayedItems
-      const remainingCache = maximumCacheSize - currentCacheSize
-      const willExceed = (remainingCache < lengthOfLazyLoad)
-
-      if(!willExceed){
-        const futureIndex = startIndex + lengthOfLazyLoad;
-        newIndex = futureIndex < 0 ? 0 : futureIndex
-      }else{
-        const lazyLoadMultiplier = Math.floor(remainingCache/itemsPerRow)
-        const newLengthOfLazyLoad = itemsPerRow * lazyLoadMultiplier
-        const futureIndex = startIndex + newLengthOfLazyLoad;
-        newIndex = futureIndex < 0 ? 0 : futureIndex
-        offset = remainingCache - newLengthOfLazyLoad
-      }
-
-      return {startIndex: newIndex, sliceOffset: offset}
-    })
-  },[itemsPerRow,pool])
+  },[scrollTrackUpdater, itemsPerRow])
 
   // ---------------- Count items per row
   useEffect(()=>{
@@ -86,30 +78,37 @@ export default function Table () {
     return () => window.removeEventListener('resize',determineCardCountPerRow)
   },[])
 
-  useEffect(() => setSliceIndex(() => ({startIndex:0, sliceOffset: 0})), [pool])
+  useEffect(() => {
+    setSliceIndex(() => ({startIndex:0, sliceOffset: 0}))
+    if(!topObserverRef.current || !bottomObserverRef.current) return
+    topObserverRef.current.style.height = `0px`;
+    bottomObserverRef.current.style.height = `0px`;
+  }, [pool, itemsPerRow])
 
   const scrollResetDependencies = useMemo(()=>[ pool, itemsPerRow ] ,[itemsPerRow, pool])
+  const scrollTrackDependencies = useMemo(()=>[ startIndex ] ,[startIndex])
 
   return (
     <div className={styles.section}>
       <ScrollableDiv 
         customRef={scrollDivRef} 
-        scrollY={{thumbOpacity:0}}
+        scrollY={{thumbOpacity:1}}
         className={styles.container} 
-        dependencies={scrollResetDependencies}>
-
-        <LazyLoader 
-          customRef={observerRef}
+        thumbRef={{vertical: verticalThumbRef}}
+        dependencies={scrollResetDependencies}
+        trackDependencies={scrollTrackDependencies}>
+        <LazyLoaderVertical 
+          customRef={lazyLoaderRef}
           observeRoot={scrollDivRef.current}
-          topObserverCallback={topObserverCallback}
-          bottomObserverCallback={bottomObserverCallback}>
-
+          verticalThumbRef={verticalThumbRef}
+          topObserverCallback={observerCallback}
+          bottomObserverCallback={observerCallback}
+          observerRefs={{ top:topObserverRef, bottom:bottomObserverRef }}>
           <div ref={wrapperRef} className={styles.wrapper}>
             {pool.slice(startIndex, startIndex+(itemsPerRow*ROW_DISPLAY_MULTIPLIER)+sliceOffset)}
             {invisibleChildren}
           </div>
-
-        </LazyLoader>
+        </LazyLoaderVertical>
       </ScrollableDiv>   
     </div>
   )

@@ -67,7 +67,10 @@ interface Translations{
 type LatitudLongitude = number[]
 
 interface Demonyms {
-  [key: string]: string
+  [key: string]: {
+    f: string,
+    m: string
+  }
 }
 
 interface Maps{

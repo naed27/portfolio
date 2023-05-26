@@ -1,12 +1,13 @@
 import styles from './ScrollStyles.module.scss';
-import { useContext,useCallback } from 'react';
+import { useContext,useCallback, RefObject, useEffect } from 'react';
 import { ScrollContext } from './Context'
 
 interface Props{
-  onMouseDown?: (e: any) => any;
-  onMouseUp?: (e: any) => any;
-  onMouseDownCapture?: (e: any) => any;
-  onMouseUpCapture?: (e: any) => any;
+  thumbRef: RefObject<HTMLDivElement>,
+  onMouseDown?: (e: any) => any,
+  onMouseUp?: (e: any) => any,
+  onMouseDownCapture?: (e: any) => any,
+  onMouseUpCapture?: (e: any) => any,
 }
 
 export default function VerticalScroll ({
@@ -14,9 +15,14 @@ export default function VerticalScroll ({
   onMouseUp = () => null,
   onMouseDownCapture = () => null,
   onMouseUpCapture = () => null,
+  thumbRef
 }:Props) {
 
-  const mouseDownHandler = useCallback(onMouseDown,[onMouseDown])
+  const mouseDownHandler = useCallback((event: React.MouseEvent<HTMLElement>)=>{
+    thumbRef.current&&thumbRef.current.setAttribute('data-mousedown', 'true');
+    onMouseDown(event)
+  },[onMouseDown, thumbRef])
+
   const mouseUpHandler = useCallback(onMouseUp,[onMouseUp])
 
   const {
@@ -56,6 +62,8 @@ export default function VerticalScroll ({
         }} 
         >
         <div 
+          data-mousedown = {`false`}
+          ref={thumbRef}
           className={styles.verticalScrollThumb} 
           style={{
             height:verticalScrollThumbLength,

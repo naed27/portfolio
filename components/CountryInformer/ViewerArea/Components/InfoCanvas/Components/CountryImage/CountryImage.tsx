@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { Country } from '../../../Types/types'
-import FlagImage from '../../../Utility/FlagImage/FlagImage'
+import { Country } from '../../../../../Types/types'
+import FlagImage from '../../../../../Utility/FlagImage/FlagImage'
 import styles from './CountryImage.module.scss'
 
 

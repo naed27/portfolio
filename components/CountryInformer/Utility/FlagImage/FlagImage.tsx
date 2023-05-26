@@ -32,16 +32,16 @@ export default function FlagImage ({ country, container, originalSize = false }:
 
   if(dimensions.width == -1) return null
 
+  if(originalSize)
+    return <img src={`${country.flags.png}`}  alt={`${country.name.common}'s_flag`}/>
+
   return (
-    <div style={(originalSize) ? 
-      {position: 'relative', width: 'auto', height: 'auto', overflow: 'hidden'} : 
-      {position: 'relative', width: dimensions.width, height: dimensions.height, overflow: 'hidden'}}>
-      {'image'}
+    <div style={{position: 'relative', width: dimensions.width, height: dimensions.height, overflow: 'hidden'}}>
       <Image 
         src={`${country.flags.png}`} 
         alt={`${country.name.common}'s_flag`}
         layout={'fill'}
-        objectFit={originalSize ? 'initial' : 'cover'}
+        objectFit={'cover'}
         unoptimized
       />
   </div>

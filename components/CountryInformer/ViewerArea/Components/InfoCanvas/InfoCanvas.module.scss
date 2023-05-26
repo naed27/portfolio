@@ -1,10 +1,14 @@
 .container{
     position: relative;
     height: auto;
-    width: 100%;
+    flex-basis: 300px;
+    flex-grow: 1;
     border: 1px solid gray;
+    padding: 40px;
+
     display: flex;
     align-items: center;
-    padding: 20px;
     justify-content: space-between;
+    flex-direction: column;
+    gap: 20px;
 }

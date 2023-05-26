@@ -1,4 +1,22 @@
-export function randomNumberBetween({min=0, max}: {min?: number, max: number}) {  
+
+export const capitalizeWords = (string: string) => {
+  return string.replace(/\b\w/g, (match) => match.toUpperCase());
+}
+
+
+export const objectKeyValuesToArray = (obj:{[key:string]: string}) =>{
+  const arr = [];
+  for (const [key, value] of Object.entries(obj)) {
+    arr.push(value);
+  }
+  return arr;
+}
+
+export const arrayValuesToString = <T>(arr: T[]) => {
+  return arr.join(', ');
+}
+
+export const randomNumberBetween = ({min=0, max}: {min?: number, max: number}) => {  
   return Math.floor(
     Math.random() * (max - min) + min
   )
