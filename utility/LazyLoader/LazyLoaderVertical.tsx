@@ -69,7 +69,7 @@ const LazyLoaderVertical = ({
             if(previousY!=currentY){
               callback()
               counter ++;
-              await delay(300);
+              await delay(1000);
             }else{
               counter = 0
             }
