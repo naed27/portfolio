@@ -10,12 +10,12 @@ interface Props{
 }
 
 const InfoSheet = ({country}:Props) => {
-
+  console.log(country)
   const info = useMemo(()=>{
     return {
       name:  country.name.official,
-      capital: country.capital[0],
-      region: country.subregion,
+      capital: country.capital ? country.capital[0] : 'N/A',
+      region: country.subregion ? country.subregion : country.region,
       timezones: sortAlphabetically(parseTimezones(country)).join(', '),
       currency: parseCurrency(country),
       languages: parseLanguage(country),
@@ -50,11 +50,11 @@ export default InfoSheet;
 
 const parseLanguage = (country: Country) => objectKeyValuesToArray(country.languages).join(', ')
 
-const parseCurrency = (country: Country) => extractCurrency(country.currencies).join(', ')
+const parseCurrency = (country: Country) => country.currencies ? extractCurrency(country.currencies).join(', ') : 'N/A'
 
-const parseDemonymsMale = (country: Country) => extractDemonyms(country.demonyms, 'm')[0]
+const parseDemonymsMale = (country: Country) => country.demonyms ? extractDemonyms(country.demonyms, 'm')[0] : 'N/A'
 
-const parseDemonymsFemale = (country: Country) => extractDemonyms(country.demonyms, 'f')[0]
+const parseDemonymsFemale = (country: Country) => country.demonyms ? extractDemonyms(country.demonyms, 'f')[0] : 'N/A'
 
 const parseIndependence = (country: Country) => country.independent ? 'Yes' : 'No'
 

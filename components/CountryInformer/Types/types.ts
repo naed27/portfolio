@@ -2,25 +2,25 @@ import { Dispatch, SetStateAction } from 'react'
 
 export interface Country{
   name: Name,
-  tld: string[],
+  tld?: string[],
   cca2: string,
   ccn3: string,
   cca3: string,
   independent: boolean,
   status: string,
   unMember: boolean,
-  currencies: Currencies,
+  currencies?: Currencies,
   idd: IDD,
-  capital: string[],
+  capital?: string[],
   altSpellings: string[],
   region: string,
-  subregion: string,
+  subregion?: string,
   languages: Languages,
   translations: Translations,
-  latlng: LatitudLongitude,
-  landlocked: boolean,
-  area: number,
-  demonyms: Demonyms,
+  latlng?: LatitudLongitude,
+  landlocked?: boolean,
+  area?: number,
+  demonyms?: Demonyms,
   flag: string,
   maps: Maps,
   population: number,
@@ -28,9 +28,9 @@ export interface Country{
   timezones: string[],
   continents: string[],
   flags: Flags,
-  coatOfArms: CoatOfArms,
-  startOfWeek: string,
-  capitalInfo: { latlang: string[] }
+  coatOfArms?: CoatOfArms,
+  startOfWeek?: string,
+  capitalInfo?: { latlang: string[] }
 }
 
 
