@@ -1,3 +1,7 @@
+export const getCoordinates = (element: HTMLElement) => {
+  const {x,y} = element.getBoundingClientRect()
+  return ({x,y})
+}
 export const sortAlphabetically = (arr: string[]) => arr.sort((a, b) => a.localeCompare(b));
 
 export const reverseSortAlphabetically = (arr: string[]) => {
