@@ -34,9 +34,13 @@ type observerFunction = (counter: number, previousY: number, thumbRef: RefObject
 }
 
 interface observeCache {
-  id: string | null,
-  callback: observerFunction | null
+  baseY: number, 
+  baseCounter: number, 
+  callback: ()=> void, 
+  scrollThumbRef: RefObject<HTMLDivElement>
 }
+
+
 
 const LazyLoaderVertical = ({
   children, 
@@ -54,34 +58,71 @@ const LazyLoaderVertical = ({
   const topObserverRef = useMemo(()=> observerRefs.top || defaultTopObserverRef, [observerRefs])
   const bottomObserverRef = useMemo(()=> observerRefs.bottom || defaultBottomObserverRef, [observerRefs])
 
+  const [observeTimeout, setObserveTimeout] = useState<NodeJS.Timeout|null>(null);
   const [tableObservers, setTableObservers] = useState<TableObservers>({ top: null, bottom: null });
+
+  const observerUpdater = useCallback(({baseCounter, baseY, callback, scrollThumbRef}: observeCache)=>{
+      if(!scrollThumbRef.current) return ({ newCounter:0, delay:0, repeat: false, newY:0 })
+      const { y: newY } = getCoordinates(scrollThumbRef.current)
+      if(scrollThumbRef.current.getAttribute('data-mousedown')=='false'){
+        if(baseCounter < 1){
+          if(baseY != newY){
+            callback()
+            baseCounter = 0
+          }else{
+            baseCounter ++
+          }
+          return ({newCounter: baseCounter, delay:500, repeat: true, newY})
+        }
+        return ({newCounter: baseCounter, delay:0, repeat: false, newY})
+      }
+      return ({newCounter: baseCounter, delay:50, repeat: true, newY})
+  },[])
 
   const lazyObserver = useCallback(({ root, rootMargin, callback, scrollThumbRef }:LazyObserverProps)=>{
     return new IntersectionObserver(async ([target]) => {
-      let counter = 0;
-      let currentY = null;
-      let previousY = null;
-      while(target.isIntersecting) {
-        if(!scrollThumbRef.current) break
-        if(scrollThumbRef.current.getAttribute('data-mousedown')=='false'){
-          currentY = getCoordinates(scrollThumbRef.current).y
-          if(counter < 2){
-            if(previousY!=currentY){
-              callback()
-              counter ++;
-              await delay(1000);
-            }else{
-              counter = 0
-            }
-          }
-          if(counter==2)
-            break
-        }else{
-          await delay(50);
-        }
+
+      let y = 1
+      let counter = 0
+
+      const {newCounter, newY, delay} = observerUpdater({
+        baseY: y,
+        callback,
+        scrollThumbRef,
+        baseCounter: counter,
+      })
+
+      const loop = ({baseCounter, baseY, callback, scrollThumbRef}: observeCache, delay: number) => {
+        
+        setObserveTimeout((current)=>{
+          if(current)clearTimeout(current)
+          return (setTimeout(()=>{
+            const {newCounter, repeat, delay, newY} = observerUpdater({
+              baseY,
+              callback,
+              baseCounter,
+              scrollThumbRef,
+            })
+  
+            const y = newY
+            const counter = newCounter
+
+            if(repeat) loop({ callback, baseY: newY, scrollThumbRef, baseCounter: newCounter },delay) 
+          }, delay))
+        })
       }
+
+      if(target.isIntersecting)
+        loop({
+          callback,
+          baseY: newY,
+          scrollThumbRef,
+          baseCounter: newCounter,
+        },delay)
+      
     },{ root, rootMargin })
-  },[])
+  },[observerUpdater])
+
 
   useEffect(()=>{
 
