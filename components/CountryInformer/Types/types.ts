@@ -17,7 +17,7 @@ export interface Country{
   subregion?: string,
   languages: Languages,
   translations: Translations,
-  latlng?: LatitudLongitude,
+  latlng: LatitudLongitude,
   landlocked?: boolean,
   area?: number,
   demonyms?: Demonyms,
