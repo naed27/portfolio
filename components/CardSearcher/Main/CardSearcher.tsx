@@ -29,7 +29,7 @@ const CardSearcher = () => {
     >
       <GlobalContext.Provider value={globalValues}>
         {showDeckBuilder && <NavBar/>}
-        <AnimatePresence exitBeforeEnter>
+        <AnimatePresence mode="wait">
           {(showDeckBuilder && showDeck) && <DeckArea key={`deck_area`}/>}
           {showSearcher && <SearchArea key={`search_area`}/>}
         </AnimatePresence>

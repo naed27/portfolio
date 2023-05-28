@@ -9,10 +9,8 @@ export interface Props{
 const Chest = ({label, href}: Props) => {
 
   return  (
-    <Link href={href}>
-      <a className={styles.container}>
-        {label}
-      </a>
+    <Link href={href} className={styles.container}>
+      {label}
     </Link>
   )
 }

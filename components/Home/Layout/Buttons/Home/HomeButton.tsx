@@ -7,10 +7,8 @@ export default function HomeButton () {
   
   return (
 
-      <Link href={'/'}>
-        <a className={styles.container}> 
-          <FontAwesomeIcon icon={faHome} className={styles.homeButton}/>
-        </a>
+      <Link href={'/'} className={styles.container} passHref={true}>
+        <FontAwesomeIcon icon={faHome} className={styles.homeButton}/>
       </Link>
 
   )

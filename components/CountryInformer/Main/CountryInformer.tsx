@@ -29,7 +29,7 @@ return (
     <GlobalContext.Provider value={globalValues}>
       <SearchArea/>
 
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence mode="wait">
         {selectedCountry && <ViewCardArea country={selectedCountry} key={`view_area`}/> }
       </AnimatePresence>
       

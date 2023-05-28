@@ -36,7 +36,6 @@ const InfoCard = ({title, value}: Props) => {
   },[])
 
   const refreshHandler = useCallback(()=>{
-    console.log('halo')
     setRefreshScroll(current=>!current)
   },[])
 
