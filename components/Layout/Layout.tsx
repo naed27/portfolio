@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import Body from './Body/Body'
 import NavBar from './NavBar/NavBar'
 import styles from './Layout.module.scss'
 import { LayoutContext } from './Context/LayoutContext'
+import { AnimatePresence } from "framer-motion";
 
-export default function Layout ({children}:any){
+interface Props{
+  children: ReactNode
+}
+const Layout = ({children}: Props) => {
 
   const [showNavBar,setShowNavBar] = useState(true);
   const [absoluteNavBar, setAbsoluteNavBar] = useState(false);
@@ -20,10 +24,14 @@ export default function Layout ({children}:any){
     <div className={styles.container}>
       <LayoutContext.Provider value={value}>
         {showNavBar&&<NavBar/>}
-        <Body>
-          {children}
-        </Body>
+          <Body>
+            <AnimatePresence exitBeforeEnter>
+                {children}
+            </AnimatePresence>
+          </Body>
       </LayoutContext.Provider>
     </div>
   )
 }
+
+export default Layout

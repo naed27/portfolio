@@ -6,7 +6,9 @@ import animation from './Animation'
 import Footer from './Components/Footer/Footer'
 import { useContext, useEffect } from 'react'
 import { LayoutContext } from '../Layout/Context/LayoutContext'
-import Chest from './Components/Chest/Chest'
+import Sphere from './Components/Sphere/Sphere'
+import Head from 'next/head';
+import Metadata from '../Layout/Metadata/Metadata'
 
 export default function Home () {
   const { setAbsoluteNavBar } = useContext(LayoutContext)
@@ -20,10 +22,15 @@ export default function Home () {
       animate='final'
       exit='exit'>
 
+      <Metadata
+        pageTitle='Dean - Portfolio'
+        description='A portfolio containing all my works as a web developer!'
+      />
+
       <Header label='Dean'/>
       
       <Body>
-        <Chest label='P R O J EC T S' href='/projects' />
+        <Sphere label='P R O J E C T S' href='/projects' />
       </Body>
 
       <Footer/>
