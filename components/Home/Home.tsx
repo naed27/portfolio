@@ -1,4 +1,3 @@
-import Body from './Components/Body/Body'
 import Header from './Components/Header/Header'
 import styles from './Home.module.scss'
 import { motion } from 'framer-motion'
@@ -7,7 +6,6 @@ import Footer from './Components/Footer/Footer'
 import { useContext, useEffect } from 'react'
 import { LayoutContext } from '../Layout/Context/LayoutContext'
 import Sphere from './Components/Sphere/Sphere'
-import Head from 'next/head';
 import Metadata from '../Layout/Metadata/Metadata'
 
 export default function Home () {
@@ -30,12 +28,11 @@ export default function Home () {
 
       <Header label='Dean'/>
       
-      <Body>
+      <div className={styles.menu}>
         <Sphere label='P R O J E C T S' href='/projects' />
-      </Body>
-
+      </div>
+        
       <Footer/>
-      
     </motion.div>
   )
 }

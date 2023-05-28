@@ -6,6 +6,7 @@ import Control from './Components/Control Menu/Control';
 import { GlobalContext } from './Context/GlobalContext';
 import AudioVisualizerLogic from './AudioVisualizerLogic';
 import { FunctionComponent } from 'react';
+import Metadata from '../Layout/Metadata/Metadata';
 
 const AudioVisualizer: FunctionComponent = () => {
   const { globalValues }  = AudioVisualizerLogic();
@@ -16,6 +17,12 @@ const AudioVisualizer: FunctionComponent = () => {
       initial='initial'
       animate='final'
       exit='exit'>
+
+      <Metadata
+        pageTitle='Audio Visualizer'
+        description='Visualize your vibe!'
+        key={'/audio-visualizer'}
+      />
 
       <GlobalContext.Provider value={globalValues}>
         <Canvas/>

@@ -3,10 +3,10 @@ import {useContext,useEffect} from 'react'
 import {LayoutContext} from '../Layout/Context/LayoutContext'
 import Header from '../Home/Components/Header/Header';
 import Footer from '../Home/Components/Footer/Footer';
-import Body from '../Home/Components/Body/Body';
-import Chest from '../Home/Components/Chest/Chest';
+import Chest from './Components/Chest/Chest';
 import { motion } from 'framer-motion'
 import Animation from '../Animation/Animation';
+import Metadata from '../Layout/Metadata/Metadata';
 
 export default function ProjectsMenu () {
   const { setAbsoluteNavBar }  = useContext(LayoutContext)
@@ -20,12 +20,21 @@ export default function ProjectsMenu () {
       initial='initial'
       animate='final'
       exit='exit'>
+
+      <Metadata
+        pageTitle='Projects'
+        description='Just a list of my projects.'
+        key={'/country-informer'}
+      />
+
       <Header label='Projects'/>
-      <Body>
+      
+      <div className={styles.menu}>
         <Chest label='Yu-Gi-Oh Card Searcher' href='/projects/card-searcher' />
         <Chest label='Country Informer' href='/projects/country-informer' />
         <Chest label='Audio Visualizer' href='/projects/audio-visualizer' />
-      </Body>
+      </div>
+        
       <Footer/>
     </motion.div>
   )

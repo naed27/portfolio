@@ -10,6 +10,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import NoNetwork from './Components/No Network Page/NoNetwork';
 import LoadingPage from './Components/Loading Page/LoadingPage';
 import AdvancedFilter from '../SearchArea/SearchFields/AdvancedFilter';
+import Metadata from '../../Layout/Metadata/Metadata';
 
 const CardSearcher = () => {
 
@@ -27,6 +28,12 @@ const CardSearcher = () => {
       animate='final'
       exit='exit'
     >
+      <Metadata
+        pageTitle='Yu-Gi-Oh! Card Searcher'
+        description='A place to look up Yu-Gi-Oh cards!'
+        key={'/card-searcher'}
+      />
+
       <GlobalContext.Provider value={globalValues}>
         {showDeckBuilder && <NavBar/>}
         <AnimatePresence mode="wait">

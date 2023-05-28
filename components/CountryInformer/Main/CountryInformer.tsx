@@ -8,6 +8,7 @@ import NoNetwork from './Components/No Network Page/NoNetwork'
 import LoadingPage from './Components/Loading Page/LoadingPage'
 import AdvancedFilter from '../SearchArea/Components/Filter/Components/AdvancedFilter/AdvancedFilter'
 import ViewCardArea from '../ViewerArea/ViewerArea'
+import Metadata from '../../Layout/Metadata/Metadata'
 
 
 export default function CountryInformer () {
@@ -26,6 +27,13 @@ return (
     animate='final'
     exit='exit'
   >
+
+      <Metadata
+        pageTitle='Country Infomer'
+        description='Learn basic information of different countries.'
+        key={'/country-informer'}
+      />
+
     <GlobalContext.Provider value={globalValues}>
       <SearchArea/>
 
