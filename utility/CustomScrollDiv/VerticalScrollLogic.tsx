@@ -25,7 +25,7 @@ export default function VerticalScrollLogic(Props:VerticalScrollProps) {
 
 
   const syncScroll = useCallback((
-    clientY,
+    clientY: number,
     verticalScrollBasePoint:number|undefined,
     boxBaseTop=0
     ) => {

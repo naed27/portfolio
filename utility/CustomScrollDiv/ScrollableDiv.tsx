@@ -185,7 +185,7 @@ const ScrollableDiv = ({
     setHorizontalScrollThumbStart(newLeft);
   }, [ containerRef ]);
 
-  const handleDocumentMouseMove = useCallback((event:any) => {
+  const handleDocumentMouseMove = useCallback((event: MouseEvent) => {
     if (!isVerticalDragging && !isHorizontalDragging) return
     event.preventDefault();
     event.stopPropagation();
@@ -203,7 +203,7 @@ const ScrollableDiv = ({
       verticalScrollBasePoint,
       horizontalScrollBasePoint ]);
 
-  const handleDocumentMouseUp = useCallback(event => {
+  const handleDocumentMouseUp = useCallback((event: MouseEvent) => {
     if (!isVerticalDragging && !isHorizontalDragging)return
     event.preventDefault();
     
@@ -283,11 +283,11 @@ const ScrollableDiv = ({
     };
   },[handleDocumentMouseUp])
 
-  const vScrollMouseDownHandler = useCallback(event => {
+  const vScrollMouseDownHandler = useCallback((event: MouseEvent) => {
     verticalScrollMouseDown(event,verticalScrollThumbStart,verticalScrollBasePoint)
   } ,[verticalScrollMouseDown, verticalScrollThumbStart, verticalScrollBasePoint ]);
 
-  const hScrollMouseDownHandler = useCallback(event => {
+  const hScrollMouseDownHandler = useCallback((event: MouseEvent) => {
     horizontalScrollMouseDown(event,horizontalScrollThumbStart,horizontalScrollBasePoint)
   } ,[horizontalScrollMouseDown, horizontalScrollThumbStart, horizontalScrollBasePoint ]);
 

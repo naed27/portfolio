@@ -26,7 +26,7 @@ export default function HorizontalScrollLogic(Props:HorizontalScrollProps) {
   },[ showVerticalScrollBar, scroll, setHorizontalScrollThumbLength, setShowHorizontalScrollBar, scrollableDivRef ]);
 
   const syncScroll = useCallback((
-    clientX, 
+    clientX: number, 
     horizontalScrollBasePoint:number|undefined,
     boxBaseLeft=0) => {
     if(scrollableDivRef.current===null)return 0;

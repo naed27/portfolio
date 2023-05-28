@@ -28,7 +28,7 @@ export default function Table () {
     ]
   },[tablePageRange])
 
-  const calcMaxPage = useCallback((tablePageRange, searchedCards) => {
+  const calcMaxPage = useCallback((tablePageRange: number, searchedCards: YGOCard[]) => {
     if(searchedCards.length === 0) return 1;
     if(searchedCards.length < tablePageRange) return 1
 
