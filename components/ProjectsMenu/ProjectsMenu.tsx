@@ -15,6 +15,7 @@ export default function ProjectsMenu () {
 
   return (
     <motion.div className={styles.container}
+      key={'/projects'}
       variants={Animation}
       initial='initial'
       animate='final'

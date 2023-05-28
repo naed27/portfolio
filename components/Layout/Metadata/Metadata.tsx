@@ -1,8 +1,8 @@
 import Head from 'next/head';
 
 interface Props {
-    pageTitle: string,
-    description: string,
+    pageTitle?: string,
+    description?: string,
     previewImage?: string,
 };
 
@@ -13,9 +13,9 @@ const Metadata = ({pageTitle, description, previewImage}: Props) => {
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta charSet="utf-8" />
 
-      <title> {pageTitle} </title>
+      <title> {pageTitle ? pageTitle : 'Dean - Portfolio'} </title>
 
-      <meta name="description" content={description} key="desc"/>
+      <meta name="description" content={description ? description : ''} key="desc"/>
 
       {/* ------- OG metas -------
         The minimum size you should use is 200 x 200 pixels
@@ -30,9 +30,9 @@ const Metadata = ({pageTitle, description, previewImage}: Props) => {
 
       */}
 
-      <meta property="og:title" content={pageTitle} key="ogtitle" />
+      <meta property="og:title" content={pageTitle ? pageTitle : 'Dean - Portfolio'} key="ogtitle" />
       <meta property="og:image" content={previewImage ? previewImage : 'https://cdn.discordapp.com/attachments/815553316390043658/1091565328087138385/Lily_A4.png'} key="ogimage"/>
-      <meta property="og:description" content={description} key="ogdesc" />
+      <meta property="og:description" content={description ? description : ''} key="ogdesc" />
 
     </Head>
   )

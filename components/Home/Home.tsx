@@ -17,6 +17,7 @@ export default function Home () {
 
   return (
     <motion.div className={styles.container}
+      key={'/home'}
       variants={animation}
       initial='initial'
       animate='final'
