@@ -36,15 +36,24 @@ export default function FlagImage ({ country, container, originalSize = false }:
     return <img src={`${country.flags.png}`}  alt={`${country.name.common}'s_flag`} style={{width: `100%`}}/>
 
   return (
-    <div style={{position: 'relative', width: dimensions.width, height: dimensions.height, overflow: 'hidden'}}>
-      <Image 
-        src={`${country.flags.png}`} 
-        alt={`${country.name.common}'s_flag`}
-        layout={'fill'}
-        objectFit={'cover'}
-        unoptimized
-      />
-  </div>
+    // <div style={{position: 'relative', width: dimensions.width, height: dimensions.height, overflow: 'hidden'}}>
+    //   <Image 
+    //     src={`${country.flags.png}`} 
+    //     alt={`${country.name.common}'s_flag`}
+    //     layout={'fill'}
+    //     objectFit={'cover'}
+    //     unoptimized
+    //   />
+    // </div>
+    <img 
+      src={`${country.flags.png}`}  
+      alt={`${country.name.common}'s_flag`} 
+      style={{
+        width: `100%`,
+        height:'100%',
+        objectFit: 'cover'
+      }}
+    />
   )
 
 }

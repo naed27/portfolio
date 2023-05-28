@@ -1,4 +1,4 @@
-import { delay, getCoordinates } from '../functions'
+import { getCoordinates } from '../functions'
 import styles from './LazyLoaderVertical.module.scss'
 import { RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
@@ -34,7 +34,7 @@ type observerFunction = (counter: number, previousY: number, thumbRef: RefObject
 }
 
 interface observeCache {
-  baseY: number, 
+  baseY: number | null, 
   baseCounter: number, 
   callback: ()=> void, 
   scrollThumbRef: RefObject<HTMLDivElement>
@@ -76,13 +76,13 @@ const LazyLoaderVertical = ({
         }
         return ({newCounter: baseCounter, delay:0, repeat: false, newY})
       }
-      return ({newCounter: baseCounter, delay:50, repeat: true, newY})
+      return ({newCounter: baseCounter, delay:50, repeat: true, newY: baseY})
   },[])
 
   const lazyObserver = useCallback(({ root, rootMargin, callback, scrollThumbRef }:LazyObserverProps)=>{
     return new IntersectionObserver(async ([target]) => {
 
-      let y = 1
+      let y = null
       let counter = 0
 
       const {newCounter, newY, delay} = observerUpdater({
@@ -93,7 +93,6 @@ const LazyLoaderVertical = ({
       })
 
       const loop = ({baseCounter, baseY, callback, scrollThumbRef}: observeCache, delay: number) => {
-        
         setObserveTimeout((current)=>{
           if(current)clearTimeout(current)
           return (setTimeout(()=>{

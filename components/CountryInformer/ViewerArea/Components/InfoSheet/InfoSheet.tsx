@@ -10,7 +10,7 @@ interface Props{
 }
 
 const InfoSheet = ({country}:Props) => {
-  console.log(country)
+  
   const info = useMemo(()=>{
     return {
       name:  country.name.official,

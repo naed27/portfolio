@@ -3,16 +3,14 @@ import styles from './Table.module.scss'
 import { Country, SortMode } from '../../../Types/types';
 import { GlobalContext } from '../../../Context/context';
 import LazyLoaderVertical from '../../../../../utility/LazyLoader/LazyLoaderVertical';
-import { getBottomPadding, getTopPadding, sortByName, sortByPopulation } from '../../../Utility/functions';
+import { sortByName, sortByPopulation } from '../../../Utility/functions';
 import ScrollableDiv from '../../../../../utility/CustomScrollDiv/ScrollableDiv';
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { delay } from '../../../../../utility/functions';
 
 const ITEM_GAP = 20;
 const CARD_WIDTH = 300;
 const CARD_HEIGHT = 140;
 const ROW_DISPLAY_MULTIPLIER = 8; // page will break if this goes below 8 (due to observer's root margin)
-const MAX_NEW_ITEMS_TO_SHOW_MULTIPLIER = 4;
 const WRAPPER_WIDTH_PADDING = 10;
 
 export default function Table () {
@@ -79,11 +77,21 @@ export default function Table () {
   },[])
 
   useEffect(() => {
-    setSliceIndex(() => ({startIndex:0, sliceOffset: 0}))
-    if(!topObserverRef.current || !bottomObserverRef.current) return
-    topObserverRef.current.style.height = `0px`;
-    bottomObserverRef.current.style.height = `0px`;
-  }, [pool, itemsPerRow])
+    setSliceIndex(() => {
+      if(topObserverRef.current && bottomObserverRef.current){
+        const rowsCount = Math.ceil(pool.length/itemsPerRow)
+        const cardHeight = (CARD_HEIGHT+ITEM_GAP);
+        const containerHeight = (rowsCount*cardHeight)+20;
+        const displayHeight = ROW_DISPLAY_MULTIPLIER*(CARD_HEIGHT+ITEM_GAP)+20;
+        const bottomPaddingEstimation = containerHeight-displayHeight
+        topObserverRef.current.style.height = `0px`;
+        bottomObserverRef.current.style.height = `${bottomPaddingEstimation > 0 ? bottomPaddingEstimation : 0}px`;
+      }
+
+      scrollTrackUpdater({newIndex:0, itemsPerRow})
+      return ({startIndex:0, sliceOffset: 0})
+    })
+  }, [pool, itemsPerRow, scrollTrackUpdater])
 
   const scrollResetDependencies = useMemo(()=>[ pool, itemsPerRow ] ,[itemsPerRow, pool])
   const scrollTrackDependencies = useMemo(()=>[ startIndex ] ,[startIndex])
@@ -92,7 +100,7 @@ export default function Table () {
     <div className={styles.section}>
       <ScrollableDiv 
         customRef={scrollDivRef} 
-        scrollY={{thumbOpacity:1}}
+        scrollY={{thumbOpacity:1, thumbColor:'gray'}}
         className={styles.container} 
         thumbRef={{vertical: verticalThumbRef}}
         dependencies={scrollResetDependencies}
