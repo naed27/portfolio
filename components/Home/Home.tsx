@@ -22,7 +22,7 @@ const MENU =
 ]
 
 export default function Home () {
-  const { setAbsoluteNavBar } = useContext(LayoutContext)
+  const { setAbsoluteNavBar, setShowNavBar } = useContext(LayoutContext)
   const [menuIndex, setMenuIndex] = useState(0)
   const controlTrack = useRef<HTMLDivElement>(null)
   const imageStoreRef = useRef<HTMLDivElement>(null)
@@ -59,7 +59,9 @@ export default function Home () {
     onRight: () => toggleMenuIndex('-'),
   });
 
-  useEffect(()=>setAbsoluteNavBar(true), [ setAbsoluteNavBar ])
+  useEffect(()=>{
+    setShowNavBar(false)
+  }, [ setAbsoluteNavBar, setShowNavBar ])
 
   useEffect(()=>{
     document.addEventListener('mouseup', evaluateClick)
@@ -78,9 +80,11 @@ export default function Home () {
         pageTitle={`Dean - Portfolio`}
         description={`A portfolio containing all my works as a web developer!`}
       />
+      <AnimatePresence mode='wait'  key={'header_transition'}>
+      {imagesLoaded?<Header label='Dean' key={'header1'}/>:<Header label='' key={'header0'}/>}
+      </AnimatePresence>
 
-      <Header label='Dean' key={'header1'}/>
-      <AnimatePresence mode='wait'>
+      <AnimatePresence mode='wait'  key={'sphere_transition'}>
           {imagesLoaded?
             <Sphere reactGestureBinder={bind} key={'sphere1'}>
               <AnimatePresence mode='sync' key={'menu_transition'}>
@@ -95,13 +99,7 @@ export default function Home () {
             </Sphere>
             :
             <Sphere cssStyle={{border: '2px solid transparent'}}  key={'sphere2'}>
-              <Dna
-                visible={true}
-                height="80"
-                width="80"
-                ariaLabel="dna-loading"
-                wrapperStyle={{border:'2px solid transparent'}}
-                wrapperClass={styles.sphere}/>
+              {'Setting up...'}
             </Sphere>
           }
       </AnimatePresence>
