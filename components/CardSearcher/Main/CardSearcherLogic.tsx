@@ -8,7 +8,7 @@ import { LayoutContext } from "../../Layout/Context/LayoutContext";
 export default function CardSearcherLogic() {
 
   
-  const { setAbsoluteNavBar } = useContext(LayoutContext)
+  const { setAbsoluteNavBar, setShowNavBar } = useContext(LayoutContext)
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [noNetwork, setNoNetwork] = useState<boolean>(false);
@@ -76,7 +76,10 @@ export default function CardSearcherLogic() {
     setNumberOfCardsShownOnPage,
   }
 
-  useEffect(()=> setAbsoluteNavBar(false), [ setAbsoluteNavBar ])
+  useEffect(()=> {
+    setAbsoluteNavBar(false)
+    setShowNavBar(true)
+  }, [ setAbsoluteNavBar, setShowNavBar ])
 
   useEffect(()=>{
     const fetchAllCards = async()=>{

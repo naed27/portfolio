@@ -7,7 +7,7 @@ import { fetchClassifications, initialQuery } from "../Utility/initializers";
 
 export default function CountryInformerLogic() {
 
-  const { setAbsoluteNavBar } = useContext(LayoutContext)
+  const { setAbsoluteNavBar, setShowNavBar } = useContext(LayoutContext)
 
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [noNetwork, setNoNetwork] = useState<boolean>(false)
@@ -33,7 +33,10 @@ export default function CountryInformerLogic() {
     countryClassifications,
   }
 
-  useEffect(()=> setAbsoluteNavBar(false), [ setAbsoluteNavBar ])
+  useEffect(()=> {
+    setAbsoluteNavBar(false)
+    setShowNavBar(true)
+  }, [ setAbsoluteNavBar, setShowNavBar ])
 
   useEffect(()=>{
     const fetchAllCards = async()=>{

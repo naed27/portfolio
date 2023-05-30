@@ -5,7 +5,7 @@ import { useState, useEffect, useRef, useContext } from "react";
 
 export default function AudioVisualizerLogic() {
   
-  const { setAbsoluteNavBar } = useContext(LayoutContext)
+  const { setAbsoluteNavBar, setShowNavBar } = useContext(LayoutContext)
 
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -39,8 +39,11 @@ export default function AudioVisualizerLogic() {
     audioTitle, setAudioTitle,
     audioPlayingStatus, setAudioPlayingStatus,
   }
-
-  useEffect(()=> setAbsoluteNavBar(false), [ setAbsoluteNavBar ])
+  
+  useEffect(()=> {
+    setAbsoluteNavBar(false)
+    setShowNavBar(true)
+  }, [ setAbsoluteNavBar, setShowNavBar ])
 
   useEffect(() => {
     console.log('Audio Visualizer on Standby.');

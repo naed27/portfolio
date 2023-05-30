@@ -10,14 +10,16 @@ import PreviewBox from './Components/PreviewBox/PreviewBox'
 import { useOnLoadImages } from '../../hooks/useOnLoadImages'
 import { LayoutContext } from '../Layout/Context/LayoutContext'
 import { useCallback, useContext, useEffect, useState, useRef } from 'react'
+import Link from 'next/link'
+import Router , { useRouter }  from 'next/router';
 
 const MENU = 
 [
-  {index: -1, name: 'Cover', imgSrc:''},
-  {index: 0, name: 'Card Searcher', imgSrc:'https://cdn.discordapp.com/attachments/1112753458165063701/1112753476980719678/image.png'},
-  {index: 1, name: 'Country Informer', imgSrc:'https://cdn.discordapp.com/attachments/1112753458165063701/1112761535689936936/image.png'},
-  {index: 2, name: 'Audio Visualizer', imgSrc:'https://cdn.discordapp.com/attachments/1112753458165063701/1112761209339519006/image.png'},
-  {index: 3, name: 'Phantasmora', imgSrc:'https://cdn.discordapp.com/attachments/1112753458165063701/1112760858163028091/image.png'},
+  {link:'/', index: -1, name: 'Cover', imgSrc:''},
+  {link:'/projects/card-searcher', index: 0, name: 'Card Searcher', imgSrc:'https://cdn.discordapp.com/attachments/1112753458165063701/1112753476980719678/image.png'},
+  {link:'/projects/country-informer', index: 1, name: 'Country Informer', imgSrc:'https://cdn.discordapp.com/attachments/1112753458165063701/1112761535689936936/image.png'},
+  {link:'/projects/audio-visualizer', index: 2, name: 'Audio Visualizer', imgSrc:'https://cdn.discordapp.com/attachments/1112753458165063701/1112761209339519006/image.png'},
+  {link:'/games/phantasmora', index: 3, name: 'Phantasmora', imgSrc:'https://cdn.discordapp.com/attachments/1112753458165063701/1112760858163028091/image.png'},
 ]
 
 export default function Home () {
@@ -26,6 +28,8 @@ export default function Home () {
   const controlTrack = useRef<HTMLDivElement>(null)
   const imageStoreRef = useRef<HTMLDivElement>(null)
   const imagesLoaded = useOnLoadImages(imageStoreRef)
+  const router = useRouter()
+
 
   const toggleMenuIndex = useCallback((action: '+' | '-')=>{
     if(controlTrack.current?.getAttribute('data-lock')=='true') return
@@ -55,10 +59,13 @@ export default function Home () {
     }
   },[toggleMenuIndex])
   
+
+
   const bind = useSwipe({
     threshold: 0.3,
     onLeft: () => toggleMenuIndex('+'),
     onRight: () => toggleMenuIndex('-'),
+    onDown: () => menuIndex>0&&router.push(MENU[menuIndex].link)
   });
 
   useEffect(()=>{
@@ -107,12 +114,20 @@ export default function Home () {
       </AnimatePresence>
       
       <div ref={controlTrack} data-clickdown={'none'} data-lock={'false'} data-clickaction={'none'}/>
+
       {imagesLoaded==false&&<div className={styles.imageCache} ref={imageStoreRef}>
         <img src={MENU[1].imgSrc} alt={'imageCache1'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
         <img src={MENU[2].imgSrc} alt={'imageCache2'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
         <img src={MENU[3].imgSrc} alt={'imageCache3'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
         <img src={MENU[4].imgSrc} alt={'imageCache4'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
       </div>}
+
+      <div className={styles.redirectionLinks}>
+          <Link href={MENU[1].link}/>
+          <Link href={MENU[2].link}/>
+          <Link href={MENU[3].link}/>
+      </div>
+
       <Footer/>
     </motion.div>
   )
