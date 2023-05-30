@@ -65,7 +65,7 @@ export default function Home () {
     threshold: 0.3,
     onLeft: () => toggleMenuIndex('+'),
     onRight: () => toggleMenuIndex('-'),
-    onDown: () => menuIndex>0&&router.push(MENU[menuIndex].link)
+    onUp: () => menuIndex>0&&router.push(MENU[menuIndex].link)
   });
 
   useEffect(()=>{
