@@ -32,7 +32,9 @@ const Header = ({label} : {label: string}) => {
       {(()=>{
         let letters = []
         for (let i = 0; i < label.length; i++) {
-          letters.push(<Letterbox letter={label[i].toUpperCase()} key={`header_letter_${i}`}/>)
+          letters.push(
+            <Letterbox letter={label[i].toUpperCase()} key={`header_letter_${i}`}/>
+          )
         }
         return letters
       })()}

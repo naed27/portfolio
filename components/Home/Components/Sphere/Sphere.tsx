@@ -25,7 +25,7 @@ interface Props {
   children: ReactNode,
   cssStyle?: CSSProperties
   customRef?: RefObject<HTMLDivElement>,
-  reactGestureBinder?: ((...args: any[]) => ReactEventHandlers) | (()=>void),
+  reactGestureBinder?: ((...args: any[]) => ReactEventHandlers) | (()=>void)
 };
 
 const Sphere = ({children, customRef, reactGestureBinder = ()=>{}, cssStyle={}}: Props) => {

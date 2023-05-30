@@ -26,9 +26,12 @@ export default function Home () {
   const controlTrack = useRef<HTMLDivElement>(null)
   const imageStoreRef = useRef<HTMLDivElement>(null)
   const imagesLoaded = useOnLoadImages(imageStoreRef)
-  
+
   const toggleMenuIndex = useCallback((action: '+' | '-')=>{
+    if(controlTrack.current?.getAttribute('data-lock')=='true') return
     setMenuIndex((current)=>{
+      if(controlTrack.current?.getAttribute('data-lock') == 'true')
+        controlTrack.current?.setAttribute('data-lock','false')
       if(action == '+')
         return (current==MENU.length-1) ? 0 : current + 1 
       return (current == 0) ? MENU.length-1 : current - 1
