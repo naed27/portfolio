@@ -3,14 +3,13 @@ import styles from './Home.module.scss'
 import useSwipe from '../../hooks/useSwipe'
 import Footer from './Components/Footer/Footer'
 import Header from './Components/Header/Header'
+import Sphere from './Components/Sphere/Sphere'
 import Metadata from '../Layout/Metadata/Metadata'
 import { AnimatePresence, motion } from 'framer-motion'
 import PreviewBox from './Components/PreviewBox/PreviewBox'
 import { useOnLoadImages } from '../../hooks/useOnLoadImages'
 import { LayoutContext } from '../Layout/Context/LayoutContext'
 import { useCallback, useContext, useEffect, useState, useRef } from 'react'
-import { Dna } from 'react-loader-spinner'
-import Sphere from './Components/Sphere/Sphere'
 
 const MENU = 
 [
