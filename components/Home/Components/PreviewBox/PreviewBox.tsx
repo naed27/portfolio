@@ -10,8 +10,8 @@ interface Props {
 
 const PreviewBox = ({src = '', text = '', afterAnimation = ()=>{}}: Props) => {
 
-  const [scope, animate] = useAnimate();
-  const [isPresent, safeToRemove] = usePresence();
+  const [ scope, animate ] = useAnimate();
+  const [ isPresent ] = usePresence();
 
   useEffect(()=>{
     if(isPresent){

@@ -1,3 +1,12 @@
+export const isImageCached = (src: string, callback: (src:string)=>void = ()=>{}) => {
+  const image = new Image();
+  image.src = src;
+  image.onload = ()=> callback(src)
+  return image.complete;
+}
+
+
+
 export const getCoordinates = (element: HTMLElement) => {
   const {x,y} = element.getBoundingClientRect()
   return ({x,y})

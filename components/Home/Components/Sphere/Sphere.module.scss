@@ -1,0 +1,29 @@
+.container{
+    position: relative;
+    width: 220px;
+    max-width: 220px;
+    height: 220px;
+    max-height: 220px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    background-color: black;
+  
+    border-radius: 50%;
+    border: 2px solid gray;
+    user-select: none;
+    cursor: default;
+  
+    font-family: 'Yu Gothic UI';
+  
+    overflow-y: hidden;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+  }
+
+  .wrapper{
+    width: auto;
+    height: auto;
+  }
