@@ -1,4 +1,3 @@
-import MENU from '../../../lib/Menu'
 import Animation from '../../Animation/Animation'
 import SearchArea from '../SearchArea/SearchArea'
 import { GlobalContext } from '../Context/context'
@@ -10,16 +9,6 @@ import CountryInformerLogic from './CountryInformerLogic'
 import NoNetwork from './Components/No Network Page/NoNetwork'
 import LoadingPage from './Components/Loading Page/LoadingPage'
 import AdvancedFilter from '../SearchArea/Components/Filter/Components/AdvancedFilter/AdvancedFilter'
-
-const metadata = (() => {
-  const project = MENU.find((item)=>item.name === 'Country Informer')
-  return {
-    img: project?.imgSrc || undefined,
-    key: project?.link || '/country-informer',
-    title: project?.name || 'Country Infomer',
-    desc: project?.name || 'Learn basic information of different countries.',
-  }
-})()
 
 export default function CountryInformer () {
 
@@ -39,10 +28,10 @@ export default function CountryInformer () {
     >
 
       <Metadata
-        key={metadata.key}
-        pageTitle={metadata.title}
-        description={metadata.desc}
-        previewImage={metadata.img}
+        key={'/projects/country-informer'}
+        pageTitle={'Country Informer'}
+        description={'Discover information on any nation in seconds!'}
+        previewImage={'https://cdn.discordapp.com/attachments/1112753458165063701/1112761535689936936/image.png'}
       />
 
       <GlobalContext.Provider value={globalValues}>

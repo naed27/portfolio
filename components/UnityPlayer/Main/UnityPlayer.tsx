@@ -62,29 +62,32 @@ export default function UnityPlayer ({indexURL}: Props) {
         ref={containerRef}
       >
         
-        <iframe 
+        {loadLock?
+          <div className={styles.error}>
+            <p>{`Whoa there, adventurer! Your screen just can't handle the size of this dungeon. Try playing on a bigger device and see the full picture.`}</p>
+          </div>
+          :
+          <iframe 
           allowFullScreen={true}
-          
-          allow={
-            `autoplay; 
-            fullscreen *; 
-            geolocation; 
-            microphone; 
-            camera; 
-            midi; 
-            monetization; 
-            xr-spatial-tracking; gamepad; 
-            gyroscope; 
-            accelerometer; 
+          allow={`
             xr; 
-            cross-origin-isolated`
+            midi; 
+            camera; 
+            autoplay; 
+            gyroscope; 
+            microphone; 
+            geolocation; 
+            monetization; 
+            fullscreen *; 
+            accelerometer; 
+            cross-origin-isolated
+            xr-spatial-tracking; gamepad;`
           }
           className={styles.iframe}
+          style={{ height: loadCanvas ? `${canvasHeight}px`:`0px`}}
           src={indexURL} 
-          style={{ height: loadCanvas ? `${canvasHeight}px`:`0px` }}
-        />
-              
-        {loadLock&&<div>{`Your current screen size can't run the game`}</div>}
+          />
+        }
 
       </motion.div>
   );

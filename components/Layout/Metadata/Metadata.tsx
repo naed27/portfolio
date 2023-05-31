@@ -7,8 +7,8 @@ interface Props {
 };
 
 const Metadata = ({
-  pageTitle = `Dean - Portfolio`, 
-  description = ``, 
+  pageTitle = `Dean's Portfolio`, 
+  description = `Discover the diversity of my work with my website portfolio - a collection of projects that showcase my range of skills and creativity.`, 
   previewImage = `https://cdn.discordapp.com/attachments/815553316390043658/1091565328087138385/Lily_A4.png`
 }: Props) => {
 

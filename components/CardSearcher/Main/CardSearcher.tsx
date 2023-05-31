@@ -1,4 +1,3 @@
-import MENU from '../../../lib/Menu';
 import DeckArea from '../DeckArea/DeckArea';
 import styles from './CardSearcher.module.scss';
 import NavBar from '../NavBar/Components/NavBar';
@@ -12,16 +11,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import NoNetwork from './Components/No Network Page/NoNetwork';
 import LoadingPage from './Components/Loading Page/LoadingPage';
 import AdvancedFilter from '../SearchArea/SearchFields/AdvancedFilter';
-
-const metadata = (() => {
-  const project = MENU.find((item)=>item.name === 'YGO Card Searcher')
-  return {
-    img: project?.imgSrc || undefined,
-    key: project?.link || '/card-searcher',
-    title: project?.name || 'YGO Card Searcher',
-    desc: project?.name || 'A tool for looking up Yu-Gi-Oh cards!',
-  }
-})()
 
 const CardSearcher = () => {
 
@@ -39,10 +28,10 @@ const CardSearcher = () => {
       exit='exit'
     >
       <Metadata
-        key={metadata.key}
-        pageTitle={metadata.title}
-        description={metadata.desc}
-        previewImage={metadata.img}
+        key={'/projects/card-searcher'}
+        pageTitle={'YGO Card Searcher'}
+        description={'Access stats, effects, and more for every card in the game!'}
+        previewImage={'https://cdn.discordapp.com/attachments/1112753458165063701/1112753476980719678/image.png'}
       />
 
       <GlobalContext.Provider value={globalValues}>

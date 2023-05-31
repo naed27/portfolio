@@ -16,7 +16,7 @@ const animation = {
   exit:{
     opacity:0,
     transition:{
-      duration:0.7
+      duration:0.4
     }
   }
 }
