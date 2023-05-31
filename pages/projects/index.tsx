@@ -1,5 +1,6 @@
-import ProjectsMenu from '../../components/ProjectsMenu/ProjectsMenu'
+import RedirectToHome from '../../components/RedirectToHome/RedirectToHome'
 
-export default function ProjectsPage () {
-  return <ProjectsMenu/>
+export default function  unityPortal () {
+  return <RedirectToHome/>
 }
+

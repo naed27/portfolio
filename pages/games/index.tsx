@@ -1,6 +1,6 @@
-import Portal from '../../components/UnityPlayer/Portal/Portal'
+import RedirectToHome from '../../components/RedirectToHome/RedirectToHome'
 
 export default function  unityPortal () {
-  return <Portal/>
+  return <RedirectToHome/>
 }
 

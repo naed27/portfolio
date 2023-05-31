@@ -1,16 +1,15 @@
-import React, { useCallback, useEffect} from "react";
-import { motion } from "framer-motion";
-import styles from "./Portal.module.scss";
+import React, { useEffect} from "react";
 import { useRouter }  from 'next/router'
-import Animation from "../../Animation/Animation";
 
-export default function Portal() {
+export default function RedirectToHome() {
 
   const router = useRouter()
 
   useEffect(()=>{
     router.push('/')
   },[router])
+
+  return <></>
 
   // const openPageInNewTab = useCallback((gameName: string)=> {
   //   window.open(`${window.location.pathname}/${gameName}`, "_blank");
