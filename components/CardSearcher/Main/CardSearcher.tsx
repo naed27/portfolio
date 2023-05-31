@@ -13,21 +13,20 @@ import NoNetwork from './Components/No Network Page/NoNetwork';
 import LoadingPage from './Components/Loading Page/LoadingPage';
 import AdvancedFilter from '../SearchArea/SearchFields/AdvancedFilter';
 
+const metadata = (() => {
+  const project = MENU.find((item)=>item.name === 'YGO Card Searcher')
+  return {
+    img: project?.imgSrc || undefined,
+    key: project?.link || '/card-searcher',
+    title: project?.name || 'YGO Card Searcher',
+    desc: project?.name || 'A tool for looking up Yu-Gi-Oh cards!',
+  }
+})()
+
 const CardSearcher = () => {
 
   const { isLoading, globalValues, noNetwork }  = CardSearcherLogic();
   const { showDeck, showSearcher, selectedCard, showMoreFilters, showDeckBuilder } = globalValues;
-
-  const metadata = (() => {
-    const project = MENU.find((item)=>item.name === 'YGO Card Searcher')
-    return {
-      img: project?.imgSrc || undefined,
-      key: project?.link || '/card-searcher',
-      title: project?.name || 'YGO Card Searcher',
-      desc: project?.name || 'A tool for looking up Yu-Gi-Oh cards!',
-    }
-  })()
-  
 
   if(noNetwork) return <NoNetwork/>
   if(isLoading) return <LoadingPage/>

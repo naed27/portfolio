@@ -9,18 +9,18 @@ import { GlobalContext } from './Context/GlobalContext'
 import AudioVisualizerLogic from './AudioVisualizerLogic'
 import Metadata from '../Layout/Metadata/Metadata'
 
+const metadata = (() => {
+  const project = MENU.find((item)=>item.name === 'Audio Visualizer')
+  return {
+    img: project?.imgSrc || undefined,
+    key: project?.link || '/audio-visualizer',
+    title: project?.name || 'Audio Visualizer',
+    desc: project?.name || 'Visualize your vibe!',
+  }
+})()
+
 const AudioVisualizer: FunctionComponent = () => {
   const { globalValues }  = AudioVisualizerLogic();
-
-  const metadata = (() => {
-    const project = MENU.find((item)=>item.name === 'Audio Visualizer')
-    return {
-      img: project?.imgSrc || undefined,
-      key: project?.link || '/audio-visualizer',
-      title: project?.name || 'Audio Visualizer',
-      desc: project?.name || 'Visualize your vibe!',
-    }
-  })()
   
   return (
     <motion.div className={styles.container} 

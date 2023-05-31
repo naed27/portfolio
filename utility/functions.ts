@@ -5,8 +5,6 @@ export const isImageCached = (src: string, callback: (src:string)=>void = ()=>{}
   return image.complete;
 }
 
-
-
 export const getCoordinates = (element: HTMLElement) => {
   const {x,y} = element.getBoundingClientRect()
   return ({x,y})
@@ -144,18 +142,4 @@ export const bufferToLocalImage = (buffer: Buffer) => {
   return imageUrl
 }
 
-// ------------- Resize Canvas Function
 
-interface matchSizeOfElementProps {
-  containerDivElement: HTMLDivElement,
-  canvasElement: HTMLCanvasElement,
-}
-
-export const matchSizeOfElements = ({containerDivElement, canvasElement}: matchSizeOfElementProps) => {
-  canvasElement.style.width = `${containerDivElement.offsetWidth}px`;
-  canvasElement.style.height = `${containerDivElement.offsetHeight}px`;
-}
-
-export const matchHeightOfElements = ({containerDivElement, canvasElement}: matchSizeOfElementProps) => {
-  canvasElement.style.height = `${containerDivElement.offsetHeight}px`;
-}

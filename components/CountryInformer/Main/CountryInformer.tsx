@@ -11,6 +11,16 @@ import NoNetwork from './Components/No Network Page/NoNetwork'
 import LoadingPage from './Components/Loading Page/LoadingPage'
 import AdvancedFilter from '../SearchArea/Components/Filter/Components/AdvancedFilter/AdvancedFilter'
 
+const metadata = (() => {
+  const project = MENU.find((item)=>item.name === 'Country Informer')
+  return {
+    img: project?.imgSrc || undefined,
+    key: project?.link || '/country-informer',
+    title: project?.name || 'Country Infomer',
+    desc: project?.name || 'Learn basic information of different countries.',
+  }
+})()
+
 export default function CountryInformer () {
 
   const { isLoading, globalValues, noNetwork }  = CountryInformerLogic()
@@ -18,16 +28,6 @@ export default function CountryInformer () {
 
   if(noNetwork) return <NoNetwork/>
   if(isLoading) return <LoadingPage/>
-
-  const metadata = (() => {
-    const project = MENU.find((item)=>item.name === 'Country Informer')
-    return {
-      img: project?.imgSrc || undefined,
-      key: project?.link || '/country-informer',
-      title: project?.name || 'Country Infomer',
-      desc: project?.name || 'Learn basic information of different countries.',
-    }
-  })()
 
   return (
 
