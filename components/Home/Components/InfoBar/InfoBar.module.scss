@@ -1,0 +1,24 @@
+.container{
+    position: relative;
+    height:200px;
+    width: 100%;
+    color: white;
+    display: flex;
+    align-items: center;
+    font-family: 'Yu Gothic UI';
+    
+    flex-direction: column;
+    text-align: center;
+
+    user-select: none;
+  
+    .title{
+      color: #EEDC82
+    }
+  
+    .desc{
+      color: #C0C0C0;
+      line-height: 1.2;
+      
+    }
+  }

@@ -81,11 +81,7 @@ export default function UnityPlayer ({indexURL}: Props) {
           }
           className={styles.iframe}
           src={indexURL} 
-          title={`Phantasmora`} 
-          style={{
-            
-            height: loadCanvas ? `${canvasHeight}px`:`0px`
-          }}
+          style={{ height: loadCanvas ? `${canvasHeight}px`:`0px` }}
         />
               
         {loadLock&&<div>{`Your current screen size can't run the game`}</div>}

@@ -1,15 +1,15 @@
+import MENU from '../../../lib/Menu'
 import Animation from '../../Animation/Animation'
-import styles from './CountryInformer.module.scss'
 import SearchArea from '../SearchArea/SearchArea'
 import { GlobalContext } from '../Context/context'
+import styles from './CountryInformer.module.scss'
+import ViewCardArea from '../ViewerArea/ViewerArea'
+import Metadata from '../../Layout/Metadata/Metadata'
 import { AnimatePresence, motion } from 'framer-motion'
 import CountryInformerLogic from './CountryInformerLogic'
 import NoNetwork from './Components/No Network Page/NoNetwork'
 import LoadingPage from './Components/Loading Page/LoadingPage'
 import AdvancedFilter from '../SearchArea/Components/Filter/Components/AdvancedFilter/AdvancedFilter'
-import ViewCardArea from '../ViewerArea/ViewerArea'
-import Metadata from '../../Layout/Metadata/Metadata'
-
 
 export default function CountryInformer () {
 
@@ -19,32 +19,43 @@ export default function CountryInformer () {
   if(noNetwork) return <NoNetwork/>
   if(isLoading) return <LoadingPage/>
 
-return (
+  const metadata = (() => {
+    const project = MENU.find((item)=>item.name === 'Country Informer')
+    return {
+      img: project?.imgSrc || undefined,
+      key: project?.link || '/country-informer',
+      title: project?.name || 'Country Infomer',
+      desc: project?.name || 'Learn basic information of different countries.',
+    }
+  })()
 
-  <motion.div className={styles.container} 
-    variants={Animation}
-    initial='initial'
-    animate='final'
-    exit='exit'
-  >
+  return (
+
+    <motion.div className={styles.container} 
+      variants={Animation}
+      initial='initial'
+      animate='final'
+      exit='exit'
+    >
 
       <Metadata
-        pageTitle='Country Infomer'
-        description='Learn basic information of different countries.'
-        key={'/country-informer'}
+        key={metadata.key}
+        pageTitle={metadata.title}
+        description={metadata.desc}
+        previewImage={metadata.img}
       />
 
-    <GlobalContext.Provider value={globalValues}>
-      <SearchArea/>
+      <GlobalContext.Provider value={globalValues}>
+        <SearchArea/>
 
-      <AnimatePresence mode="wait">
-        {selectedCountry && <ViewCardArea country={selectedCountry} key={`view_area`}/> }
-      </AnimatePresence>
-      
-      {showMoreFilters && <AdvancedFilter/>}
-    </GlobalContext.Provider>
-  </motion.div>
-  
-)
+        <AnimatePresence mode="wait">
+          {selectedCountry && <ViewCardArea country={selectedCountry} key={`view_area`}/> }
+        </AnimatePresence>
+        
+        {showMoreFilters && <AdvancedFilter/>}
+      </GlobalContext.Provider>
+    </motion.div>
+    
+  )
 
 }

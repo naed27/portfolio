@@ -1,26 +1,20 @@
+import MENU from '../../lib/Menu'
+import Link from 'next/link'
 import animation from './Animation'
 import styles from './Home.module.scss'
+import { useRouter }  from 'next/router'
 import useSwipe from '../../hooks/useSwipe'
-import Footer from './Components/Footer/Footer'
 import Header from './Components/Header/Header'
 import Sphere from './Components/Sphere/Sphere'
 import Metadata from '../Layout/Metadata/Metadata'
+import InfoBar from './Components/InfoBar/InfoBar'
 import { AnimatePresence, motion } from 'framer-motion'
 import PreviewBox from './Components/PreviewBox/PreviewBox'
 import { useOnLoadImages } from '../../hooks/useOnLoadImages'
+import PreviewInfo from './Components/PreviewInfo/PreviewInfo'
 import { LayoutContext } from '../Layout/Context/LayoutContext'
 import { useCallback, useContext, useEffect, useState, useRef } from 'react'
-import Link from 'next/link'
-import Router , { useRouter }  from 'next/router';
 
-const MENU = 
-[
-  {link:'/', index: -1, name: 'Cover', imgSrc:''},
-  {link:'/projects/card-searcher', index: 0, name: 'Card Searcher', imgSrc:'https://cdn.discordapp.com/attachments/1112753458165063701/1112753476980719678/image.png'},
-  {link:'/projects/country-informer', index: 1, name: 'Country Informer', imgSrc:'https://cdn.discordapp.com/attachments/1112753458165063701/1112761535689936936/image.png'},
-  {link:'/projects/audio-visualizer', index: 2, name: 'Audio Visualizer', imgSrc:'https://cdn.discordapp.com/attachments/1112753458165063701/1112761209339519006/image.png'},
-  {link:'/games/phantasmora', index: 3, name: 'Phantasmora', imgSrc:'https://cdn.discordapp.com/attachments/1112753458165063701/1112760858163028091/image.png'},
-]
 
 export default function Home () {
   const { setAbsoluteNavBar, setShowNavBar } = useContext(LayoutContext)
@@ -59,13 +53,10 @@ export default function Home () {
     }
   },[toggleMenuIndex])
   
-
-
   const bind = useSwipe({
     threshold: 0.3,
     onLeft: () => toggleMenuIndex('+'),
-    onRight: () => toggleMenuIndex('-'),
-    onUp: () => menuIndex>0&&router.push(MENU[menuIndex].link)
+    onRight: () => toggleMenuIndex('-')
   });
 
   useEffect(()=>{
@@ -90,27 +81,27 @@ export default function Home () {
         description={`A portfolio containing all my works as a web developer!`}
       />
       <AnimatePresence mode='wait'  key={'header_transition'}>
-      {imagesLoaded?<Header label='Dean' key={'header1'}/>:<Header label='' key={'header0'}/>}
+        {imagesLoaded?<Header label='Dean' key={'header1'}/>:<Header label='' key={'header0'}/>}
       </AnimatePresence>
 
       <AnimatePresence mode='wait'  key={'sphere_transition'}>
-          {imagesLoaded?
-            <Sphere reactGestureBinder={bind} key={'sphere1'}>
-              <AnimatePresence mode='sync' key={'menu_transition'}>
-                {menuIndex == 0 && <PreviewBox  key={`project_cover`} text={'P R O J E C T S'} />}
-                {menuIndex == 1 && <PreviewBox  key={`project_1`} src={MENU[1].imgSrc} />}
-                {menuIndex == 2 && <PreviewBox  key={`project_2`} src={MENU[2].imgSrc} />}
-                {menuIndex == 3 && <PreviewBox  key={`project_3`} src={MENU[3].imgSrc} />}
-                {menuIndex == 4 && <PreviewBox  key={`project_4`} src={MENU[4].imgSrc} />}
-              </AnimatePresence>
-              <div className={styles.controlLeft} onMouseDown={(e)=>queueClick('-',e)}/>
-              <div className={styles.controlRight} onMouseDown={(e)=>queueClick('+',e)}/>
-            </Sphere>
-            :
-            <Sphere cssStyle={{border: '2px solid transparent'}}  key={'sphere2'}>
-              {'Setting up...'}
-            </Sphere>
-          }
+        {imagesLoaded?
+          <Sphere reactGestureBinder={bind} key={'sphere1'}>
+            <AnimatePresence mode='sync' key={'menu_transition'}>
+              {menuIndex == 0 && <PreviewBox  key={`project_cover`} text={'P R O J E C T S'} />}
+              {menuIndex == 1 && <PreviewBox  key={`project_1`} src={MENU[1].imgSrc} />}
+              {menuIndex == 2 && <PreviewBox  key={`project_2`} src={MENU[2].imgSrc} />}
+              {menuIndex == 3 && <PreviewBox  key={`project_3`} src={MENU[3].imgSrc} />}
+              {menuIndex == 4 && <PreviewBox  key={`project_4`} src={MENU[4].imgSrc} />}
+            </AnimatePresence>
+            <div className={styles.controlLeft} onMouseDown={(e)=>queueClick('-',e)}/>
+            <div className={styles.controlRight} onMouseDown={(e)=>queueClick('+',e)}/>
+          </Sphere>
+          :
+          <Sphere cssStyle={{border: '2px solid transparent'}}  key={'sphere2'}>
+            {'Setting up...'}
+          </Sphere>
+        }
       </AnimatePresence>
       
       <div ref={controlTrack} data-clickdown={'none'} data-lock={'false'} data-clickaction={'none'}/>
@@ -126,9 +117,23 @@ export default function Home () {
           <Link href={MENU[1].link}/>
           <Link href={MENU[2].link}/>
           <Link href={MENU[3].link}/>
+          <Link href={MENU[4].link}/>
       </div>
 
-      <Footer/>
+    <AnimatePresence mode='wait'  key={'infobar_transition'}>
+    {imagesLoaded?
+      <InfoBar key={'infobar1'}>
+        <AnimatePresence mode='sync' key={'info_transition'}>
+          {menuIndex == 0 && <PreviewInfo menuItem={MENU[0]} key={`previewInfo_0`} isLink={false}/>}
+          {menuIndex == 1 && <PreviewInfo menuItem={MENU[1]} key={`previewInfo_1`} isLink={true}/>}
+          {menuIndex == 2 && <PreviewInfo menuItem={MENU[2]} key={`previewInfo_2`} isLink={true}/>}
+          {menuIndex == 3 && <PreviewInfo menuItem={MENU[3]} key={`previewInfo_3`} isLink={true}/>}
+          {menuIndex == 4 && <PreviewInfo menuItem={MENU[4]} key={`previewInfo_4`} isLink={true}/>}
+        </AnimatePresence>
+      </InfoBar>:
+      <InfoBar key={'infobar0'}/>}
+    </AnimatePresence>
+      
     </motion.div>
   )
 }

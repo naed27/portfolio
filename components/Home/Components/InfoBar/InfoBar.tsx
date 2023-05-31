@@ -1,4 +1,4 @@
-import styles from './Sphere.module.scss'
+import styles from './InfoBar.module.scss'
 import { ReactEventHandlers } from 'react-use-gesture/dist/types'
 import { ReactNode, RefObject, useRef, useMemo, CSSProperties } from 'react'
 import { motion } from 'framer-motion'
@@ -10,13 +10,13 @@ const animation = {
   final:{
     opacity:1,
     transition:{
-      duration:1
+      duration:3
     }
   },
   exit:{
     opacity:0,
     transition:{
-      duration:0.4
+      duration:2
     }
   }
 }
@@ -28,25 +28,24 @@ interface Props {
   reactGestureBinder?: ((...args: any[]) => ReactEventHandlers) | (()=>void)
 };
 
-const Sphere = ({children, customRef, reactGestureBinder = ()=>{}, cssStyle={}}: Props) => {
-
+const InfoBar = ({children, customRef, reactGestureBinder = ()=>{}, cssStyle={}}: Props) => {
   const defaultContainerRef = useRef<HTMLDivElement>(null);
   const containerRef = useMemo(()=> customRef || defaultContainerRef, [customRef])
 
   return (
-      <motion.div 
-        variants={animation}
-        initial='initial'
-        animate='final'
-        exit='exit'
-        style={cssStyle}
-        ref={containerRef} 
-        className={styles.container} {...reactGestureBinder()}>
+    <motion.div 
+      variants={animation}
+      initial='initial'
+      animate='final'
+      exit='exit'
+      style={cssStyle}
+      ref={containerRef} 
+      className={styles.container} {...reactGestureBinder()}>
 
-          {children}
+        {children}
 
-      </motion.div> 
+    </motion.div> 
   )
 };
 
-export default Sphere;
+export default InfoBar;

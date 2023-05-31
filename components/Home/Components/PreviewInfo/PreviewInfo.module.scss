@@ -1,0 +1,35 @@
+.container{
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    font-family: 'Yu Gothic UI';
+    
+    flex-direction: column;
+    padding: 20px;
+    padding-top: 50px;
+    text-align: center;
+    row-gap:20px;
+
+  
+    .title{
+      color: #EEDC82;
+      display: flex;
+      flex-direction: row;
+      height: 25px;
+      align-items: center;
+      gap: 5px;
+    }
+  
+    .desc{
+      color: #C0C0C0;
+      line-height: 1.2;
+      
+    }
+  }

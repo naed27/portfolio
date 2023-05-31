@@ -1,15 +1,26 @@
-import animation from '../Animation/Animation';
+import MENU from '../../lib/Menu'
 import { motion } from 'framer-motion'
-import Canvas from './Components/Canvas/Canvas';
+import { FunctionComponent } from 'react'
+import animation from '../Animation/Animation'
+import Canvas from './Components/Canvas/Canvas'
 import styles from './AudioVisualizer.module.scss'
-import Control from './Components/Control Menu/Control';
-import { GlobalContext } from './Context/GlobalContext';
-import AudioVisualizerLogic from './AudioVisualizerLogic';
-import { FunctionComponent } from 'react';
-import Metadata from '../Layout/Metadata/Metadata';
+import Control from './Components/Control Menu/Control'
+import { GlobalContext } from './Context/GlobalContext'
+import AudioVisualizerLogic from './AudioVisualizerLogic'
+import Metadata from '../Layout/Metadata/Metadata'
 
 const AudioVisualizer: FunctionComponent = () => {
   const { globalValues }  = AudioVisualizerLogic();
+
+  const metadata = (() => {
+    const project = MENU.find((item)=>item.name === 'Audio Visualizer')
+    return {
+      img: project?.imgSrc || undefined,
+      key: project?.link || '/audio-visualizer',
+      title: project?.name || 'Audio Visualizer',
+      desc: project?.name || 'Visualize your vibe!',
+    }
+  })()
   
   return (
     <motion.div className={styles.container} 
@@ -19,9 +30,10 @@ const AudioVisualizer: FunctionComponent = () => {
       exit='exit'>
 
       <Metadata
-        pageTitle='Audio Visualizer'
-        description='Visualize your vibe!'
-        key={'/audio-visualizer'}
+        key={metadata.key}
+        pageTitle={metadata.title}
+        description={metadata.desc}
+        previewImage={metadata.img}
       />
 
       <GlobalContext.Provider value={globalValues}>
