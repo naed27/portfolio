@@ -38,21 +38,29 @@
   scroll-behavior: smooth;
 }
 
-.controlLeft{
+.controls{
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
-  width: 50%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+
+  .controlLeft{
+    flex-grow: 1;
+    height: 100%;
+  }
+  
+  .controlRight{
+    flex-grow: 1;
+    height: 100%;
+  }
 }
 
-.controlRight{
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: 50%;
-}
+
 
 .imageCache{
   position: absolute;
