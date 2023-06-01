@@ -28,7 +28,7 @@ const MENU: MenuItem[] =
     index: 1, 
     name: 'Country Informer', 
     link:'/projects/country-informer', 
-    imgSrc:'https://cdn.discordapp.com/attachments/1112753458165063701/1112761535689936936/image.png',
+    imgSrc:'https://cdn.discordapp.com/attachments/1112753458165063701/1113728964658221087/image.png',
     description: 'Discover information on any nation in seconds!',
   },
   {

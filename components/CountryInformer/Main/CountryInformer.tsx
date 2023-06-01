@@ -31,7 +31,7 @@ export default function CountryInformer () {
         key={'/projects/country-informer'}
         pageTitle={'Country Informer'}
         description={'Discover information on any nation in seconds!'}
-        previewImage={'https://cdn.discordapp.com/attachments/1112753458165063701/1112761535689936936/image.png'}
+        previewImage={'https://cdn.discordapp.com/attachments/1112753458165063701/1113728964658221087/image.png'}
       />
 
       <GlobalContext.Provider value={globalValues}>
