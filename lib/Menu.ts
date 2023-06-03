@@ -2,7 +2,7 @@
 
 export interface MenuItem  {
   index: number;
-  name: 'Tap or swipe the circle!' | 'YGO Card Searcher' | 'Country Informer' | 'Audio Visualizer' | 'Phantasmora' | 'Contacts';
+  name: 'Tap or swipe the portfolio!' | 'YGO Card Searcher' | 'Country Informer' | 'Audio Visualizer' | 'Phantasmora' | 'Contacts';
   link: string;
   imgSrc: string;
   description: string;
