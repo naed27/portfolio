@@ -2,6 +2,7 @@ import MENU from '../../lib/Menu'
 import animation from './Animation'
 import { v4 as uuidv4 } from 'uuid'
 import styles from './Home.module.scss'
+import { Dna } from 'react-loader-spinner'
 import useSwipe from '../../hooks/useSwipe'
 import { Github, Mail } from 'lucide-react'
 import Header from './Components/Header/Header'
@@ -17,7 +18,6 @@ import { useOnLoadImages } from '../../hooks/useOnLoadImages'
 import PreviewInfo from './Components/PreviewInfo/PreviewInfo'
 import { LayoutContext } from '../Layout/Context/LayoutContext'
 import { useCallback, useContext, useEffect, useState, useRef } from 'react'
-import { Dna } from 'react-loader-spinner'
 
 const CopyToClipboardNotif = () => toast('Copied to Clipboard!');
 
@@ -135,38 +135,37 @@ export default function Home () {
         <img src={MENU[5].imgSrc} alt={'imageCache4'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
         <Dna
           visible={true}
-          height="80"
           width="80"
-          ariaLabel="dna-loading"
+          height="80"
           wrapperStyle={{}}
+          ariaLabel="dna-loading"
           wrapperClass="dna-wrapper"
         />
       </div>}
       
-    <AnimatePresence mode='wait'>
-    {imagesLoaded?
-      <InfoBar key={`infobar1`}>
-        <AnimatePresence mode='sync'>
-          {menuIndex == 0 && <PreviewInfo menuItem={MENU[0]} key={`${uuidv4()}`} isLink={false}/>}
-          {menuIndex == 1 && <PreviewInfo menuItem={MENU[1]} key={`${uuidv4()}`} isLink={true}/>}
-          {menuIndex == 2 && <PreviewInfo menuItem={MENU[2]} key={`${uuidv4()}`} isLink={true}/>}
-          {menuIndex == 3 && <PreviewInfo menuItem={MENU[3]} key={`${uuidv4()}`} isLink={true}/>}
-          {menuIndex == 4 && <PreviewInfo menuItem={MENU[4]} key={`${uuidv4()}`} isLink={true}/>}
+      <AnimatePresence mode='wait'>
+      {imagesLoaded?
+        <InfoBar key={`infobar1`}>
+          <AnimatePresence mode='sync'>
+            {menuIndex == 0 && <PreviewInfo menuItem={MENU[0]} key={`${uuidv4()}`} isLink={false}/>}
+            {menuIndex == 1 && <PreviewInfo menuItem={MENU[1]} key={`${uuidv4()}`} isLink={true}/>}
+            {menuIndex == 2 && <PreviewInfo menuItem={MENU[2]} key={`${uuidv4()}`} isLink={true}/>}
+            {menuIndex == 3 && <PreviewInfo menuItem={MENU[3]} key={`${uuidv4()}`} isLink={true}/>}
+            {menuIndex == 4 && <PreviewInfo menuItem={MENU[4]} key={`${uuidv4()}`} isLink={true}/>}
 
-          {menuIndex == 5 && 
-          <PreviewInfo menuItem={MENU[5]} key={`${uuidv4()}`} isLink={false}>
-            <div className={styles.contactsWrapper} key={'contacts'}>
-            <div onClick={onClickUrl('https://github.com/naed27')} className={styles.contact}><Github color='skyblue'/>{`github.com/naed27`}</div>
-            <CopyToClipboard text="naed221@gmail.com" onCopy={CopyToClipboardNotif}>
-              <div className={styles.contact}><Mail color='skyblue'/>{`naed221@gmail.com`}</div>
-            </CopyToClipboard>
-            </div>
-          </PreviewInfo>}
-        </AnimatePresence>
-      </InfoBar>:
-      <InfoBar key={'infobar0'}/>}
-    </AnimatePresence>
-    
+            {menuIndex == 5 && 
+            <PreviewInfo menuItem={MENU[5]} key={`${uuidv4()}`} isLink={false}>
+              <div className={styles.contactsWrapper} key={'contacts'}>
+              <div onClick={onClickUrl('https://github.com/naed27')} className={styles.contact}><Github color='skyblue'/>{`github.com/naed27`}</div>
+              <CopyToClipboard text="naed221@gmail.com" onCopy={CopyToClipboardNotif}>
+                <div className={styles.contact}><Mail color='skyblue'/>{`naed221@gmail.com`}</div>
+              </CopyToClipboard>
+              </div>
+            </PreviewInfo>}
+          </AnimatePresence>
+        </InfoBar>:
+        <InfoBar key={'infobar0'}/>}
+      </AnimatePresence>
       
     </motion.div>
   )
