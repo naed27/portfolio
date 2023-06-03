@@ -2,7 +2,7 @@
 
 export interface MenuItem  {
   index: number;
-  name: 'Tap or swipe the circle!' | 'YGO Card Searcher' | 'Country Informer' | 'Audio Visualizer' | 'Phantasmora';
+  name: 'Tap or swipe the circle!' | 'YGO Card Searcher' | 'Country Informer' | 'Audio Visualizer' | 'Phantasmora' | 'Contacts';
   link: string;
   imgSrc: string;
   description: string;
@@ -12,9 +12,9 @@ const MENU: MenuItem[] =
 [
   {
     index: -1, 
-    name: 'Tap or swipe the circle!', 
+    name: 'Tap or swipe the portfolio!', 
     link:'/', 
-    imgSrc:'',
+    imgSrc:'https://cdn.discordapp.com/attachments/1112753458165063701/1114435135077617785/image.png',
     description: '',
     },
   {
@@ -44,6 +44,13 @@ const MENU: MenuItem[] =
     link:'/games/phantasmora', 
     imgSrc:'https://cdn.discordapp.com/attachments/1112753458165063701/1112760858163028091/image.png',
     description: 'A thrilling game about a ghost trapped in a dungeon!',
+  },
+  {
+    index: 4, 
+    name: 'Contacts', 
+    link:'/', 
+    imgSrc:'https://cdn.discordapp.com/attachments/1112753458165063701/1114421849598742549/image.png',
+    description: '',
   },
 ]
 

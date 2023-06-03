@@ -13,6 +13,12 @@ import { useOnLoadImages } from '../../hooks/useOnLoadImages'
 import PreviewInfo from './Components/PreviewInfo/PreviewInfo'
 import { LayoutContext } from '../Layout/Context/LayoutContext'
 import { useCallback, useContext, useEffect, useState, useRef } from 'react'
+import { Github, Mail } from 'lucide-react'
+import { onClickUrl } from '../../utility/functions'
+import {CopyToClipboard} from 'react-copy-to-clipboard'
+import toast, { Toaster } from 'react-hot-toast';
+
+const CopyToClipboardNotif = () => toast('Copied to Clipboard!');
 
 
 export default function Home () {
@@ -20,7 +26,10 @@ export default function Home () {
   const [menuIndex, setMenuIndex] = useState(0)
   const controlTrack = useRef<HTMLDivElement>(null)
   const imageStoreRef = useRef<HTMLDivElement>(null)
+  const [showEmail, setShowEmail] = useState(false);
   const imagesLoaded = useOnLoadImages(imageStoreRef)
+
+  const toggleEmail = useCallback(()=>{setShowEmail(c=>!c)},[])
 
   const toggleMenuIndex = useCallback((action: '+' | '-')=>{
     if(controlTrack.current?.getAttribute('data-lock')=='true') return
@@ -85,11 +94,12 @@ export default function Home () {
         {imagesLoaded?
           <Sphere reactGestureBinder={bind} key={`sphere1`}>
             <AnimatePresence mode='sync'>
-              {menuIndex == 0 && <PreviewBox  key={`${uuidv4()}`} text={'P R O J E C T S'} />}
+              {menuIndex == 0 && <PreviewBox  key={`${uuidv4()}`} src={MENU[0].imgSrc} />}
               {menuIndex == 1 && <PreviewBox  key={`${uuidv4()}`} src={MENU[1].imgSrc} />}
               {menuIndex == 2 && <PreviewBox  key={`${uuidv4()}`} src={MENU[2].imgSrc} />}
               {menuIndex == 3 && <PreviewBox  key={`${uuidv4()}`} src={MENU[3].imgSrc} />}
               {menuIndex == 4 && <PreviewBox  key={`${uuidv4()}`} src={MENU[4].imgSrc} />}
+              {menuIndex == 5 && <PreviewBox  key={`${uuidv4()}`} src={MENU[5].imgSrc} />}
             </AnimatePresence>
             <div className={styles.controls}>
               <div className={styles.controlLeft} onMouseDown={(e)=>queueClick('-',e)}/>
@@ -106,10 +116,12 @@ export default function Home () {
       <div ref={controlTrack} data-clickdown={'none'} data-lock={'false'} data-clickaction={'none'}/>
 
       {imagesLoaded==false&&<div className={styles.imageCache} ref={imageStoreRef}>
+        <img src={MENU[0].imgSrc} alt={'imageCache1'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
         <img src={MENU[1].imgSrc} alt={'imageCache1'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
         <img src={MENU[2].imgSrc} alt={'imageCache2'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
         <img src={MENU[3].imgSrc} alt={'imageCache3'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
         <img src={MENU[4].imgSrc} alt={'imageCache4'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
+        <img src={MENU[5].imgSrc} alt={'imageCache4'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
       </div>}
 
     <AnimatePresence mode='wait'>
@@ -121,6 +133,16 @@ export default function Home () {
           {menuIndex == 2 && <PreviewInfo menuItem={MENU[2]} key={`${uuidv4()}`} isLink={true}/>}
           {menuIndex == 3 && <PreviewInfo menuItem={MENU[3]} key={`${uuidv4()}`} isLink={true}/>}
           {menuIndex == 4 && <PreviewInfo menuItem={MENU[4]} key={`${uuidv4()}`} isLink={true}/>}
+
+          {menuIndex == 5 && <PreviewInfo menuItem={MENU[5]} key={`${uuidv4()}`} isLink={false}>
+            <div className={styles.contactsWrapper} key={'contacts'}>
+            <div onClick={onClickUrl('https://github.com/naed27')} className={styles.contact}><Github color='skyblue'/>{`github.com/naed27`}</div>
+            <CopyToClipboard text="naed221@gmail.com" onCopy={CopyToClipboardNotif}>
+              <div className={styles.contact}><Mail color='skyblue'/>{`naed221@gmail.com`}</div>
+            </CopyToClipboard>
+            <Toaster toastOptions={{duration:1000, style:{color: '#c0c0c0', backgroundColor:'black', outline:'1px solid #c0c0c0', fontSize:'14px', width: 'auto', height: 'auto', padding: '3px'}}}/>
+            </div>
+          </PreviewInfo>}
         </AnimatePresence>
       </InfoBar>:
       <InfoBar key={'infobar0'}/>}

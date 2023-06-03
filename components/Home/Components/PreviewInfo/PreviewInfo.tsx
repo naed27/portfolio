@@ -3,6 +3,7 @@ import { MenuItem } from '../../../../lib/Menu';
 import styles from './PreviewInfo.module.scss'
 import { motion } from 'framer-motion'
 import { ArrowRightCircle } from 'lucide-react'
+import { ReactNode } from 'react';
 
 const animation = {
   initial:{
@@ -25,9 +26,10 @@ const animation = {
 interface Props {
   menuItem: MenuItem,
   isLink?: boolean
+  children?: ReactNode
 };
 
-const PreviewInfo = ({menuItem, isLink= false}: Props) => {
+const PreviewInfo = ({menuItem, isLink= false, children}: Props) => {
 
   return (
     <motion.div 
@@ -42,7 +44,8 @@ const PreviewInfo = ({menuItem, isLink= false}: Props) => {
           :
           <a className={styles.title}>{`${menuItem.name}`}</a>
         }
-        <p className={styles.desc}>{`${menuItem.description}`}</p>
+        {menuItem.description!==''&&<p className={styles.desc}>{`${menuItem.description}`}</p>}
+        {children}
     </motion.div>
   )
 };

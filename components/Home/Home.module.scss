@@ -78,3 +78,26 @@
   width: 0px;
 }
 
+.contactsWrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contact{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 14px;
+  color: '#c0c0c0';
+  padding: 2px;
+  gap: 5px;
+  cursor: pointer; 
+  user-select: none;
+}
+
+.toast{
+  background-color: black;
+  border-color: '#c0c0c0';
+  color: '#c0c0c0';
+}
