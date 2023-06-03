@@ -8,8 +8,8 @@ import { GlobalContext } from '../Misc/globalContext';
 import ViewCardArea from '../ViewerArea/ViewCardArea';
 import Metadata from '../../Layout/Metadata/Metadata';
 import { AnimatePresence, motion } from 'framer-motion';
-import NoNetwork from './Components/No Network Page/NoNetwork';
-import LoadingPage from './Components/Loading Page/LoadingPage';
+import NoNetwork from '../../No Network Page/NoNetwork';
+import LoadingPage from '../../Loading Page/LoadingPage';
 import AdvancedFilter from '../SearchArea/SearchFields/AdvancedFilter';
 
 const CardSearcher = () => {
@@ -18,32 +18,36 @@ const CardSearcher = () => {
   const { showDeck, showSearcher, selectedCard, showMoreFilters, showDeckBuilder } = globalValues;
 
   if(noNetwork) return <NoNetwork/>
-  if(isLoading) return <LoadingPage/>
 
   return (
-    <motion.div className={styles.container} 
-      variants={Animation}
-      initial='initial'
-      animate='final'
-      exit='exit'
-    >
-      <Metadata
-        key={'/projects/card-searcher'}
-        pageTitle={'YGO Card Searcher'}
-        description={'Access stats, effects, and more for every card in the game!'}
-        previewImage={'https://cdn.discordapp.com/attachments/1112753458165063701/1112753476980719678/image.png'}
-      />
+    <AnimatePresence mode={'wait'} key={`card-searcher-transition`}>
+      {isLoading ? <LoadingPage/>:
+        <motion.div className={styles.container} 
+        key={`/card_searcher`}
+        variants={Animation}
+        initial='initial'
+        animate='final'
+        exit='exit'
+        >
+        <Metadata
+          key={'/projects/card-searcher'}
+          pageTitle={'YGO Card Searcher'}
+          description={'Access stats, effects, and more for every card in the game!'}
+          previewImage={'https://cdn.discordapp.com/attachments/1112753458165063701/1112753476980719678/image.png'}
+        />
 
-      <GlobalContext.Provider value={globalValues}>
-        {showDeckBuilder && <NavBar/>}
-        <AnimatePresence mode="wait">
-          {(showDeckBuilder && showDeck) && <DeckArea key={`deck_area`}/>}
-          {showSearcher && <SearchArea key={`search_area`}/>}
-        </AnimatePresence>
-        {selectedCard && <ViewCardArea card={selectedCard} key={`view_area`}/> }
-        {showMoreFilters && <AdvancedFilter/>}
-      </GlobalContext.Provider>
-    </motion.div>
+        <GlobalContext.Provider value={globalValues}>
+          {showDeckBuilder && <NavBar/>}
+          <AnimatePresence mode="wait">
+            {(showDeckBuilder && showDeck) && <DeckArea key={`deck_area`}/>}
+            {showSearcher && <SearchArea key={`search_area`}/>}
+          </AnimatePresence>
+          {selectedCard && <ViewCardArea card={selectedCard} key={`view_area`}/> }
+          {showMoreFilters && <AdvancedFilter/>}
+        </GlobalContext.Provider>
+        </motion.div>
+      }
+    </AnimatePresence>
   )
 }
 

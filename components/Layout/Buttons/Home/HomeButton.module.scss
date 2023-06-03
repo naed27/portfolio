@@ -8,6 +8,7 @@
   justify-content: center;
   align-items: center;
   padding: 5px;
+  padding-left: 0px;
   font-size: 14px;
   z-index:2; 
 
@@ -15,11 +16,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 4px;
-    color: white;
+    padding: 10px;
+    color: #fff;
     height: 100%;
     aspect-ratio: 1/1;
     opacity: 90%;
+    user-select: none;
 
     &:hover{
       opacity: 100%;

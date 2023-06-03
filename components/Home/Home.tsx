@@ -3,33 +3,30 @@ import animation from './Animation'
 import { v4 as uuidv4 } from 'uuid'
 import styles from './Home.module.scss'
 import useSwipe from '../../hooks/useSwipe'
+import { Github, Mail } from 'lucide-react'
 import Header from './Components/Header/Header'
 import Sphere from './Components/Sphere/Sphere'
+import toast, { Toaster } from 'react-hot-toast'
 import Metadata from '../Layout/Metadata/Metadata'
 import InfoBar from './Components/InfoBar/InfoBar'
+import { onClickUrl } from '../../utility/functions'
+import {CopyToClipboard} from 'react-copy-to-clipboard'
 import { AnimatePresence, motion } from 'framer-motion'
 import PreviewBox from './Components/PreviewBox/PreviewBox'
 import { useOnLoadImages } from '../../hooks/useOnLoadImages'
 import PreviewInfo from './Components/PreviewInfo/PreviewInfo'
 import { LayoutContext } from '../Layout/Context/LayoutContext'
 import { useCallback, useContext, useEffect, useState, useRef } from 'react'
-import { Github, Mail } from 'lucide-react'
-import { onClickUrl } from '../../utility/functions'
-import {CopyToClipboard} from 'react-copy-to-clipboard'
-import toast, { Toaster } from 'react-hot-toast';
+import { Dna } from 'react-loader-spinner'
 
 const CopyToClipboardNotif = () => toast('Copied to Clipboard!');
-
 
 export default function Home () {
   const { setAbsoluteNavBar, setShowNavBar } = useContext(LayoutContext)
   const [menuIndex, setMenuIndex] = useState(0)
   const controlTrack = useRef<HTMLDivElement>(null)
-  const imageStoreRef = useRef<HTMLDivElement>(null)
-  const [showEmail, setShowEmail] = useState(false);
-  const imagesLoaded = useOnLoadImages(imageStoreRef)
-
-  const toggleEmail = useCallback(()=>{setShowEmail(c=>!c)},[])
+  const cacheStoreRef = useRef<HTMLDivElement>(null)
+  const imagesLoaded = useOnLoadImages(cacheStoreRef)
 
   const toggleMenuIndex = useCallback((action: '+' | '-')=>{
     if(controlTrack.current?.getAttribute('data-lock')=='true') return
@@ -115,15 +112,23 @@ export default function Home () {
       
       <div ref={controlTrack} data-clickdown={'none'} data-lock={'false'} data-clickaction={'none'}/>
 
-      {imagesLoaded==false&&<div className={styles.imageCache} ref={imageStoreRef}>
+      {(imagesLoaded==false)&&<div className={styles.imageCache} ref={cacheStoreRef}>
         <img src={MENU[0].imgSrc} alt={'imageCache1'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
         <img src={MENU[1].imgSrc} alt={'imageCache1'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
         <img src={MENU[2].imgSrc} alt={'imageCache2'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
         <img src={MENU[3].imgSrc} alt={'imageCache3'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
         <img src={MENU[4].imgSrc} alt={'imageCache4'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
         <img src={MENU[5].imgSrc} alt={'imageCache4'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
+        <Dna
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="dna-loading"
+          wrapperStyle={{}}
+          wrapperClass="dna-wrapper"
+        />
       </div>}
-
+      
     <AnimatePresence mode='wait'>
     {imagesLoaded?
       <InfoBar key={`infobar1`}>

@@ -10,7 +10,7 @@ export const useOnLoadImages = (ref: RefObject<HTMLElement>) => {
       );
     };
 
-    if (!ref?.current) return;
+    if (!ref?.current) return
 
     const imagesLoaded = Array.from(ref.current.querySelectorAll("img"));
 

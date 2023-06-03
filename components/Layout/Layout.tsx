@@ -3,6 +3,7 @@ import Body from './Body/Body'
 import NavBar from './NavBar/NavBar'
 import styles from './Layout.module.scss'
 import { LayoutContext } from './Context/LayoutContext'
+import { AnimatePresence } from "framer-motion";
 
 interface Props{
   children: ReactNode
@@ -22,9 +23,13 @@ const Layout = ({children}: Props) => {
   return (
     <div className={styles.container}>
       <LayoutContext.Provider value={value}>
+      <AnimatePresence mode="wait" key={'navbar_transition'}>
         {showNavBar&&<NavBar/>}
+      </AnimatePresence>
           <Body>
-            {children}
+            <AnimatePresence mode="wait" key={'layout_transition'}>
+              {children}
+            </AnimatePresence>
           </Body>
       </LayoutContext.Provider>
     </div>

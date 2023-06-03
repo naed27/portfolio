@@ -13,6 +13,7 @@ const AudioVisualizer: FunctionComponent = () => {
   
   return (
     <motion.div className={styles.container} 
+      key={`/audio-visualizer`}
       variants={animation}
       initial='initial'
       animate='final'

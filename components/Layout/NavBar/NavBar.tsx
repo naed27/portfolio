@@ -11,6 +11,7 @@ export default function NavBar () {
   
   return (
     <motion.div className={styles.container}
+      key={`/nav_bar`}
       variants={animation}
       initial='initial'
       animate='final'
