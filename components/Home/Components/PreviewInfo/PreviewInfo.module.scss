@@ -26,6 +26,13 @@
       align-items: center;
       gap: 5px;
     }
+
+    .descWrapper{
+      height: 100px;
+      width: auto;
+      justify-content: center;
+      align-items: center;
+    }
   
     .desc{
       color: #C0C0C0;
@@ -33,3 +40,4 @@
       
     }
   }
+

@@ -44,8 +44,11 @@ const PreviewInfo = ({menuItem, isLink= false, children}: Props) => {
           :
           <a className={styles.title}>{`${menuItem.name}`}</a>
         }
-        {menuItem.description!==''&&<p className={styles.desc}>{`${menuItem.description}`}</p>}
-        {children}
+        <div className={styles.descWrapper}>
+          {menuItem.description!==''&&<p className={styles.desc}>{`${menuItem.description}`}</p>}
+          {children}
+        </div>
+       
     </motion.div>
   )
 };

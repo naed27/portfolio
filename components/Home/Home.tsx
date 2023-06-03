@@ -87,6 +87,20 @@ export default function Home () {
         {imagesLoaded?<Header label='Dean' key={`header1`}/>:<Header label='' key={`header0`}/>}
       </AnimatePresence>
 
+      <Toaster 
+        toastOptions={{
+          duration:1000, 
+          style:{
+            width: 'auto', 
+            height: 'auto', 
+            padding: '3px',
+            fontSize:'14px', 
+            color: '#c0c0c0', 
+            backgroundColor:'black', 
+            outline:'1px solid #c0c0c0', 
+            }
+        }}/>
+      
       <AnimatePresence mode='wait'>
         {imagesLoaded?
           <Sphere reactGestureBinder={bind} key={`sphere1`}>
@@ -139,19 +153,20 @@ export default function Home () {
           {menuIndex == 3 && <PreviewInfo menuItem={MENU[3]} key={`${uuidv4()}`} isLink={true}/>}
           {menuIndex == 4 && <PreviewInfo menuItem={MENU[4]} key={`${uuidv4()}`} isLink={true}/>}
 
-          {menuIndex == 5 && <PreviewInfo menuItem={MENU[5]} key={`${uuidv4()}`} isLink={false}>
+          {menuIndex == 5 && 
+          <PreviewInfo menuItem={MENU[5]} key={`${uuidv4()}`} isLink={false}>
             <div className={styles.contactsWrapper} key={'contacts'}>
             <div onClick={onClickUrl('https://github.com/naed27')} className={styles.contact}><Github color='skyblue'/>{`github.com/naed27`}</div>
             <CopyToClipboard text="naed221@gmail.com" onCopy={CopyToClipboardNotif}>
               <div className={styles.contact}><Mail color='skyblue'/>{`naed221@gmail.com`}</div>
             </CopyToClipboard>
-            <Toaster toastOptions={{duration:1000, style:{color: '#c0c0c0', backgroundColor:'black', outline:'1px solid #c0c0c0', fontSize:'14px', width: 'auto', height: 'auto', padding: '3px'}}}/>
             </div>
           </PreviewInfo>}
         </AnimatePresence>
       </InfoBar>:
       <InfoBar key={'infobar0'}/>}
     </AnimatePresence>
+    
       
     </motion.div>
   )
