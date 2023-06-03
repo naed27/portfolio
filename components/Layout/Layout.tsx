@@ -27,9 +27,7 @@ const Layout = ({children}: Props) => {
         {showNavBar&&<NavBar/>}
       </AnimatePresence>
           <Body>
-            <AnimatePresence mode="wait" key={'layout_transition'}>
-              {children}
-            </AnimatePresence>
+            {children}
           </Body>
       </LayoutContext.Provider>
     </div>
