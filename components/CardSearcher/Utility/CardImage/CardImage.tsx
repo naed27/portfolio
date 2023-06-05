@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { YGOCard } from '../../Misc/globalTypes';
 import styles from './CardImage.module.scss';
 
@@ -18,16 +17,17 @@ export default function CardImage ({
 
   return (
     <div className={styles.wrapper}> 
-      {showImages&&(<Image 
-      src={`${card.card_images[0].image_url}`} 
-      alt='card'
-      layout='fill'
-      objectFit='contain'
-      unoptimized
-      />)}
-      {limit<3&&(<div className={styles.limitContainer} style={style}>
-      {limit}
-      </div>)}
+      {showImages&&(
+      <img 
+      src={`${card.card_images[0].image_url}`}  
+      alt={`${card.name}'s_image`} 
+      style={{
+        width: `100%`,
+        height:'100%',
+        objectFit: 'fill'
+      }}/>
+      )}
+      {limit<3&&(<div className={styles.limitContainer} style={style}>{limit}</div>)}
     </div>
   )
 

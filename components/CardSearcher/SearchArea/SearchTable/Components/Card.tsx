@@ -1,7 +1,8 @@
+import { motion } from 'framer-motion';
 import { YGOCard } from '../../../Misc/globalTypes';
-import styles from '../Styles/Card.module.css';
+import styles from '../Styles/Card.module.scss';
 import { GlobalContext } from '../../../Misc/globalContext';
-import React, { useCallback, useContext, memo, useMemo, useRef, useEffect, useState} from 'react';
+import React, { useCallback, useContext, memo, useMemo, useState} from 'react';
 import { parseLimit } from '../../../Misc/globalFunctions';
 import CardImage from '../../../Utility/CardImage/CardImage';
 import ScrollableDiv from '../../../../../utility/CustomScrollDiv/ScrollableDiv';
@@ -10,6 +11,24 @@ import { delay } from '../../../../../utility/functions';
 interface Props {
   card?:YGOCard|null
   cardSize:{width:number, height:number}
+}
+
+const animation= {
+  initial:{
+    opacity:0
+  },
+  final:{
+    opacity:1,
+    transition:{
+      duration:0.3
+    }
+  },
+  exit:{
+    opacity:0,
+    transition:{
+      duration:0.2
+    }
+  }
 }
 
 const Card = ({card, cardSize}:Props) => {
@@ -24,21 +43,19 @@ const Card = ({card, cardSize}:Props) => {
     setSearchIndex(searchedCards.findIndex(c=>c.id===card.id))
   },[ card, searchedCards, setSelectedCard, setSearchIndex, viewLock ])
 
-  const onDragHandler = useCallback((e:React.DragEvent<HTMLDivElement>)=>{
-    e.dataTransfer.setData('card',JSON.stringify(card));
-  },[card]);
-
   const limit = useMemo(()=>{
     if(card===null || card===undefined) return -1
     return parseLimit(query.cardGame,card.banlist_info)
   },[ card, query.cardGame ]);
 
   return (
-    <div 
-      className={styles.container} 
-      draggable
+    <div
+      // variants={animation}
+      // initial='initial'
+      // animate='final'
+      // exit='exit'
+      className={styles.container}
       onClick={viewCard}
-      onDragStart={(e)=>{onDragHandler(e)}}
       style={{height:`${cardSize.height}px`}}
     >
       {card&&(
@@ -53,7 +70,7 @@ const Card = ({card, cardSize}:Props) => {
           <ScrollableDiv 
             className={styles.text} 
             onEndScrollMouseClick={async () =>{ delay(300); setViewLock(false) }}
-            onStartScrollMouseClick={()=>{console.log('locked');setViewLock(true)}}
+            onStartScrollMouseClick={()=>{ setViewLock(true) }}
             scrollX={{
               scrollBorderRadius:`20px`, 
               trackPadding:0.5,

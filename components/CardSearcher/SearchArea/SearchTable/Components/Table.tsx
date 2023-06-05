@@ -1,4 +1,4 @@
-import styles from '../Styles/Table.module.css'
+import styles from '../Styles/Table.module.scss'
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import Card from './Card';
 import { GlobalContext } from '../../../Misc/globalContext';

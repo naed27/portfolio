@@ -102,9 +102,6 @@ const LazyLoaderVertical = ({
               baseCounter,
               scrollThumbRef,
             })
-  
-            const y = newY
-            const counter = newCounter
 
             if(repeat) loop({ callback, baseY: newY, scrollThumbRef, baseCounter: newCounter },delay) 
           }, delay))

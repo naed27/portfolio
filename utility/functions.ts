@@ -1,3 +1,38 @@
+export const getTotalPaddingX = (element: HTMLElement) => {
+  const elementCSS = window.getComputedStyle(element)
+
+  const left = parseFloat(elementCSS.paddingTop || '0')
+  const right = parseFloat(elementCSS.paddingTop || '0')
+
+  return left+right;
+}
+
+export const getTotalPaddingY = (element: HTMLElement) => {
+  const elementCSS = window.getComputedStyle(element)
+  
+  const top = parseFloat(elementCSS.paddingTop || '0')
+  const bottom = parseFloat(elementCSS.paddingTop || '0')
+
+  return top+bottom;
+}
+
+interface GetCardsPerRowProps {
+  container: HTMLElement,
+  cardWidth: number,
+  flexGap: number,
+}
+
+export const getItemsPerRow = ({ container, cardWidth, flexGap }: GetCardsPerRowProps) =>{
+  const allowableWidth = container.offsetWidth - getTotalPaddingX(container)
+  if(allowableWidth<cardWidth) return 1
+  const cardsPerRow = Math.floor(allowableWidth/cardWidth)
+  const gapped = (cardWidth*cardsPerRow) + (flexGap*(cardsPerRow-1))
+  if (gapped<=allowableWidth)
+    return cardsPerRow
+  return cardsPerRow-1
+}
+
+
 export const openInNewTab = (url: string): void => {
   const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
   if (newWindow) newWindow.opener = null
