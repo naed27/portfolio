@@ -1,9 +1,9 @@
-import axios from "axios";
 import { GlobalContextType, Query, YGOCard } from "../Misc/globalTypes";
 import { useState, useEffect, useMemo, useContext } from "react";
 import { initialQuery, initializeHolders } from "../Misc/initializers";
 import { fetchCardTypes } from "../SearchArea/SearchFields/Functions/Functions";
 import { LayoutContext } from "../../Layout/Context/LayoutContext";
+import { cacheApiData } from "../../../utility/functions";
 
 export default function CardSearcherLogic() {
 
@@ -30,10 +30,10 @@ export default function CardSearcherLogic() {
   const [sideDeck,setSideDeck] = useState<(YGOCard|null)[]>(initializeHolders(15));
   const [extraDeck,setExtraDeck] = useState<(YGOCard|null)[]>(initializeHolders(15));
 
-  const [showSearcher,toggleSearcher] = useState(true);
   const [showDeck,toggleDeck] = useState(false);
-  const [showImages,setShowImages] = useState(true); //enabling images (warning: might surpass free-limit)
-  const [showDeckBuilder,setShowDeckBuilder] = useState(false)
+  const [showImages,setShowImages] = useState(true);
+  const [showSearcher,toggleSearcher] = useState(true);
+  const [showDeckBuilder,setShowDeckBuilder] = useState(false);
 
   const cardTypes = useMemo(() => fetchCardTypes(mainCards),[mainCards]);
 
@@ -83,9 +83,11 @@ export default function CardSearcherLogic() {
 
   useEffect(()=>{
     const fetchAllCards = async()=>{
-      const result: { data: { data: YGOCard[] } } | undefined | void = await axios.get( `https://db.ygoprodeck.com/api/v7/cardinfo.php` )
-      .catch(()=>console.log('fetch failed'))
-      if(!result) return setNoNetwork(true)
+
+      const result = await cacheApiData('https://db.ygoprodeck.com/api/v7/cardinfo.php');
+
+      if(!result.success) return setNoNetwork(true)
+
       const cards: YGOCard[] = result.data.data;
       setMainCards(cards)
       setSearchedCards(cards);

@@ -10,14 +10,16 @@ interface Props{
 function ImagePreview({card, showImages}:Props) {
   return (
     <>
-      {(showImages&&card)&&(<Image 
-          src={card.card_images[0].image_url} 
-          alt='card image'
-          layout='fill'
-          objectFit='contain'
-          unoptimized
-          key={card.id}
-      />)}
+      {(showImages&&card)&&(
+      <img 
+      src={`${card.card_images[0].image_url}`}  
+      alt={`${card.name}'s_image`} 
+      style={{
+        width: `100%`,
+        height:'100%',
+        objectFit: 'contain'
+      }}/>
+      )}
     </>
   )
 }

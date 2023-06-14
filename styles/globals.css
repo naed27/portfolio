@@ -1,4 +1,6 @@
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root{
   --clr-primary-300: #f7f7f7;

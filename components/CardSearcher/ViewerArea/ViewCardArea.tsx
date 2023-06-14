@@ -1,10 +1,10 @@
-import styles from './ViewCardArea.module.css'
+import styles from './ViewCardArea.module.scss'
 import ImageViewer from './Components/ImageViewer'
 import Switches from './Components/Switches'
 import Details from './Components/Details';
 import Name from './Components/Name'
 import useOnClickOutside from '../../../hooks/useOnClickOutside';
-import { useContext, useRef, useMemo } from 'react';
+import { useContext, useRef } from 'react';
 import { YGOCard } from '../Misc/globalTypes';
 import { GlobalContext } from '../Misc/globalContext';
 import { useState } from 'react';

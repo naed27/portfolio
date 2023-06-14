@@ -22,6 +22,7 @@ function ImageViewer({card}:{card:YGOCard}) {
     setSearchIndex, 
     setSelectedCard,
   } = useContext(GlobalContext);
+  console.log(card)
 
   const leftButtonHandler = useCallback((searchIndex:number|null)=>{
     const currentIndex = searchIndex;
@@ -45,9 +46,14 @@ function ImageViewer({card}:{card:YGOCard}) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.leftButton} onClick={()=>leftButtonHandler(searchIndex)}>{`<`}</div>
+      <div 
+        className={'absolute w-[30px] h-full flex justify-center items-center border z-[2] border-solid border-[gray] left-0 top-0 hover:bg-[rgb(22,22,22)]'} 
+        onClick={()=>leftButtonHandler(searchIndex)}>{`<`}</div>
       <ImagePreview card={card} showImages={showImages}/>
-      <div className={styles.rightButton} onClick={()=>rightButtonHandler(searchIndex)}>{`>`}</div>
+
+      <div 
+        className={'absolute w-[30px] h-full flex justify-center items-center border z-[2] border-solid border-[gray] right-0 top-0 hover:bg-[rgb(22,22,22)]'} 
+        onClick={()=>rightButtonHandler(searchIndex)}>{`>`}</div>
     </div>
   )
 }

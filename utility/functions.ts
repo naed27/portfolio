@@ -1,3 +1,71 @@
+import axios from "axios";
+
+// ----------- api caching
+
+export const cacheApiData = async (endpoint: string) => {
+  const db = await openDatabase();
+  const cachedData = await getDataFromObjectStore(db, 'cache', endpoint);
+
+  if (cachedData) {
+    return Promise.resolve({ data: cachedData, success: true });
+  }
+
+  const result = await axios.get(endpoint).catch(() => {
+    console.log('fetch failed');
+  });
+
+  if (!result) return { data: null, success: false };
+
+  await putDataInObjectStore(db, 'cache', result.data, endpoint);
+
+  return { data: result.data, success: true };
+};
+
+const openDatabase = async () => {
+  return new Promise<IDBDatabase>((resolve, reject) => {
+    const request = indexedDB.open('cache');
+    request.onsuccess = () => {
+      resolve(request.result);
+    };
+    request.onerror = () => {
+      reject(request.error);
+    };
+    request.onupgradeneeded = () => {
+      request.result.createObjectStore('cache', { keyPath: 'endpoint' })
+    };
+  });
+};
+
+const getDataFromObjectStore = async (db: IDBDatabase, name: string, key: string) => {
+  return new Promise<any>((resolve, reject) => {
+    const transaction = db.transaction(name, 'readonly');
+    const objectStore = transaction.objectStore(name);
+    const request = objectStore.get(key);
+    request.onsuccess = () => {
+      resolve(request.result ? request.result.data : null);
+    }
+    request.onerror = () => {
+      reject(request.error);
+    }
+  });
+};
+
+const putDataInObjectStore = async (db: IDBDatabase, name: string, data: any, key: string) => {
+  return new Promise<void>((resolve, reject) => {
+    const transaction = db.transaction(name, 'readwrite');
+    const objectStore = transaction.objectStore(name);
+    const request = objectStore.put({ endpoint: key, data: data });
+    request.onsuccess = () => {
+      resolve();
+    };
+    request.onerror = () => {
+      reject(request.error);
+    };
+  });
+};
+
+// ----------------- 
+
 export const getTotalPaddingX = (element: HTMLElement) => {
   const elementCSS = window.getComputedStyle(element)
 
@@ -6,6 +74,7 @@ export const getTotalPaddingX = (element: HTMLElement) => {
 
   return left+right;
 }
+
 
 export const getTotalPaddingY = (element: HTMLElement) => {
   const elementCSS = window.getComputedStyle(element)

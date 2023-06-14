@@ -1,6 +1,5 @@
 import {banlist_info, YGOCard, YGOCardGame} from './globalTypes';
-import styles from './Styles/CardLimit.module.css'
-import Image from 'next/image'
+
 
 export const isEmpty = (str: string) => {
     return !str || 0 === str.length;

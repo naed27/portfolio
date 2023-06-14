@@ -1,4 +1,4 @@
-import axios from "axios";
+import { cacheApiData } from "../../../utility/functions";
 import { useState, useEffect, useMemo, useContext } from "react";
 import { LayoutContext } from "../../Layout/Context/LayoutContext";
 import { Country, GlobalContextType, Query, SortMode } from "../Types/types";
@@ -40,9 +40,8 @@ export default function CountryInformerLogic() {
 
   useEffect(()=>{
     const fetchAllCards = async()=>{
-      const result: { data: Country[] } | undefined | void = await axios.get( `https://restcountries.com/v3.1/all` )
-      .catch(()=>console.log('Fetch failed.'))
-      if(!result) return setNoNetwork(true)
+      const result = await cacheApiData('https://restcountries.com/v3.1/all');
+      if(!result.success) return setNoNetwork(true)
       const countries: Country[] = result.data
       setSearchedCountries(countries);
       setCountries(countries)
