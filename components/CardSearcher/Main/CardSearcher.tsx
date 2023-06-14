@@ -1,4 +1,3 @@
-import DeckArea from '../DeckArea/DeckArea';
 import styles from './CardSearcher.module.scss';
 import NavBar from '../NavBar/Components/NavBar';
 import SearchArea from '../SearchArea/SearchArea';
@@ -15,7 +14,7 @@ import AdvancedFilter from '../SearchArea/SearchFields/AdvancedFilter';
 const CardSearcher = () => {
 
   const { isLoading, globalValues, noNetwork }  = CardSearcherLogic();
-  const { showDeck, showSearcher, selectedCard, showMoreFilters, showDeckBuilder } = globalValues;
+  const { showSearcher, selectedCard, showMoreFilters, showDeckBuilder } = globalValues;
 
   if(noNetwork) return <NoNetwork/>
 
@@ -29,6 +28,7 @@ const CardSearcher = () => {
         animate='final'
         exit='exit'
         >
+          
         <Metadata
           key={'/projects/card-searcher'}
           pageTitle={'YGO Card Searcher'}
@@ -39,7 +39,6 @@ const CardSearcher = () => {
         <GlobalContext.Provider value={globalValues}>
           {showDeckBuilder && <NavBar/>}
           <AnimatePresence mode="wait">
-            {(showDeckBuilder && showDeck) && <DeckArea key={`deck_area`}/>}
             {showSearcher && <SearchArea key={`search_area`}/>}
           </AnimatePresence>
           {selectedCard && <ViewCardArea card={selectedCard} key={`view_area`}/> }

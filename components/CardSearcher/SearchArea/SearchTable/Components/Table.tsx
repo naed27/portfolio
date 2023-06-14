@@ -47,12 +47,10 @@ export default function Table () {
   },[ tablePageRange, setMaxPageOfTable, searchedCards, calcMaxPage ])
 
   return (
-    <div className={styles.section} >
-      <ScrollableDiv className={styles.container} dependencies={JSXTable}>
-        <div className={styles.wrapper}>
-          {JSXTable}
-        </div>
-      </ScrollableDiv>   
-    </div>
+    <ScrollableDiv className={styles.container} dependencies={JSXTable}>
+      <div className={styles.wrapper}>
+        {JSXTable}
+      </div>
+    </ScrollableDiv>   
   )
 }

@@ -3,7 +3,6 @@
   display: flex;
   flex-direction: row;
   height:40px;
-  padding:0px 5px 0px 5px;
 }
 
 .wrapper{
@@ -16,9 +15,7 @@
   justify-content: center;
   position: relative;
   border-top:0px;
-  border-bottom:1.5px solid gray ;
-  border-left: 1.5px solid gray ;
-  border-right: 1.5px solid gray ;
+  outline:1.5px solid gray ;
 
   &:hover{
     cursor: pointer;
