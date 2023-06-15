@@ -12,7 +12,6 @@ export default function MainFilter (){
   return (
     <div className={styles.container}>
       <MainSearchField searcher={searcher}/>
-      <MoreOptionsButton/>
     </div>
   )
 }

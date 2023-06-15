@@ -22,7 +22,6 @@ function ImageViewer({card}:{card:YGOCard}) {
     setSearchIndex, 
     setSelectedCard,
   } = useContext(GlobalContext);
-  console.log(card)
 
   const leftButtonHandler = useCallback((searchIndex:number|null)=>{
     const currentIndex = searchIndex;

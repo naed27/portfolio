@@ -1,29 +1,28 @@
 import { useState, useEffect, RefObject } from 'react'
-import { getItemsPerRow } from '../utility/functions';
+import { getItemsPerColumn } from '../utility/functions';
 
 interface Props {
   containerRef: RefObject<HTMLDivElement>,
-  cardWidth: number,
+  cardHeight: number,
   flexGap?: number,
 };
 
-const useItemsPerRow = ({ containerRef, cardWidth, flexGap = 0 }: Props) => {
+const useItemsPerColumn = ({ containerRef, cardHeight, flexGap = 0 }: Props) => {
 
 const [itemCount, setItemCount] = useState(0);
 
  useEffect(()=>{
     const determineItemCountPerRow = () => {
       if(!containerRef.current) return
-      const cardsPerRow = getItemsPerRow({container: containerRef.current, cardWidth, flexGap})
-      setItemCount(cardsPerRow)
+      const cardsPerColumn = getItemsPerColumn({container: containerRef.current, cardHeight, flexGap})
+      setItemCount(cardsPerColumn)
     }
     determineItemCountPerRow();
     window.addEventListener('resize',determineItemCountPerRow)
     return () => window.removeEventListener('resize',determineItemCountPerRow)
-  },[cardWidth, flexGap, containerRef])
+  },[cardHeight, flexGap, containerRef])
 
   return itemCount
-
 };
 
-export default useItemsPerRow;
+export default useItemsPerColumn;

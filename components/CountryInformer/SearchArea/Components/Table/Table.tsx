@@ -21,7 +21,7 @@ export default function Table () {
   const verticalThumbRef = useRef<HTMLDivElement>(null);
   const topObserverRef = useRef<HTMLDivElement>(null);
   const bottomObserverRef = useRef<HTMLDivElement>(null);
-  const itemsPerRow = useItemsPerRow({cardWidth: CARD_WIDTH, flexGap: FLEX_GAP, wrapperRef: wrapperRef})
+  const itemsPerRow = useItemsPerRow({cardWidth: CARD_WIDTH, flexGap: FLEX_GAP, containerRef: wrapperRef})
   const [{startIndex, sliceOffset}, setSliceIndex] = useState({startIndex:0, sliceOffset:0});
 
   const sortBy = useCallback((countries: Country [], sortMode?: SortMode)=>{

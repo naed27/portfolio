@@ -66,6 +66,15 @@ const putDataInObjectStore = async (db: IDBDatabase, name: string, data: any, ke
 
 // ----------------- 
 
+export const getMaxPageCount = ({displayCount, totalItemCount}: {displayCount: number, totalItemCount: number}) => {
+  if(totalItemCount === 0) return 1;
+  if(totalItemCount < displayCount) return 1
+
+  if(totalItemCount % displayCount === 0) 
+    return totalItemCount / displayCount
+  return Math.floor(totalItemCount / displayCount) + 1;
+}
+
 export const getTotalPaddingX = (element: HTMLElement) => {
   const elementCSS = window.getComputedStyle(element)
 
@@ -99,6 +108,22 @@ export const getItemsPerRow = ({ container, cardWidth, flexGap }: GetCardsPerRow
   if (gapped<=allowableWidth)
     return cardsPerRow
   return cardsPerRow-1
+}
+
+interface GetCardsPerColumnProps {
+  container: HTMLElement,
+  cardHeight: number,
+  flexGap: number,
+}
+
+export const getItemsPerColumn = ({ container, cardHeight, flexGap }: GetCardsPerColumnProps) =>{
+  const allowableHeight = container.offsetHeight - getTotalPaddingY(container)
+  if(allowableHeight<cardHeight) return 1
+  const cardsPerColumn = Math.floor(allowableHeight/cardHeight)
+  const gapped = (cardHeight*cardsPerColumn) + (flexGap*(cardsPerColumn-1))
+  if (gapped<=allowableHeight)
+    return cardsPerColumn
+  return cardsPerColumn-1
 }
 
 

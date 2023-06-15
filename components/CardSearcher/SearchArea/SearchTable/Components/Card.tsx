@@ -11,6 +11,7 @@ import { delay } from '../../../../../utility/functions';
 interface Props {
   card?:YGOCard|null
   cardSize:{width:number, height:number}
+  isInvisible?: boolean
 }
 
 const animation= {
@@ -31,10 +32,12 @@ const animation= {
   }
 }
 
-const Card = ({card, cardSize}:Props) => {
+const Card = ({card, cardSize, isInvisible = false}:Props) => {
 
   const {setSelectedCard,setSearchIndex,searchedCards,query,showImages} = useContext(GlobalContext);
   const [viewLock,setViewLock] = useState(false);
+
+  isInvisible&&console.log(isInvisible)
 
   const viewCard = useCallback(()=>{
     if(viewLock)return
@@ -50,13 +53,9 @@ const Card = ({card, cardSize}:Props) => {
 
   return (
     <div
-      // variants={animation}
-      // initial='initial'
-      // animate='final'
-      // exit='exit'
       className={styles.container}
       onClick={viewCard}
-      style={{height:`${cardSize.height}px`}}
+      style={{height: cardSize.height}}
     >
       {card&&(
       <>
@@ -69,15 +68,16 @@ const Card = ({card, cardSize}:Props) => {
         <div className={styles.details} >
           <ScrollableDiv 
             className={styles.text} 
-            onEndScrollMouseClick={async () =>{ delay(300); setViewLock(false) }}
+            onEndScrollMouseClick={async () =>{ await delay(300); setViewLock(false) }}
             onStartScrollMouseClick={()=>{ setViewLock(true) }}
             scrollX={{
-              scrollBorderRadius:`20px`, 
               trackPadding:0.5,
+              thumbThickness: 5,
             }}
           >
             {card.name}
           </ScrollableDiv>
+          <div className={styles.pad}/>
         </div>
       </>
       )}

@@ -1,11 +1,11 @@
 import { useContext, useState, useEffect } from 'react'
-import { delay } from '../../../../../utility/functions';
 import { GlobalContext } from '../../../Misc/globalContext'
 import styles from '../Styles/MoreOptionsButton.module.scss'
+import { FilterIcon } from 'lucide-react'
 
 export default function MoreOptionsButton () {
 
-  const {setShowMoreFilters,showMoreFilters} = useContext(GlobalContext);
+  const { setShowMoreFilters } = useContext(GlobalContext);
 
   const onClickHandler = () => {
     setShowMoreFilters(true)
@@ -14,7 +14,8 @@ export default function MoreOptionsButton () {
   return (
     <div className={styles.container} >
       <div className={styles.wrapper} onClick={onClickHandler}>
-        {`More Filters >>`}
+        <FilterIcon size={'18px'}/>
+        {`Filter`}
       </div>
     </div>  
   )

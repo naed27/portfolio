@@ -1,24 +1,31 @@
 .container{
-  width:100%;
+  width: auto;
+  padding-left: 7px;
+  padding-right: 10px;
   display: flex;
   flex-direction: row;
-  height:40px;
+  height:100%;
+  background-color: rgb(29, 29, 29);
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  color: rgb(228, 228, 228);
+  border: none;
+  cursor: pointer;
+  border-left: none;
+  outline: 1px solid gray;
+  font-size: 14px;
+
+  &:hover{
+    background-color: rgb(41, 41, 41);
+  }
 }
 
 .wrapper{
   flex:6;
   height:100%;
-  background-color: black;
-  color:white;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  border-top:0px;
-  outline:1.5px solid gray ;
-
-  &:hover{
-    cursor: pointer;
-    background-color: rgb(32, 32, 32);
-  }
+  gap: 5px;
 }
