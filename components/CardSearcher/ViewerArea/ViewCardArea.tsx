@@ -24,9 +24,9 @@ function ViewCardArea({card}:{card:YGOCard}) {
   return (
     <div className={styles.backdrop}>
       <div className={styles.container} ref={modalRef}>
-        <Name card={card}/>
-        <ImageViewer card={card}/>
-        <Details card={card}/>
+        <Name key={`name_${card.id}`} card={card}/>
+        <ImageViewer key={`image_${card.id}`} card={card}/>
+        <Details key={`details_${card.id}`} card={card}/>
         <Switches props={switchProps}/>
       </div>
     </div>
