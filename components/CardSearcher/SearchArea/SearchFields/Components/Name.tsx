@@ -17,7 +17,7 @@ function Name ({searcher}: {searcher:Searcher}) {
     if(typingTimeout)clearTimeout(typingTimeout)
     setTypingTimeout(setTimeout(()=>{
       search({name:input});
-    }, 200));
+    }, 1000));
   }
 
   useEffect(()=>{
