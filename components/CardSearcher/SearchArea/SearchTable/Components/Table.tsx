@@ -54,8 +54,8 @@ export default function Table () {
   },[ setMaxPageOfTable, searchedCards, itemsPerColumn, itemsPerRow ])
 
   return (
-    <div  className={styles.container}>
-      <div ref={containerRef} className={styles.wrapper}>
+    <div ref={containerRef} className={styles.container}>
+      <div className={styles.wrapper}>
         {JSXTable}
       </div>
     </div>   
