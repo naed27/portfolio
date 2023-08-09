@@ -55,7 +55,7 @@ const MENU: MenuItem[] =
     index: 4, 
     name: 'Whiteside', 
     link:'https://whiteside.vercel.app/', 
-    imgSrc:'https://media.discordapp.net/attachments/1112753458165063701/1138789704855203920/image.png',
+    imgSrc:'https://media.discordapp.net/attachments/1112753458165063701/1138792995349606420/image.png',
     description: 'A fullstack E-commerce app for a fashion store!',
   },
   {
