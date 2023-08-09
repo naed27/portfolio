@@ -2,7 +2,13 @@
 
 export interface MenuItem  {
   index: number;
-  name: 'Tap or swipe the portfolio!' | 'YGO Card Searcher' | 'Country Informer' | 'Audio Visualizer' | 'Phantasmora' | 'Contacts';
+  name: 'Tap or swipe the portfolio!' 
+  | 'YGO Card Searcher' 
+  | 'Country Informer' 
+  | 'Audio Visualizer' 
+  | 'Phantasmora' 
+  | 'Whiteside'
+  | 'Contacts';
   link: string;
   imgSrc: string;
   description: string;
@@ -47,6 +53,13 @@ const MENU: MenuItem[] =
   },
   {
     index: 4, 
+    name: 'Whiteside', 
+    link:'https://whiteside.vercel.app/', 
+    imgSrc:'https://media.discordapp.net/attachments/1112753458165063701/1138789704855203920/image.png',
+    description: 'A fullstack E-commerce app for a fashion store!',
+  },
+  {
+    index: 5, 
     name: 'Contacts', 
     link:'/', 
     imgSrc:'https://cdn.discordapp.com/attachments/1112753458165063701/1114421849598742549/image.png',

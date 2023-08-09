@@ -111,6 +111,7 @@ export default function Home () {
               {menuIndex == 3 && <PreviewBox  key={`${uuidv4()}`} src={MENU[3].imgSrc} />}
               {menuIndex == 4 && <PreviewBox  key={`${uuidv4()}`} src={MENU[4].imgSrc} />}
               {menuIndex == 5 && <PreviewBox  key={`${uuidv4()}`} src={MENU[5].imgSrc} />}
+              {menuIndex == 6 && <PreviewBox  key={`${uuidv4()}`} src={MENU[6].imgSrc} />}
             </AnimatePresence>
             <div className={styles.controls}>
               <div className={styles.controlLeft} onMouseDown={(e)=>queueClick('-',e)}/>
@@ -132,7 +133,8 @@ export default function Home () {
         <img src={MENU[2].imgSrc} alt={'imageCache2'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
         <img src={MENU[3].imgSrc} alt={'imageCache3'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
         <img src={MENU[4].imgSrc} alt={'imageCache4'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
-        <img src={MENU[5].imgSrc} alt={'imageCache4'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
+        <img src={MENU[5].imgSrc} alt={'imageCache5'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
+        <img src={MENU[6].imgSrc} alt={'imageCache6'} style={{width:'100%', height:'100%', objectFit:'cover'}}/>
         <Dna
           visible={true}
           width="80"
@@ -152,9 +154,10 @@ export default function Home () {
             {menuIndex == 2 && <PreviewInfo menuItem={MENU[2]} key={`${uuidv4()}`} isLink={true}/>}
             {menuIndex == 3 && <PreviewInfo menuItem={MENU[3]} key={`${uuidv4()}`} isLink={true}/>}
             {menuIndex == 4 && <PreviewInfo menuItem={MENU[4]} key={`${uuidv4()}`} isLink={true}/>}
+            {menuIndex == 5 && <PreviewInfo menuItem={MENU[5]} key={`${uuidv4()}`} isLink={true}/>}
 
-            {menuIndex == 5 && 
-            <PreviewInfo menuItem={MENU[5]} key={`${uuidv4()}`} isLink={false}>
+            {menuIndex == 6 && 
+            <PreviewInfo menuItem={MENU[6]} key={`${uuidv4()}`} isLink={false}>
               <div className={styles.contactsWrapper} key={'contacts'}>
               <div onClick={onClickUrl('https://github.com/naed27')} className={styles.contact}><Github color='skyblue'/>{`github.com/naed27`}</div>
               <CopyToClipboard text="naed221@gmail.com" onCopy={CopyToClipboardNotif}>

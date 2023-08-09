@@ -18,9 +18,6 @@ export default function Switches({props}:{props:Props}) {
 
   return (
     <div className={styles.container}>
-      {showDeckBuilder&&<div className={styles.button} onClick={toggleControllers}>
-        {!showControllers?(`Manage`):(`Description`)}
-      </div>}
       <div className={styles.button} onClick={closeViewer}>
         Close
       </div>
