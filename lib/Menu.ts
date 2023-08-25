@@ -1,5 +1,3 @@
-//vercel pls deploy
-
 export interface MenuItem  {
   index: number;
   name: 'Tap or swipe the portfolio!' 

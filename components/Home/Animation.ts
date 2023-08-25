@@ -1,4 +1,4 @@
-const animation= {
+const animation = {
   initial:{
     opacity:0
   },
